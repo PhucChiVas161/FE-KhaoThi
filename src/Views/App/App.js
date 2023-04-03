@@ -1,27 +1,17 @@
-import './App.css';
-import '../assets/css/style.css';
+import '../App/App.css';
+import Footer from '../Footer/Footer';
+import Home from '../Home/Home';
 import Mastheader from '../Mastheader/Mastheader';
 import Nav from '../Nav/Nav';
-import Footer from '../Footer/Footer';
-import Nofication from '../Home/NofiCation/Nofication';
-import Signup from '../Signup/Signup';
-
-// import {Router} from "react-router-dom";
 function App() {
   return (
-    <div id="page-top">
-            {/* Navigation*/}
-            <Nav></Nav>
-            {/* Mastheader*/}
-            <Mastheader></Mastheader>
-            {/* Home*/}
-            <Nofication></Nofication>
-            {/* sigup*/}
-            <Signup></Signup>
-            {/* Footer*/}
+        <div id="page-top" >
+          <Nav></Nav>
+          <Mastheader></Mastheader>
+          <Home></Home>
           <Footer></Footer>
-    </div>
-  
+        </div>
+
   );
 }
 

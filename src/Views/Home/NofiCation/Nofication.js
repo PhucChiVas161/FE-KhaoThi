@@ -1,12 +1,6 @@
-import React, { Component } from 'react';
-import './css/style.css';
-import './css/aos.css';
-import './css/boostrap.css';
-import '../NofiCation/js/style.js';
-class Nofication extends Component {
-    render() {
-        return (
-            <section id="faq" className="faq section-bg">
+function Notification() {
+  return ( 
+    <section id="faq" className="faq section-bg">
             <div className="container">
               <div className="section-title wow animated fadeInUp animated" style={{visibility: 'visible', animationName: 'fadeInUp'}}>
                 <p data-aos="fade-up">THÔNG BÁO</p>
@@ -15,11 +9,11 @@ class Nofication extends Component {
               <div className="faq-list">
                 <ul>
                 <li className="mb-3 fadeInLeft wow animated animated  animated" data-wow-duration="1s" style={{visibility: 'visible', animationDuration: '1s', animationName: 'fadeInLeft'}}>
-  <i className="bx bx-help-circle icon-help" /> <a data-toggle="collapse collapsed" aria-expanded="false" aria-controls="collapseOne" className="collapse" href="#faq-list-1">
+  <i className="bx bx-help-circle icon-help" /> <a data-toggle="collapse" aria-expanded="false" aria-controls="collapseOne" className="collapse" href="#faq-list-1">
     Nguyên tắc chung sinh viên cần thực hiện để giải quyết một công việc là gì?
     <i className="bx bx-chevron-down icon-close" /><i className="bx bx-chevron-up icon-show" />
   </a>
-  <div id="faq-list-1" className="p-3 " data-bs-parent=".faq-list" aria-expanded="true" style={{}}>
+  <div id="faq-list-1" className="p-3 d-none" data-bs-parent=".faq-list" aria-expanded="true" style={{}}>
     <p>
     </p><p>Khi cần giải quyết một công việc gì liên quan đến bản thân mình, sinh viên phải thực hiện theo nguyên tắc sau đây:</p>
     <p>-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tìm hiểu và nắm rõ về công việc cần giải quyết, thông qua các tài liệu do Trường ban hành và công bố tại website. Các thông tin cần phải nắm rõ tối thiểu gồm: các bước tiến hành, loại đơn/biểu mẫu cần sử dụng, nơi nhận/trả hồ sơ, thời gian dự kiến trả hồ sơ;</p>
@@ -38,9 +32,7 @@ class Nofication extends Component {
             </div>
           </section>
           
-            
-        );
-    }
+   );
 }
 
-export default Nofication;
+export default Notification;

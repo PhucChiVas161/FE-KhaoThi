@@ -1,10 +1,7 @@
-import React, { Component } from 'react';
-import {Link} from "react-router-dom";
 import bgimg1 from '../assets/img/images/_wiwn8912WI_logo-vhubnew.png';
-class Mastheader extends Component {
-    render() {
-        return (
-                <header  className="masthead">
+function Mastheader() {
+    return ( 
+        <header  className="masthead">
                     <div className="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
                       <div className="row">
                         <div className="d-flex justify-content-center">
@@ -16,9 +13,8 @@ class Mastheader extends Component {
                     </div>
                   </div>
                 </header>
-            
-        );
-    }
+
+    );
 }
 
 export default Mastheader;
