@@ -6,7 +6,7 @@ function Mastheader() {
                       <div className="row">
                         <div className="d-flex justify-content-center">
                         <div className="text-center">
-                            <img style={{height:'5rem'}} src={bgimg1} class="img-responsive center-block branch-logo" />
+                            <img style={{height:'5rem'}} src={bgimg1} className="img-responsive center-block branch-logo"  aria-label="Logo của trang web" />
                             <div><h1 style={{fontSize:'5rem' }} className=" h1kt mx-auto my-4 text-uppercase">KHẢO THÍ</h1></div> 
                         </div>
                       </div>

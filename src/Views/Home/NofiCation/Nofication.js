@@ -7,15 +7,15 @@ function Notification() {
             <div className="container">
               <div className="section-title wow animated fadeInUp animated" style={{visibility: 'visible', animationName: 'fadeInUp'}}>
                 <p data-aos="fade-up">THÔNG BÁO</p>
-                <h2 data-aos="fade-up" ></h2>
+                <h2  data-aos="fade-up" >.</h2>
               </div>
               <div className="faq-list">
                 <ul>
                   <li className="mb-3 fadeInLeft wow animated animated  animated" data-wow-duration="1s" style={{visibility: 'visible', animationDuration: '1s', animationName: 'fadeInLeft'}}>
                     <AiFillBell className="bx bx-help-circle icon-help"> </AiFillBell> 
-                    <a data-toggle="collapse" class="collapse" href="#faq-list-1" aria-expanded="false" aria-controls="collapseOne">Nguyên tắc chung sinh viên cần thực hiện để giải quyết một công việc là gì?
-                    <i class="bx bx-chevron-down icon-close"></i><i class="bx bx-chevron-up icon-show"></i></a>
-                    <div id="faq-list-1" class="collapse p-3" data-bs-parent=".faq-list">
+                    <a data-toggle="collapse" className="collapse" href="#faq-list-1" aria-expanded="false" aria-controls="collapseOne">Nguyên tắc chung sinh viên cần thực hiện để giải quyết một công việc là gì?
+                    <i className="bx bx-chevron-down icon-close"></i><i className="bx bx-chevron-up icon-show"></i></a>
+                    <div id="faq-list-1" className="collapse p-3" data-bs-parent=".faq-list">
 
                       <p>
                       </p><p>Khi cần giải quyết một công việc gì liên quan đến bản thân mình, sinh viên phải thực hiện theo nguyên tắc sau đây:</p>
