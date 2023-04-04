@@ -1,19 +1,18 @@
 import '../NofiCation/css/style.css';
-import '../NofiCation/js/style.js';
 import { AiFillBell } from "react-icons/ai";
 function Notification() {
   return ( 
     <section id="faq" className="faq section-bg">
             <div className="container">
               <div className="section-title wow animated fadeInUp animated" style={{visibility: 'visible', animationName: 'fadeInUp'}}>
-                <p data-aos="fade-up">THÔNG BÁO</p>
+                <p  data-aos="fade-up">THÔNG BÁO</p>
                 <h2  data-aos="fade-up" >.</h2>
               </div>
               <div className="faq-list">
                 <ul>
                   <li className="mb-3 fadeInLeft wow animated animated  animated" data-wow-duration="1s" style={{visibility: 'visible', animationDuration: '1s', animationName: 'fadeInLeft'}}>
                     <AiFillBell className="bx bx-help-circle icon-help"> </AiFillBell> 
-                    <a data-toggle="collapse" className="collapse" href="#faq-list-1" aria-expanded="false" aria-controls="collapseOne">Nguyên tắc chung sinh viên cần thực hiện để giải quyết một công việc là gì?
+                    <a style={{textDecoration:'none'}} data-toggle="collapse" className="collapse" href="#faq-list-1" aria-expanded="false" aria-controls="collapseOne">Nguyên tắc chung sinh viên cần thực hiện để giải quyết một công việc là gì?
                     <i className="bx bx-chevron-down icon-close"></i><i className="bx bx-chevron-up icon-show"></i></a>
                     <div id="faq-list-1" className="collapse p-3" data-bs-parent=".faq-list">
 

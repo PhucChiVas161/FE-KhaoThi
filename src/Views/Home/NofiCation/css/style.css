@@ -566,7 +566,7 @@ section {
         position: absolute;
         right: 0;
         left: 20px;
-        color: black;
+        color: rgb(100, 161, 157);
     }
 
 .bx {
@@ -630,42 +630,4 @@ section {
     position: absolute;
     right: 0;
     top: 0;
-}
-
-.accordion{
-    justify-content: center;
-    align-items: center;
-    background: #bedf8b;
-}
-.accordion .contentBx{
-    position: relative;
-   
-}
-.accordion .contentBx .label{
-    position: relative;
-    padding: 10px;
-    background: #5a4848;
-    cursor: pointer;
-    color: #fff;
-}
-.accordion .contentBx .label::before{
-    content: '+';
-    position: absolute;
-    right: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    font-size: 1.5rem;
-}
-.accordion .contentBx .content{
-    position: relative;
-    padding: 10px;
-    background: #fff;
-    height: 0;
-    overflow: hidden;
-    transition: 0.5s;
-    overflow-y: auto;
-}
-.accordion .contentBx.active .content{
-    height: 150px;
-    padding: 10px;
 }
