@@ -1,57 +1,85 @@
-import React, { useState } from "react";
-import "./PostForm.css";
+import React, { useState } from 'react';
+import './PostForm.css'
 
 function PostForm() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [file, setFile] = useState(null);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle post submission logic here
-  };
+  function handleTitleChange(event) {
+    setTitle(event.target.value);
+  }
 
-  const handleFileChange = (event) => {
+  function handleDescriptionChange(event) {
+    setDescription(event.target.value);
+  }
+
+  function handleFileChange(event) {
     setFile(event.target.files[0]);
-  };
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('file', file);
+
+    try {
+      const response = await fetch('linkAPI', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        console.log('Post created successfully!');
+      } else {
+        throw new Error('Post creation failed.');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <div className="post-form-container">
       <form onSubmit={handleSubmit}>
         <div className="form-field">
-          <label htmlFor="title">Tiêu đề:</label>
+          <label htmlFor="title">Title:</label>
           <input
             type="text"
             id="title"
+            name="title"
             value={title}
-            onChange={(event) => setTitle(event.target.value)}
+            onChange={handleTitleChange}
+            required
           />
         </div>
         <div className="form-field">
-          <label htmlFor="description">Mô tả:</label>
+          <label htmlFor="description">Description:</label>
           <textarea
             id="description"
+            name="description"
             value={description}
-            onChange={(event) => setDescription(event.target.value)}
-          ></textarea>
+            onChange={handleDescriptionChange}
+            required
+          />
         </div>
         <div className="form-field">
-          <label htmlFor="file">Nội dung (PDF):</label>
-          {file ? (
-            <p>{file.name}</p>
-          ) : (
-            <div className="file-drop-area">
-              <p>Kéo thả file vào đây</p>
-              <input
-                type="file"
-                id="file"
-                accept="application/pdf"
-                onChange={handleFileChange}
-              />
-            </div>
-          )}
+          <label htmlFor="file">File:</label>
+          <div className="file-drop-area">
+            <p>Drop file here or click to select file</p>
+            <input
+              type="file"
+              id="file"
+              name="file"
+              accept="application/pdf"
+              onChange={handleFileChange}
+              required
+            />
+          </div>
         </div>
-        <button type="submit">Đăng bài</button>
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
