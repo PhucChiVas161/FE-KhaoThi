@@ -85,4 +85,8 @@ function PostForm() {
   );
 }
 
+<<<<<<< HEAD
 export default PostForm;
+=======
+export default PostForm;
+>>>>>>> dfa449f1e83f611c91662eabab2089b44c37384d
