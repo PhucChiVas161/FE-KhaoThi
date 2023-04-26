@@ -11264,8 +11264,12 @@ section {
         font-size: 36px;
         /*        font-weight: 700;
 */ /*text-transform: uppercase;*/
-        font-family: "Pacifico", sans-serif;
-        color: #d41b29;
+
+  font-weight: 600;
+  font-family: 'Courier New', Courier, monospace;
+  color: rgb(198 97 97);
+
+
     }
 
 /*--------------------------------------------------------------

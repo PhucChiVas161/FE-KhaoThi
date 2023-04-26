@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, ListGroup, Card } from "react-bootstrap";
+import '../../../../assets/css/style.css';
 
 function Notification() {
   const [posts, setPosts] = useState([]);
@@ -24,7 +25,7 @@ function Notification() {
           className="section-title wow animated fadeInUp animated"
           style={{ visibility: "visible", animationName: "fadeInUp" }}
         >
-          <p data-aos="fade-up">THÔNG BÁO</p>
+          <p className="tilenofica" data-aos="fade-up">THÔNG BÁO</p>
           <h2 data-aos="fade-up">.</h2>
         </div>
         <div className="faq-list">
