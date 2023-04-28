@@ -19,20 +19,19 @@ function Notification() {
     }
   };
   return (
-    <section id="faq" className="faq section-bg">
-      <div className="container">
+    <section id="faq" className="faq "   data-aos="fade-down-right"  data-aos-delay="100"  data-aos-duration="1200" >
+      <div className="container" >
         <div
-          className="section-title wow animated fadeInUp animated"
-          style={{ visibility: "visible", animationName: "fadeInUp" }}
+          className="section-title wow animated fadeInUp animated"          
         >
-          <p className="tilenofica" data-aos="fade-up">THÔNG BÁO</p>
-          <h2 data-aos="fade-up">.</h2>
+          <p className="tilenofica"  >THÔNG BÁO</p>
+          <h2> </h2>
         </div>
         <div className="faq-list">
-          <Container className="py-3">
+          <Container className="py-3" > 
             <Row>
               <Col md={12}>
-                <ListGroup>
+                <ListGroup >
                   {posts.map((post) => (
                     <ListGroup.Item
                       key={post.id}
@@ -43,6 +42,7 @@ function Notification() {
                         display: "block",
                         marginBottom: "1rem",
                         textAlign: "center",
+                        backgroundColor:'#bebbb7'
                       }}
                     >
                       {post.title_content}
