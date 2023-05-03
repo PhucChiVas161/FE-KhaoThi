@@ -19,7 +19,7 @@ function Notification() {
     }
   };
   return (
-    <section id="faq" className="faq "   data-aos="fade-down-right"  data-aos-delay="100"  data-aos-duration="1200" >
+    <section id="faq" className="faq "  data-aos="zoom-in"  data-aos-delay="100"  data-aos-duration="1200" >
       <div className="container" >
         <div
           className="section-title wow animated fadeInUp animated"          
