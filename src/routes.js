@@ -4,15 +4,14 @@ import { Navigate, useRoutes } from 'react-router-dom';
 // layouts
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
-
-// pages
-import BlogPage from './pages/BlogPage';
+//
+import PostPage from './pages/PostPage';
 import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
-import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import LandingPage from './pages/LandingPage/index';
+import PostPageAdmin from './pages/PostPageAdmin';
 
 export default function Router() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -36,8 +35,8 @@ export default function Router() {
         { element: <Navigate to="/dashboard/blog" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'user', element: <UserPage /> },
-        { path: 'products', element: <ProductsPage /> },
-        { path: 'blog', element: <BlogPage /> },
+        { path: 'post', element: <PostPage /> },
+        { path: 'postadm', element: <PostPageAdmin /> },
       ],
     },
     {
