@@ -14,10 +14,8 @@ const Nav = () => {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarResponsive">
                         <ul className="navbar-nav ms-auto">
-                        <li className="nav-item"><a className="nav-link" href="#about">TRANG CHỦ</a></li>
-                        <li className="nav-item"><a className="nav-link" href="#projects">GIỚI THIỆU</a></li>
-                        <li className="nav-item"><a className="nav-link" href="#signup">TRA CỨU</a></li>
-                        <li className="nav-item"><a className="nav-link" href="#">ĐĂNG NHẬP</a></li>
+                        <li className="nav-item"><a className="nav-link" href="#about">TRANG CHỦ</a></li>          
+                        <li className="nav-item"><a className="nav-link" href="/login">ĐĂNG NHẬP</a></li>
                         </ul>
                     </div>
                     </div>
