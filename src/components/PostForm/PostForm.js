@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './PostForm.css'
+import './PostForm.css';
 
 function PostForm() {
   const [title, setTitle] = useState('');
@@ -46,14 +46,7 @@ function PostForm() {
       <form onSubmit={handleSubmit}>
         <div className="form-field">
           <label htmlFor="title">Title:</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={title}
-            onChange={handleTitleChange}
-            required
-          />
+          <input type="text" id="title" name="title" value={title} onChange={handleTitleChange} required />
         </div>
         <div className="form-field">
           <label htmlFor="description">Description:</label>
@@ -69,14 +62,7 @@ function PostForm() {
           <label htmlFor="file">File:</label>
           <div className="file-drop-area">
             <p>Drop file here or click to select file</p>
-            <input
-              type="file"
-              id="file"
-              name="file"
-              accept="application/pdf"
-              onChange={handleFileChange}
-              required
-            />
+            <input type="file" id="file" name="file" accept="application/pdf" onChange={handleFileChange} required />
           </div>
         </div>
         <button type="submit">Submit</button>
@@ -85,8 +71,4 @@ function PostForm() {
   );
 }
 
-<<<<<<< HEAD
 export default PostForm;
-=======
-export default PostForm;
->>>>>>> dfa449f1e83f611c91662eabab2089b44c37384d
