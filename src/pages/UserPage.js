@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 // @mui
 import {
   Card,
@@ -23,22 +23,20 @@ import {
   TablePagination,
 } from '@mui/material';
 // components
-import Label from '../components/label';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 // sections
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
-import USERLIST from '../_mock/user';
-
+// import USERLIST from '../_mock/user';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
+  { id: 'email', label: 'Email', alignRight: false },
+  { id: 'mssv', label: 'MSSV', alignRight: false },
   { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'gender', label: 'Gender', alignRight: false },
   { id: '' },
 ];
 
@@ -88,6 +86,25 @@ export default function UserPage() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    axios
+      .get('https://localhost:7070/api/Employees', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  console.log(users);
+
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
   };
@@ -104,7 +121,7 @@ export default function UserPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = users.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -140,9 +157,9 @@ export default function UserPage() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(users, getComparator(order, orderBy), filterName);
 
   const isNotFound = !filteredUsers.length && !!filterName;
 
@@ -172,40 +189,47 @@ export default function UserPage() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
+                  rowCount={users.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
-                    const selectedUser = selected.indexOf(name) !== -1;
+                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                    const {
+                      employeeId,
+                      employeeName,
+                      accountEmail,
+                      accountRole,
+                      avatarUrl,
+                      employeeMSSV,
+                      employeeGender,
+                    } = row;
+                    const selectedUser = selected.indexOf(employeeId) !== -1;
+                    const defaultAvatarUrl = `/assets/images/avatars/avatar_${index + 1}.jpg`;
 
                     return (
-                      <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
+                      <TableRow hover key={employeeId} tabIndex={-1} role="checkbox" selected={selectedUser}>
                         <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, employeeId)} />
                         </TableCell>
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
+                            <Avatar alt={employeeName} src={avatarUrl || defaultAvatarUrl} />
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {employeeName}
                             </Typography>
                           </Stack>
                         </TableCell>
 
-                        <TableCell align="left">{company}</TableCell>
+                        <TableCell align="left">{accountEmail}</TableCell>
 
-                        <TableCell align="left">{role}</TableCell>
+                        <TableCell align="left">{employeeMSSV}</TableCell>
 
-                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="left">{accountRole}</TableCell>
 
-                        <TableCell align="left">
-                          <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
-                        </TableCell>
+                        <TableCell align="left">{employeeGender}</TableCell>
 
                         <TableCell align="right">
                           <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
@@ -252,7 +276,7 @@ export default function UserPage() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={users.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

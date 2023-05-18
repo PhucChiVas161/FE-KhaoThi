@@ -21,9 +21,9 @@ export default function PostPage() {
           <Typography variant="h4" gutterBottom>
             POST
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+          {/* <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
             New Post
-          </Button>
+          </Button> */}
         </Stack>
 
         <Grid container spacing={3}>
