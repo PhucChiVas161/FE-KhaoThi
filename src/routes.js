@@ -17,7 +17,7 @@ export default function Router() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const routes = useRoutes([
-    { path: '/index', element: <LandingPage /> },
+    { path: 'index', element: <LandingPage /> },
     {
       path: 'login',
       element: (
@@ -29,10 +29,10 @@ export default function Router() {
       ),
     },
     {
-      path: '/dashboard',
+      path: 'dashboard',
       element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
-        { element: <Navigate to="/dashboard/blog" />, index: true },
+        { element: <Navigate to="/dashboard/post" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'user', element: <UserPage /> },
         { path: 'post', element: <PostPage /> },

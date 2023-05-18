@@ -62,7 +62,8 @@
     "react-router-dom": "^6.8.1",
     "react-scripts": "^5.0.1",
     "simplebar-react": "^3.2.1",
-    "web-vitals": "^3.1.1"
+    "web-vitals": "^3.1.1",
+    "yarm": "^0.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
