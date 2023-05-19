@@ -32,11 +32,11 @@ import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'email', label: 'Email', alignRight: false },
-  { id: 'mssv', label: 'MSSV', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'gender', label: 'Gender', alignRight: false },
+  { id: 'employeeName', label: 'Name', alignRight: false },
+  { id: 'accountEmail', label: 'Email', alignRight: false },
+  { id: 'employeeMSSV', label: 'MSSV', alignRight: false },
+  { id: 'accountRole', label: 'Role', alignRight: false },
+  { id: 'employeeGender', label: 'Gender', alignRight: false },
   { id: '' },
 ];
 
@@ -103,7 +103,6 @@ export default function UserPage() {
         console.log(error);
       });
   }, []);
-  console.log(users);
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
