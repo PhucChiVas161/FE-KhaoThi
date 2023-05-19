@@ -80,7 +80,7 @@ export default function UserPage() {
 
   const [selected, setSelected] = useState([]);
 
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState('employeeName');
 
   const [filterName, setFilterName] = useState('');
 
@@ -120,18 +120,18 @@ export default function UserPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.name);
+      const newSelecteds = users.map((n) => n.employeeName);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, employeeName) => {
+    const selectedIndex = selected.indexOf(employeeName);
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, employeeName);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -154,6 +154,32 @@ export default function UserPage() {
   const handleFilterByName = (event) => {
     setPage(0);
     setFilterName(event.target.value);
+  };
+
+  const deleteUser = (employeeId) => {
+    const token = sessionStorage.getItem('token');
+    axios
+      .delete(`https://localhost:7070/api/Employees/${employeeId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        // Xử lý thành công sau khi xoá người dùng
+        console.log('User deleted successfully');
+        console.log(response);
+      })
+      .catch((error) => {
+        // Xử lý lỗi khi xoá người dùng
+        console.log(error);
+      });
+  };
+
+  const handleDeleteUser = () => {
+    selected.forEach((employeeId) => {
+      deleteUser(employeeId);
+    });
+    setSelected([]); // Xoá các mục đã chọn sau khi hoàn thành xoá
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
@@ -307,7 +333,7 @@ export default function UserPage() {
           Edit
         </MenuItem>
 
-        <MenuItem sx={{ color: 'error.main' }}>
+        <MenuItem sx={{ color: 'error.main' }} onClick={handleDeleteUser}>
           <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
           Delete
         </MenuItem>
