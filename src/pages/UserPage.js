@@ -2,7 +2,6 @@ import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-// @mui
 import {
   Card,
   Table,
@@ -21,15 +20,15 @@ import {
   IconButton,
   TableContainer,
   TablePagination,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from '@mui/material';
-// components
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
-// sections
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
-// mock
-// import USERLIST from '../_mock/user';
-// ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
   { id: 'employeeName', label: 'Name', alignRight: false },
@@ -40,16 +39,8 @@ const TABLE_HEAD = [
   { id: '' },
 ];
 
-// ----------------------------------------------------------------------
-
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
+  return b[orderBy].localeCompare(a[orderBy]);
 }
 
 function getComparator(order, orderBy) {
@@ -66,32 +57,26 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.employeeName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.employeeName.toLowerCase().includes(query.toLowerCase()));
   }
   return stabilizedThis.map((el) => el[0]);
 }
 
 export default function UserPage() {
   const [open, setOpen] = useState(null);
-
   const [page, setPage] = useState(0);
-
   const [order, setOrder] = useState('asc');
-
   const [selected, setSelected] = useState([]);
-
   const [orderBy, setOrderBy] = useState('employeeName');
-
   const [filterName, setFilterName] = useState('');
-
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
   const [users, setUsers] = useState([]);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(null);
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     axios
-      .get('https://localhost:7070/api/Employees', {
+      .get(`${process.env.REACT_APP_API_ENDPOINT}api/Employees`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -120,24 +105,24 @@ export default function UserPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.employeeName);
+      const newSelecteds = users.map((n) => n.employeeId);
       setSelected(newSelecteds);
-      return;
+    } else {
+      setSelected([]);
     }
-    setSelected([]);
   };
 
   const handleClick = (event, employeeName) => {
     const selectedIndex = selected.indexOf(employeeName);
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, employeeName);
+      newSelected = [...selected, employeeName];
     } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
+      newSelected = selected.slice(1);
     } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
+      newSelected = selected.slice(0, -1);
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
+      newSelected = selected.slice(0, selectedIndex).concat(selected.slice(selectedIndex + 1));
     }
     setSelected(newSelected);
   };
@@ -159,39 +144,49 @@ export default function UserPage() {
   const deleteUser = (employeeId) => {
     const token = sessionStorage.getItem('token');
     axios
-      .delete(`https://localhost:7070/api/Employees/${employeeId}`, {
+      .delete(`${process.env.REACT_APP_API_ENDPOINT}api/Employees/${employeeId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        // Xử lý thành công sau khi xoá người dùng
         console.log('User deleted successfully');
         console.log(response);
+        setUsers((prevUsers) => prevUsers.filter((user) => user.employeeId !== employeeId));
+        setSelected((prevSelected) => prevSelected.filter((id) => id !== employeeId));
       })
       .catch((error) => {
-        // Xử lý lỗi khi xoá người dùng
         console.log(error);
       });
   };
 
   const handleDeleteUser = () => {
-    selected.forEach((employeeId) => {
-      deleteUser(employeeId);
-    });
-    setSelected([]); // Xoá các mục đã chọn sau khi hoàn thành xoá
+    if (selected.length > 0) {
+      handleShowConfirmation(selected[0]);
+    }
+    handleCloseMenu();
+  };
+  const handleShowConfirmation = (employeeId) => {
+    setDeleteConfirmation(employeeId);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
+  const handleConfirmDelete = () => {
+    deleteUser(deleteConfirmation);
+    setDeleteConfirmation(null);
+  };
 
+  const handleCancelDelete = () => {
+    setDeleteConfirmation(null);
+  };
+
+  const emptyRows = Math.max(0, rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage));
   const filteredUsers = applySortFilter(users, getComparator(order, orderBy), filterName);
-
   const isNotFound = !filteredUsers.length && !!filterName;
 
   return (
     <>
       <Helmet>
-        <title> User | KHẢO THÍ - VLU </title>
+        <title>User | KHẢO THÍ - VLU</title>
       </Helmet>
 
       <Container>
@@ -275,11 +270,7 @@ export default function UserPage() {
                   <TableBody>
                     <TableRow>
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <Paper
-                          sx={{
-                            textAlign: 'center',
-                          }}
-                        >
+                        <Paper sx={{ textAlign: 'center' }}>
                           <Typography variant="h6" paragraph>
                             Not found
                           </Typography>
@@ -338,6 +329,20 @@ export default function UserPage() {
           Delete
         </MenuItem>
       </Popover>
+      {deleteConfirmation && (
+        <Dialog open={Boolean(deleteConfirmation)} onClose={handleCancelDelete}>
+          <DialogTitle>Confirm Delete</DialogTitle>
+          <DialogContent>
+            <DialogContentText>Are you sure you want to delete this user?</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCancelDelete}>No</Button>
+            <Button onClick={handleConfirmDelete} autoFocus>
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </>
   );
 }

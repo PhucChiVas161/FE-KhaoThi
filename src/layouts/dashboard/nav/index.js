@@ -46,7 +46,7 @@ export default function Nav({ openNav, onCloseNav }) {
     const token = sessionStorage.getItem('token');
     const decode = jwtDecode(token);
     axios
-      .get(`https://localhost:7070/api/Employees/${decode.EmployeeId}`, {
+      .get(`${process.env.REACT_APP_API_ENDPOINT}api/Employees/${decode.EmployeeId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
