@@ -12,6 +12,7 @@ import Page404 from './pages/Page404';
 import DashboardAppPage from './pages/DashboardAppPage';
 import LandingPage from './pages/LandingPage/index';
 import PostPageAdmin from './pages/PostPageAdmin';
+import PostForm from './components/PostForm/PostForm';
 
 export default function Router() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -51,6 +52,10 @@ export default function Router() {
       path: '*',
       element: <Navigate to="/404" replace />,
     },
+    {
+      path: '/Postform',
+      element: <PostForm />
+    }
   ]);
 
   return routes;

@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 // @mui
 import {
   Card,
@@ -153,9 +154,11 @@ export default function UserPage() {
           <Typography variant="h4" gutterBottom>
             POST
           </Typography>
+          <Link to= "/PostForm">
           <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
             New Post
           </Button>
+          </Link>
         </Stack>
 
         <Card>
