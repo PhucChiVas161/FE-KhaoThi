@@ -5,7 +5,7 @@ import Signup from './Signup/Signup';
 function Content() {
   return (
     <>
-      {/* <Notification /> */}
+      <Notification />
       <Project />
       <Signup />
     </>
