@@ -1,73 +1,49 @@
 import React, { useState } from 'react';
-import './PostForm.css';
+import axios from 'axios';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 function PostForm() {
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [file, setFile] = useState(null);
+  const [content, setContent] = useState('');
+  const [message, setMessage] = useState('');
 
-  function handleTitleChange(event) {
+  const handleTitleChange = (event) => {
     setTitle(event.target.value);
-  }
+  };
 
-  function handleDescriptionChange(event) {
-    setDescription(event.target.value);
-  }
+  const handleContentChange = (value) => {
+    setContent(value);
+  };
 
-  function handleFileChange(event) {
-    setFile(event.target.files[0]);
-  }
-
-  async function handleSubmit(event) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
     const formData = new FormData();
     formData.append('title', title);
-    formData.append('description', description);
-    formData.append('file', file);
+    formData.append('content', content);
 
     try {
-      const response = await fetch('linkAPI', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.ok) {
-        console.log('Post created successfully!');
-      } else {
-        throw new Error('Post creation failed.');
-      }
+      const response = await axios.post('linkapi', formData);
+      setMessage('Bài đăng của bạn đã được lưu trữ trên server!');
     } catch (error) {
-      console.error(error);
+      setMessage('Đã có lỗi xảy ra khi lưu trữ bài đăng của bạn trên server!');
     }
-  }
+  };
 
   return (
-    <div className="post-form-container">
-      <form onSubmit={handleSubmit}>
-        <div className="form-field">
-          <label htmlFor="title">Title:</label>
-          <input type="text" id="title" name="title" value={title} onChange={handleTitleChange} required />
-        </div>
-        <div className="form-field">
-          <label htmlFor="description">Description:</label>
-          <textarea
-            id="description"
-            name="description"
-            value={description}
-            onChange={handleDescriptionChange}
-            required
-          />
-        </div>
-        <div className="form-field">
-          <label htmlFor="file">File:</label>
-          <div className="file-drop-area">
-            <p>Drop file here or click to select file</p>
-            <input type="file" id="file" name="file" accept="application/pdf" onChange={handleFileChange} required />
-          </div>
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label className="form-control form-control-lg" htmlFor='title'>Tiêu đề</label>
+        <input id='title' type="text" name="title" value={title} onChange={handleTitleChange} placeholder='Nhập tiêu đề ...' />
+      </div>
+      <div>
+        <label className="form-control form-control-lg" htmlFor="content">Nội dung</label>
+        <ReactQuill value={content} onChange={handleContentChange} aria-label="Nội dung" placeholder='Nhập nội dung ...' />
+      </div>
+      <button type="submit">Đăng bài</button>
+      {message && <p>{message}</p>}
+    </form>
   );
 }
 
