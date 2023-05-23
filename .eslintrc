@@ -8,14 +8,12 @@
     "airbnb",
     "plugin:jsx-a11y/recommended",
     "plugin:react-hooks/recommended",
-    "prettier",
-    "jsx-a11y"
+    "prettier"
   ],
   "plugins": [
     "react",
     "react-hooks",
-    "prettier",
-    "jsx-a11y"
+    "prettier"
   ],
   "parser": "@babel/eslint-parser",
   "parserOptions": {

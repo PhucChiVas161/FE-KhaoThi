@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col, ListGroup, Card } from 'react-bootstrap';
 import '../../../../assets/css/style.css';
-import Image from './Image';
 
 function Notification() {
   const [posts, setPosts] = useState([]);
@@ -55,7 +54,7 @@ function Notification() {
                             style={{ objectFit: 'cover', width: '50%', height: '50%' }}
                             className="img-fluid"
                             variant="top"
-                            src={`data:image/jpeg;base64,${selectedPost.image}`}
+                            src={`data:image/jpeg;base64,${selectedPost.images}`}
                           />
                         </Card>
                       )}

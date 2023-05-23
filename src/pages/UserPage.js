@@ -26,6 +26,7 @@ import {
   DialogContentText,
   DialogActions,
 } from '@mui/material';
+import CreateUserForm from '../components/adduser/CreateUserForm';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
@@ -72,6 +73,7 @@ export default function UserPage() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [users, setUsers] = useState([]);
   const [deleteConfirmation, setDeleteConfirmation] = useState(null);
+  const [openCreateUserForm, setOpenCreateUserForm] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -194,9 +196,14 @@ export default function UserPage() {
           <Typography variant="h4" gutterBottom>
             USER
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+          <Button
+            variant="contained"
+            startIcon={<Iconify icon="eva:plus-fill" />}
+            onClick={() => setOpenCreateUserForm(true)}
+          >
             New User
           </Button>
+          {openCreateUserForm && <CreateUserForm onClose={() => setOpenCreateUserForm(false)} />}
         </Stack>
 
         <Card>
