@@ -25,6 +25,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  Snackbar,
+  SnackbarContent,
 } from '@mui/material';
 import CreateUserForm from '../components/adduser/CreateUserForm';
 import Iconify from '../components/iconify';
@@ -75,6 +77,8 @@ export default function UserPage() {
   const [deleteConfirmation, setDeleteConfirmation] = useState(null);
   const [openCreateUserForm, setOpenCreateUserForm] = useState(false);
   const [showUserList, setShowUserList] = useState(true);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -155,11 +159,19 @@ export default function UserPage() {
       .then((response) => {
         console.log('User deleted successfully');
         console.log(response);
+        setSuccessMessage('Xoá người dùng thành công!');
+        setTimeout(() => {
+          setSuccessMessage('');
+        }, 3000); // Thời gian đóng thông báo (3 giây)
         setUsers((prevUsers) => prevUsers.filter((user) => user.employeeId !== employeeId));
         setSelected((prevSelected) => prevSelected.filter((id) => id !== employeeId));
       })
       .catch((error) => {
         console.log(error);
+        setErrorMessage('Xoá người dùng thất bại!');
+        setTimeout(() => {
+          setErrorMessage('');
+        }, 3000); // Thời gian đóng thông báo (3 giây)
       });
   };
 
@@ -191,6 +203,38 @@ export default function UserPage() {
       <Helmet>
         <title>User | KHẢO THÍ - VLU</title>
       </Helmet>
+      <Snackbar
+        open={!!successMessage}
+        autoHideDuration={3000}
+        onClose={() => setSuccessMessage('')}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <SnackbarContent
+          sx={{ backgroundColor: '#43a047', color: 'white' }}
+          message={successMessage}
+          action={
+            <Button color="inherit" size="small" onClick={() => setSuccessMessage('')}>
+              Đóng
+            </Button>
+          }
+        />
+      </Snackbar>
+      <Snackbar
+        open={!!errorMessage}
+        autoHideDuration={3000}
+        onClose={() => setErrorMessage('')}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <SnackbarContent
+          sx={{ backgroundColor: '#f44336', color: 'white' }}
+          message={errorMessage}
+          action={
+            <Button color="inherit" size="small" onClick={() => setErrorMessage('')}>
+              Đóng
+            </Button>
+          }
+        />
+      </Snackbar>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
