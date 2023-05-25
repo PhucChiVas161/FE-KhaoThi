@@ -1,5 +1,17 @@
 import React, { useState } from 'react';
-import { TextField, Button, Card, CardContent, Grid, IconButton, Typography } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  IconButton,
+  Typography,
+  MenuItem,
+  InputLabel,
+  Select,
+  FormControl,
+} from '@mui/material';
 import { AddAPhoto } from '@mui/icons-material';
 import axios from 'axios';
 
@@ -92,10 +104,12 @@ const CreateUserForm = () => {
             <Grid item xs={6}>
               <TextField
                 name="accountEmail"
+                type="email"
                 label="Account Email"
                 value={formData.accountEmail}
                 onChange={handleChange}
                 fullWidth
+                required
               />
             </Grid>
             <Grid item xs={6}>
@@ -105,15 +119,18 @@ const CreateUserForm = () => {
                 value={formData.employeeName}
                 onChange={handleChange}
                 fullWidth
+                required
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
                 name="accountPassword"
+                type="password"
                 label="Account Password"
                 value={formData.accountPassword}
                 onChange={handleChange}
                 fullWidth
+                required
               />
             </Grid>
             <Grid item xs={6}>
@@ -123,27 +140,42 @@ const CreateUserForm = () => {
                 value={formData.employeeMSSV}
                 onChange={handleChange}
                 fullWidth
+                required
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                name="accountRole"
-                label="Account Role"
-                value={formData.accountRole}
-                onChange={handleChange}
-                fullWidth
-              />
+              <FormControl fullWidth>
+                <InputLabel id="accountRole-label">Account Role</InputLabel>
+                <Select
+                  labelId="accountRole-label"
+                  id="accountRole"
+                  name="accountRole"
+                  value={formData.accountRole}
+                  onChange={handleChange}
+                >
+                  <MenuItem value="Manager">Manager</MenuItem>
+                  <MenuItem value="Student">Student</MenuItem>
+                  {/* Add more menu items as needed */}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                name="employeeGender"
-                label="Employee Gender"
-                value={formData.employeeGender}
-                onChange={handleChange}
-                fullWidth
-              />
+              <FormControl fullWidth>
+                <InputLabel id="EmployeeGender-label">Giới tính</InputLabel>
+                <Select
+                  labelId="EmployeeGender-label"
+                  id="employeeGender"
+                  name="employeeGender"
+                  value={formData.employeeGender}
+                  onChange={handleChange}
+                >
+                  <MenuItem value="Nam">Nam</MenuItem>
+                  <MenuItem value="Nữ">Nữ</MenuItem>
+                  {/* Add more menu items as needed */}
+                </Select>
+              </FormControl>
             </Grid>
-            <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
+            <Grid item xs={12} style={{ display: 'flex', justifyContent: 'right' }}>
               <Button type="submit" variant="contained" color="primary" onClick={handleSubmit}>
                 Submit
               </Button>
