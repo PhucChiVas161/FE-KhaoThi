@@ -32,6 +32,7 @@ import CreateUserForm from '../components/adduser/CreateUserForm';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
+import EditUserForm from '../components/edituser/EditUserForm';
 
 const TABLE_HEAD = [
   { id: 'employeeName', label: 'Name', alignRight: false },
@@ -79,6 +80,7 @@ export default function UserPage() {
   const [showUserList, setShowUserList] = useState(true);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [showEditForm, setShowEditForm] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -194,6 +196,16 @@ export default function UserPage() {
     setDeleteConfirmation(null);
   };
 
+  const handleOpenEdit = () => {
+    setShowEditForm(true);
+    setShowUserList(false);
+    handleCloseMenu();
+  };
+  const handleCloseEdit = () => {
+    setShowEditForm(false);
+    setShowUserList(true);
+  };
+
   const emptyRows = Math.max(0, rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage));
   const filteredUsers = applySortFilter(users, getComparator(order, orderBy), filterName);
   const isNotFound = !filteredUsers.length && !!filterName;
@@ -253,6 +265,9 @@ export default function UserPage() {
           </Button>
         </Stack>
         {openCreateUserForm && <CreateUserForm onClose={() => setOpenCreateUserForm(false)} />}
+        {showEditForm && (
+          <EditUserForm employeeId={selected.length > 0 ? selected[0] : null} onClose={handleCloseEdit} />
+        )}
 
         {showUserList && (
           <Card>
@@ -375,7 +390,7 @@ export default function UserPage() {
           },
         }}
       >
-        <MenuItem>
+        <MenuItem onClick={handleOpenEdit}>
           <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
           Edit
         </MenuItem>
