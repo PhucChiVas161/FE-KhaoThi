@@ -206,6 +206,10 @@ export default function UserPage() {
     setShowUserList(true);
   };
 
+  const addUser = (newUser) => {
+    setUsers((prevUsers) => [...prevUsers, newUser]);
+  };
+
   const emptyRows = Math.max(0, rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage));
   const filteredUsers = applySortFilter(users, getComparator(order, orderBy), filterName);
   const isNotFound = !filteredUsers.length && !!filterName;
@@ -264,9 +268,13 @@ export default function UserPage() {
             New User
           </Button>
         </Stack>
-        {openCreateUserForm && <CreateUserForm onClose={() => setOpenCreateUserForm(false)} />}
+        {openCreateUserForm && <CreateUserForm addUser={addUser} />}
         {showEditForm && (
-          <EditUserForm employeeId={selected.length > 0 ? selected[0] : null} onClose={handleCloseEdit} />
+          <EditUserForm
+            employeeId={selected.length > 0 ? selected[0] : null}
+            onClose={handleCloseEdit}
+            addUser={addUser}
+          />
         )}
 
         {showUserList && (

@@ -17,7 +17,7 @@ import {
 import { AddAPhoto } from '@mui/icons-material';
 import axios from 'axios';
 
-const EditUserForm = ({ employeeId, onClose }) => {
+const EditUserForm = ({ employeeId, onClose, addUser }) => {
   const [formData, setFormData] = useState({
     accountEmail: '',
     employeeName: '',
@@ -25,7 +25,6 @@ const EditUserForm = ({ employeeId, onClose }) => {
     accountRole: '',
     employeeGender: '',
   });
-  console.log(employeeId);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -68,6 +67,7 @@ const EditUserForm = ({ employeeId, onClose }) => {
           setTimeout(() => {
             setSuccessMessage('');
           }, 3000); // Thời gian đóng thông báo (3 giây)
+          addUser(formData);
         }
       })
       .catch((error) => {

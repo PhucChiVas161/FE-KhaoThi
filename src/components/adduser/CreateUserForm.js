@@ -17,7 +17,7 @@ import {
 import { AddAPhoto } from '@mui/icons-material';
 import axios from 'axios';
 
-const CreateUserForm = () => {
+const CreateUserForm = ({ addUser }) => {
   const [formData, setFormData] = useState({
     accountEmail: '',
     employeeName: '',
@@ -38,7 +38,7 @@ const CreateUserForm = () => {
     // Gửi dữ liệu qua API
     const token = sessionStorage.getItem('token');
     axios
-      .post(`${process.env.REACT_APP_API_ENDPOINT}api/Employees/create`, formData, {
+      .post(`${process.env.REACT_APP_API_ENDPOINT}api/Accounts/create`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -46,11 +46,12 @@ const CreateUserForm = () => {
       })
       .then((response) => {
         console.log(response.data);
-        if (response.data === 'Create thành công') {
+        if (response.data === 'Create Thành công') {
           setSuccessMessage('Tạo người dùng thành công!');
           setTimeout(() => {
             setSuccessMessage('');
           }, 3000); // Thời gian đóng thông báo (3 giây)
+          addUser(formData);
         } else if (response.data === 'Email đã tồn tại') {
           setErrorMessage(response.data);
           setTimeout(() => {
