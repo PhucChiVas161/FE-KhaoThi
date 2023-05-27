@@ -41,7 +41,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
   const isDesktop = useResponsive('up', 'lg');
   const [users, setUsers] = useState('');
-  const [role, setRole] = useState(false);
+  const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -54,15 +54,13 @@ export default function Nav({ openNav, onCloseNav }) {
       })
       .then((response) => {
         setUsers(response.data);
-        if (users.accountRole === 'Manager') {
-          setRole(true);
-        }
+        setUserRole(response.data.accountRole);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
-  console.log(users);
+  console.log(userRole);
 
   useEffect(() => {
     if (openNav) {
@@ -101,16 +99,16 @@ export default function Nav({ openNav, onCloseNav }) {
       </Box>
 
       <NavSection data={navConfig.find((section) => section.title === 'Sinh viên').items} />
-      {role && (
-        <>
-          <Box sx={{ ml: 4 }}>
-            <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-              Quản lý
-            </Typography>
-          </Box>
-          <NavSection data={navConfig.find((section) => section.title === 'Quản lý').items} />
-        </>
-      )}
+
+      <Box sx={{ ml: 4 }}>
+        <Typography variant="subtitle2" sx={{ color: 'text.primary' }} hidden={userRole !== 'Manager'}>
+          Quản lý
+        </Typography>
+      </Box>
+      <NavSection
+        data={navConfig.find((section) => section.title === 'Quản lý').items}
+        hidden={userRole !== 'Manager'}
+      />
 
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>
