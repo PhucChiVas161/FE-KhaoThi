@@ -270,11 +270,7 @@ export default function UserPage() {
         </Stack>
         {openCreateUserForm && <CreateUserForm addUser={addUser} />}
         {showEditForm && (
-          <EditUserForm
-            employeeId={selected.length > 0 ? selected[0] : null}
-            onClose={handleCloseEdit}
-            addUser={addUser}
-          />
+          <EditUserForm employeeId={selected.length > 0 ? selected[0] : null} onClose={handleCloseEdit} />
         )}
 
         {showUserList && (
