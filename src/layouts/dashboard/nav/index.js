@@ -41,6 +41,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
   const isDesktop = useResponsive('up', 'lg');
   const [users, setUsers] = useState('');
+  const [role, setRole] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -53,6 +54,9 @@ export default function Nav({ openNav, onCloseNav }) {
       })
       .then((response) => {
         setUsers(response.data);
+        if (users.accountRole === 'Manager') {
+          setRole(true);
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -97,12 +101,16 @@ export default function Nav({ openNav, onCloseNav }) {
       </Box>
 
       <NavSection data={navConfig.find((section) => section.title === 'Sinh viên').items} />
-      <Box sx={{ ml: 4 }}>
-        <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-          Quản lý
-        </Typography>
-      </Box>
-      <NavSection data={navConfig.find((section) => section.title === 'Quản lý').items} />
+      {role && (
+        <>
+          <Box sx={{ ml: 4 }}>
+            <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+              Quản lý
+            </Typography>
+          </Box>
+          <NavSection data={navConfig.find((section) => section.title === 'Quản lý').items} />
+        </>
+      )}
 
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>
