@@ -22,18 +22,18 @@ const Nav = () => (
         <div className="collapse navbar-collapse" id="navbarResponsive">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <a className="nav-link" href="#about">
-                TRANG CHỦ
+              <a className="nav-link" href="#faq">
+                THÔNG BÁO
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#projects">
+              <a className="nav-link" href="#gioithieu">
                 GIỚI THIỆU
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#signup">
-                TRA CỨU
+              <a className="nav-link" href="#lienhe">
+                LIÊN HỆ
               </a>
             </li>
             <li className="nav-item">

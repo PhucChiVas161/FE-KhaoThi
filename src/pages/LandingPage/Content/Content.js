@@ -7,7 +7,7 @@ function Content() {
     <>
       <Notification />
       <Project />
-      <Signup />
+      {/* <Signup /> */}
     </>
   );
 }
