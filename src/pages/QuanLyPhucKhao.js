@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
+import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -28,6 +29,7 @@ import {
   Snackbar,
   SnackbarContent,
 } from '@mui/material';
+import Label from '../components/label';
 import CreateUserForm from '../components/adduser/CreateUserForm';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
@@ -36,10 +38,10 @@ import EditUserForm from '../components/edituser/EditUserForm';
 
 const TABLE_HEAD = [
   { id: 'employeeName', label: 'Name', alignRight: false },
-  { id: 'accountEmail', label: 'Email', alignRight: false },
+  { id: 'phucKhaoId', label: 'STT', alignRight: false },
   { id: 'employeeMSSV', label: 'MSSV', alignRight: false },
-  { id: 'accountRole', label: 'Role', alignRight: false },
-  { id: 'employeeGender', label: 'Gender', alignRight: false },
+  { id: 'status', label: 'Trạng thái', alignRight: false },
+  { id: 'updateAt', label: 'Ngày nhận', alignRight: false },
   { id: '' },
 ];
 
@@ -85,7 +87,7 @@ export default function PhucKhao() {
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     axios
-      .get(`${process.env.REACT_APP_API_ENDPOINT}api/Employees`, {
+      .get(`${process.env.REACT_APP_API_ENDPOINT}api/PhucKhao`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -292,13 +294,14 @@ export default function PhucKhao() {
                     {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                       const {
                         employeeId,
-                        employeeName,
-                        accountEmail,
-                        accountRole,
+                        phucKhaoId,
                         avatarUrl,
-                        employeeMSSV,
-                        employeeGender,
+                        status,
+                        updateAt,
+                        employee: { employeeName, employeeMSSV },
                       } = row;
+                      const dateTime = new Date(updateAt);
+                      const formattedDateTime = dateTime.toLocaleString();
                       const selectedUser = selected.indexOf(employeeId) !== -1;
                       const defaultAvatarUrl = `/assets/images/avatars/avatar_${index + 1}.jpg`;
 
@@ -317,13 +320,21 @@ export default function PhucKhao() {
                             </Stack>
                           </TableCell>
 
-                          <TableCell align="left">{accountEmail}</TableCell>
+                          <TableCell align="left">{phucKhaoId}</TableCell>
 
                           <TableCell align="left">{employeeMSSV}</TableCell>
 
-                          <TableCell align="left">{accountRole}</TableCell>
+                          <TableCell align="left">
+                            <Label
+                              color={
+                                (status === 'Received' && 'info') || (status === 'Inprocess' && 'warning') || 'success'
+                              }
+                            >
+                              {sentenceCase(status)}
+                            </Label>
+                          </TableCell>
 
-                          <TableCell align="left">{employeeGender}</TableCell>
+                          <TableCell align="left">{formattedDateTime}</TableCell>
 
                           <TableCell align="right">
                             <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
