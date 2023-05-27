@@ -25,14 +25,19 @@ const navConfig = [
     title: 'Quản lý',
     items: [
       {
-        title: 'Quản lý người dùng',
+        title: 'Quản lý NGƯỜI DÙNG',
         path: '/dashboard/user',
         icon: icon('ic_user'),
       },
       {
-        title: 'Quản lý tin tức',
+        title: 'Quản lý TIN TỨC',
         path: '/dashboard/postadm',
         icon: icon('ic_blog'),
+      },
+      {
+        title: 'Quản lý PHÚC KHẢO',
+        path: '/dashboard/quanlyphuckhao',
+        icon: icon('ic_form'),
       },
     ],
   },

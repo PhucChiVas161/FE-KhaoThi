@@ -75,7 +75,7 @@ export default function LoginPage({ onLogin }) {
 
             <Typography variant="body2" sx={{ mb: 5 }}>
               VLU Khảo Thí {''}
-              <Link variant="subtitle2">Get started</Link>
+              {/* <Link variant="subtitle2">Get started</Link> */}
             </Typography>
 
             <Stack direction="row" spacing={2}>

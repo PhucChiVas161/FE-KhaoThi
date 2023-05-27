@@ -12,6 +12,7 @@ import Page404 from './pages/Page404';
 import DashboardAppPage from './pages/DashboardAppPage';
 import LandingPage from './pages/LandingPage/index';
 import PostPageAdmin from './pages/PostPageAdmin';
+import QuanLyPhucKhao from './pages/QuanLyPhucKhao';
 
 export default function Router() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -37,6 +38,7 @@ export default function Router() {
         { path: 'user', element: <UserPage /> },
         { path: 'post', element: <PostPage /> },
         { path: 'postadm', element: <PostPageAdmin /> },
+        { path: 'quanlyphuckhao', element: <QuanLyPhucKhao /> },
       ],
     },
     {
