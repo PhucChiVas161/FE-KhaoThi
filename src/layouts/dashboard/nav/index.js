@@ -96,7 +96,13 @@ export default function Nav({ openNav, onCloseNav }) {
         </Link>
       </Box>
 
-      <NavSection data={navConfig} />
+      <NavSection data={navConfig.find((section) => section.title === 'Sinh viên').items} />
+      <Box sx={{ ml: 4 }}>
+        <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
+          Quản lý
+        </Typography>
+      </Box>
+      <NavSection data={navConfig.find((section) => section.title === 'Quản lý').items} />
 
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>

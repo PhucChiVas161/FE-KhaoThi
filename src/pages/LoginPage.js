@@ -46,7 +46,7 @@ export default function LoginPage({ onLogin }) {
   return (
     <>
       <Helmet>
-        <title> Login | Minimal UI </title>
+        <title> Login | VLU Khảo Thí </title>
       </Helmet>
 
       <StyledRoot>
@@ -61,7 +61,7 @@ export default function LoginPage({ onLogin }) {
         {mdUp && (
           <StyledSection>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back
+              Xin chào, vui lòng ĐĂNG NHẬP để tiếp tục sử dụng
             </Typography>
             <img src="/assets/illustrations/illustration_login.png" alt="login" />
           </StyledSection>
@@ -70,11 +70,11 @@ export default function LoginPage({ onLogin }) {
         <Container maxWidth="sm">
           <StyledContent>
             <Typography variant="h4" gutterBottom>
-              Sign in to Minimal
+              Đăng nhập
             </Typography>
 
             <Typography variant="body2" sx={{ mb: 5 }}>
-              Don’t have an account? {''}
+              VLU Khảo Thí {''}
               <Link variant="subtitle2">Get started</Link>
             </Typography>
 
