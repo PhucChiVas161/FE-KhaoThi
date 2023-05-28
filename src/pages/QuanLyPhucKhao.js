@@ -30,23 +30,29 @@ import {
   SnackbarContent,
 } from '@mui/material';
 import Label from '../components/label';
-import CreateUserForm from '../components/adduser/CreateUserForm';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
-import EditUserForm from '../components/edituser/EditUserForm';
+import ShowPhucKhao from '../components/ShowPhucKhao/ShowPhucKhao';
 
 const TABLE_HEAD = [
   { id: 'employeeName', label: 'Name', alignRight: false },
-  { id: 'phucKhaoId', label: 'STT', alignRight: false },
   { id: 'employeeMSSV', label: 'MSSV', alignRight: false },
+  { id: 'employeeEmail', label: 'Email', alignRight: false },
+  { id: 'phucKhaoId', label: 'STT', alignRight: false },
   { id: 'status', label: 'Trạng thái', alignRight: false },
   { id: 'updateAt', label: 'Ngày nhận', alignRight: false },
   { id: '' },
 ];
 
 function descendingComparator(a, b, orderBy) {
-  return b[orderBy].localeCompare(a[orderBy]);
+  if (!a[orderBy] || !b[orderBy]) {
+    return 0;
+  }
+  if (typeof b[orderBy] === 'string') {
+    return b[orderBy].localeCompare(a[orderBy]);
+  }
+  return b[orderBy] - a[orderBy];
 }
 
 function getComparator(order, orderBy) {
@@ -78,7 +84,6 @@ export default function PhucKhao() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [users, setUsers] = useState([]);
   const [deleteConfirmation, setDeleteConfirmation] = useState(null);
-  const [openCreateUserForm, setOpenCreateUserForm] = useState(false);
   const [showUserList, setShowUserList] = useState(true);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -116,7 +121,7 @@ export default function PhucKhao() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.employeeId);
+      const newSelecteds = users.map((n) => n.phucKhaoId);
       setSelected(newSelecteds);
     } else {
       setSelected([]);
@@ -152,10 +157,10 @@ export default function PhucKhao() {
     setFilterName(event.target.value);
   };
 
-  const deleteUser = (employeeId) => {
+  const deleteUser = (phucKhaoId) => {
     const token = sessionStorage.getItem('token');
     axios
-      .delete(`${process.env.REACT_APP_API_ENDPOINT}api/Employees/${employeeId}`, {
+      .delete(`${process.env.REACT_APP_API_ENDPOINT}api/PhucKhao/${phucKhaoId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -163,16 +168,16 @@ export default function PhucKhao() {
       .then((response) => {
         console.log('User deleted successfully');
         console.log(response);
-        setSuccessMessage('Xoá người dùng thành công!');
+        setSuccessMessage('Xoá đơn phúc khảo thành công!');
         setTimeout(() => {
           setSuccessMessage('');
         }, 3000); // Thời gian đóng thông báo (3 giây)
-        setUsers((prevUsers) => prevUsers.filter((user) => user.employeeId !== employeeId));
-        setSelected((prevSelected) => prevSelected.filter((id) => id !== employeeId));
+        setUsers((prevUsers) => prevUsers.filter((user) => user.phucKhaoId !== phucKhaoId));
+        setSelected((prevSelected) => prevSelected.filter((id) => id !== phucKhaoId));
       })
       .catch((error) => {
         console.log(error);
-        setErrorMessage('Xoá người dùng thất bại!');
+        setErrorMessage('Xoá đơn phúc khảo thất bại!');
         setTimeout(() => {
           setErrorMessage('');
         }, 3000); // Thời gian đóng thông báo (3 giây)
@@ -185,8 +190,8 @@ export default function PhucKhao() {
     }
     handleCloseMenu();
   };
-  const handleShowConfirmation = (employeeId) => {
-    setDeleteConfirmation(employeeId);
+  const handleShowConfirmation = (phucKhaoId) => {
+    setDeleteConfirmation(phucKhaoId);
   };
 
   const handleConfirmDelete = () => {
@@ -206,10 +211,6 @@ export default function PhucKhao() {
   const handleCloseEdit = () => {
     setShowEditForm(false);
     setShowUserList(true);
-  };
-
-  const addUser = (newUser) => {
-    setUsers((prevUsers) => [...prevUsers, newUser]);
   };
 
   const emptyRows = Math.max(0, rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage));
@@ -259,7 +260,7 @@ export default function PhucKhao() {
           <Typography variant="h4" gutterBottom>
             USER
           </Typography>
-          <Button
+          {/* <Button
             variant="contained"
             startIcon={<Iconify icon="eva:plus-fill" />}
             onClick={() => {
@@ -268,12 +269,9 @@ export default function PhucKhao() {
             }}
           >
             New User
-          </Button>
+          </Button> */}
         </Stack>
-        {openCreateUserForm && <CreateUserForm addUser={addUser} />}
-        {showEditForm && (
-          <EditUserForm employeeId={selected.length > 0 ? selected[0] : null} onClose={handleCloseEdit} />
-        )}
+        {showEditForm && <ShowPhucKhao id={selected.length > 0 ? selected[0] : null} onClose={handleCloseEdit} />}
 
         {showUserList && (
           <Card>
@@ -292,23 +290,17 @@ export default function PhucKhao() {
                   />
                   <TableBody>
                     {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                      const {
-                        employeeId,
-                        phucKhaoId,
-                        avatarUrl,
-                        status,
-                        updateAt,
-                        employee: { employeeName, employeeMSSV },
-                      } = row;
+                      const { phucKhaoId, avatarUrl, status, updateAt, employeeName, employeeMSSV, accountEmail } = row;
                       const dateTime = new Date(updateAt);
                       const formattedDateTime = dateTime.toLocaleString();
-                      const selectedUser = selected.indexOf(employeeId) !== -1;
+                      const selectedUser = selected.indexOf(phucKhaoId) !== -1;
                       const defaultAvatarUrl = `/assets/images/avatars/avatar_${index + 1}.jpg`;
+                      console.log(typeof phucKhaoId);
 
                       return (
-                        <TableRow hover key={employeeId} tabIndex={-1} role="checkbox" selected={selectedUser}>
+                        <TableRow hover key={phucKhaoId} tabIndex={-1} role="checkbox" selected={selectedUser}>
                           <TableCell padding="checkbox">
-                            <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, employeeId)} />
+                            <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, phucKhaoId)} />
                           </TableCell>
 
                           <TableCell component="th" scope="row" padding="none">
@@ -320,9 +312,11 @@ export default function PhucKhao() {
                             </Stack>
                           </TableCell>
 
-                          <TableCell align="left">{phucKhaoId}</TableCell>
-
                           <TableCell align="left">{employeeMSSV}</TableCell>
+
+                          <TableCell align="left">{accountEmail}</TableCell>
+
+                          <TableCell align="left">{phucKhaoId}</TableCell>
 
                           <TableCell align="left">
                             <Label
@@ -407,7 +401,7 @@ export default function PhucKhao() {
       >
         <MenuItem onClick={handleOpenEdit}>
           <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
-          Edit
+          Xem chi tiết
         </MenuItem>
 
         <MenuItem sx={{ color: 'error.main' }} onClick={handleDeleteUser}>
