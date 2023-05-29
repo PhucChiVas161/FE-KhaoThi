@@ -29,16 +29,15 @@ import {
   Snackbar,
   SnackbarContent,
 } from '@mui/material';
+import jwtDecode from 'jwt-decode';
 import Label from '../components/label';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
-import ShowPhucKhao from '../components/ShowPhucKhao/ShowPhucKhao';
+import ShowForm from '../components/ShowPhucKhao/ShowForm';
 
 const TABLE_HEAD = [
-  { id: 'employeeName', label: 'Name', alignRight: false },
-  { id: 'employeeMSSV', label: 'MSSV', alignRight: false },
-  { id: 'employeeEmail', label: 'Email', alignRight: false },
+  { id: 'tenHocPhan', label: 'Tên học phần', alignRight: false },
   { id: 'phucKhaoId', label: 'Mã đơn', alignRight: false },
   { id: 'status', label: 'Trạng thái', alignRight: false },
   { id: 'updateAt', label: 'Ngày nhận', alignRight: false },
@@ -74,7 +73,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function QuanLyPhucKhao() {
+export default function PhucKhao() {
   const [open, setOpen] = useState(null);
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
@@ -91,8 +90,9 @@ export default function QuanLyPhucKhao() {
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
+    const decode = jwtDecode(token);
     axios
-      .get(`${process.env.REACT_APP_API_ENDPOINT}api/PhucKhao`, {
+      .get(`${process.env.REACT_APP_API_ENDPOINT}api/PhucKhao/${decode.EmployeeId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -104,6 +104,7 @@ export default function QuanLyPhucKhao() {
         console.log(error);
       });
   }, []);
+  console.log(users);
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -271,7 +272,7 @@ export default function QuanLyPhucKhao() {
             New User
           </Button> */}
         </Stack>
-        {showEditForm && <ShowPhucKhao id={selected.length > 0 ? selected[0] : null} onClose={handleCloseEdit} />}
+        {showEditForm && <ShowForm id={selected.length > 0 ? selected[0] : null} onClose={handleCloseEdit} />}
 
         {showUserList && (
           <Card>
@@ -290,7 +291,7 @@ export default function QuanLyPhucKhao() {
                   />
                   <TableBody>
                     {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                      const { phucKhaoId, avatarUrl, status, updateAt, employeeName, employeeMSSV, accountEmail } = row;
+                      const { phucKhaoId, status, updateAt, tenHocPhan } = row;
                       const dateTime = new Date(updateAt);
                       const formattedDateTime = dateTime.toLocaleString();
                       const selectedUser = selected.indexOf(phucKhaoId) !== -1;
@@ -303,18 +304,7 @@ export default function QuanLyPhucKhao() {
                             <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, phucKhaoId)} />
                           </TableCell>
 
-                          <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={employeeName} src={avatarUrl || defaultAvatarUrl} />
-                              <Typography variant="subtitle2" noWrap>
-                                {employeeName}
-                              </Typography>
-                            </Stack>
-                          </TableCell>
-
-                          <TableCell align="left">{employeeMSSV}</TableCell>
-
-                          <TableCell align="left">{accountEmail}</TableCell>
+                          <TableCell align="left">{tenHocPhan}</TableCell>
 
                           <TableCell align="left">{phucKhaoId}</TableCell>
 

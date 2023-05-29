@@ -13,6 +13,7 @@ import DashboardAppPage from './pages/DashboardAppPage';
 import LandingPage from './pages/LandingPage/index';
 import PostPageAdmin from './pages/PostPageAdmin';
 import QuanLyPhucKhao from './pages/QuanLyPhucKhao';
+import PhucKhao from './pages/PhucKhao';
 
 export default function Router() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,11 +35,11 @@ export default function Router() {
       element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         { element: <Navigate to="/dashboard/post" />, index: true },
-        { path: 'app', element: <DashboardAppPage /> },
         { path: 'user', element: <UserPage /> },
         { path: 'post', element: <PostPage /> },
         { path: 'postadm', element: <PostPageAdmin /> },
         { path: 'quanlyphuckhao', element: <QuanLyPhucKhao /> },
+        { path: 'phuckhao', element: <PhucKhao /> },
       ],
     },
     {

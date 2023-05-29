@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 
-const ShowPhucKhao = ({ id, onClose }) => {
+const ShowForm = ({ id, onClose }) => {
   const [formData, setFormData] = useState({
     accountEmail: '',
     employeeName: '',
@@ -162,9 +162,7 @@ const ShowPhucKhao = ({ id, onClose }) => {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    disabled
                     name="hocKy"
-                    type="email"
                     label="Học kỳ"
                     value={formData.hocKy}
                     onChange={handleChange}
@@ -176,8 +174,8 @@ const ShowPhucKhao = ({ id, onClose }) => {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    disabled
                     name="lanThi"
+                    type="number"
                     label="Lần thi"
                     value={formData.lanThi}
                     onChange={handleChange}
@@ -189,7 +187,6 @@ const ShowPhucKhao = ({ id, onClose }) => {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    disabled
                     name="namHoc"
                     label="Năm Học"
                     value={formData.namHoc}
@@ -202,7 +199,6 @@ const ShowPhucKhao = ({ id, onClose }) => {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    disabled
                     name="maHocPhan"
                     label="Mã học phần"
                     value={formData.maHocPhan}
@@ -215,7 +211,6 @@ const ShowPhucKhao = ({ id, onClose }) => {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    disabled
                     name="maLop"
                     label="Mã lớp"
                     value={formData.maLop}
@@ -228,7 +223,6 @@ const ShowPhucKhao = ({ id, onClose }) => {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    disabled
                     name="tenHocPhan"
                     label="Tên học phần"
                     value={formData.tenHocPhan}
@@ -241,7 +235,6 @@ const ShowPhucKhao = ({ id, onClose }) => {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    disabled
                     name="ngayGioThi"
                     label="Ngày giờ thi"
                     value={formData.ngayGioThi}
@@ -254,7 +247,6 @@ const ShowPhucKhao = ({ id, onClose }) => {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    disabled
                     name="phongThi"
                     label="Phòng thi"
                     value={formData.phongThi}
@@ -267,7 +259,6 @@ const ShowPhucKhao = ({ id, onClose }) => {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    disabled
                     multiline
                     name="lyDo"
                     label="Lý do"
@@ -275,23 +266,6 @@ const ShowPhucKhao = ({ id, onClose }) => {
                     onChange={handleChange}
                     fullWidth
                   />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl fullWidth>
-                    <InputLabel id="status-label">Trạng thái</InputLabel>
-                    <Select
-                      labelId="status-label"
-                      id="status"
-                      name="status"
-                      value={formData.status || ''} // Ensure that the value is never undefined
-                      onChange={handleChange}
-                    >
-                      <MenuItem value="Received">Đã tiếp nhận</MenuItem>
-                      <MenuItem value="Inprocess">Đang xử lý</MenuItem>
-                      <MenuItem value="Success">Xử lý thành công</MenuItem>
-                      {/* Add more menu items as needed */}
-                    </Select>
-                  </FormControl>
                 </Grid>
                 <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Button variant="contained" color="error" onClick={onClose}>
@@ -310,4 +284,4 @@ const ShowPhucKhao = ({ id, onClose }) => {
   );
 };
 
-export default ShowPhucKhao;
+export default ShowForm;

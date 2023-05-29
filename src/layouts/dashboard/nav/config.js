@@ -19,6 +19,11 @@ const navConfig = [
         path: '/dashboard/post',
         icon: icon('ic_blog'),
       },
+      {
+        title: 'Phúc khảo',
+        path: '/dashboard/phuckhao',
+        icon: icon('ic_form'),
+      },
     ],
   },
   {
