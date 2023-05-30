@@ -35,6 +35,7 @@ import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 import ShowForm from '../components/ShowPhucKhao/ShowForm';
+import ShowAddPhucKhao from '../components/ShowPhucKhao/ShowAddPhucKhao';
 
 const TABLE_HEAD = [
   { id: 'tenHocPhan', label: 'Tên học phần', alignRight: false },
@@ -87,6 +88,7 @@ export default function PhucKhao() {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [showEditForm, setShowEditForm] = useState(false);
+  const [openCreateUserForm, setOpenCreateUserForm] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -156,6 +158,10 @@ export default function PhucKhao() {
   const handleFilterByName = (event) => {
     setPage(0);
     setFilterName(event.target.value);
+  };
+
+  const addUser = (newUser) => {
+    setUsers((prevUsers) => [...prevUsers, newUser]);
   };
 
   const deleteUser = (phucKhaoId) => {
@@ -261,7 +267,7 @@ export default function PhucKhao() {
           <Typography variant="h4" gutterBottom>
             PHÚC KHẢO
           </Typography>
-          {/* <Button
+          <Button
             variant="contained"
             startIcon={<Iconify icon="eva:plus-fill" />}
             onClick={() => {
@@ -269,9 +275,10 @@ export default function PhucKhao() {
               setShowUserList(!showUserList);
             }}
           >
-            New User
-          </Button> */}
+            GỬI PHÚC KHẢO
+          </Button>
         </Stack>
+        {openCreateUserForm && <ShowAddPhucKhao addUser={addUser} />}
         {showEditForm && <ShowForm id={selected.length > 0 ? selected[0] : null} onClose={handleCloseEdit} />}
 
         {showUserList && (
