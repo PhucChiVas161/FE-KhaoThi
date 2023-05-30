@@ -17,12 +17,12 @@ const navConfig = [
       {
         title: 'Tin tức',
         path: '/dashboard/post',
-        icon: icon('ic_blog'),
+        icon: icon('ic_news'),
       },
       {
         title: 'Phúc khảo',
         path: '/dashboard/phuckhao',
-        icon: icon('ic_form'),
+        icon: icon('ic_document'),
       },
     ],
   },
@@ -32,17 +32,22 @@ const navConfig = [
       {
         title: 'Quản lý NGƯỜI DÙNG',
         path: '/dashboard/user',
-        icon: icon('ic_user'),
+        icon: icon('ic_account'),
       },
       {
         title: 'Quản lý TIN TỨC',
         path: '/dashboard/postadm',
-        icon: icon('ic_blog'),
+        icon: icon('ic_news'),
       },
       {
         title: 'Quản lý PHÚC KHẢO',
         path: '/dashboard/quanlyphuckhao',
-        icon: icon('ic_form'),
+        icon: icon('ic_document'),
+      },
+      {
+        title: 'Quản lý THÔNG BÁO',
+        path: '/dashboard/quanlyphuckhao',
+        icon: icon('ic_bell'),
       },
     ],
   },

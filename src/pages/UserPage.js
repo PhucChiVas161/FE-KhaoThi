@@ -259,7 +259,7 @@ export default function UserPage() {
           </Typography>
           <Button
             variant="contained"
-            startIcon={<Iconify icon="eva:plus-fill" />}
+            startIcon={<Iconify icon="line-md:account-add" />}
             onClick={() => {
               setOpenCreateUserForm(!openCreateUserForm);
               setShowUserList(!showUserList);

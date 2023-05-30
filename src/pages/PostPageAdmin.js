@@ -34,9 +34,9 @@ import USERLIST from '../_mock/user';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-    { id: 'name', label: 'NamePost', alignRight: false },
-    { id: 'status', label: 'Status', alignRight: false },
-    { id: '' },
+  { id: 'name', label: 'NamePost', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
+  { id: '' },
 ];
 
 // ----------------------------------------------------------------------
@@ -154,10 +154,10 @@ export default function UserPage() {
           <Typography variant="h4" gutterBottom>
             POST
           </Typography>
-          <Link to= "/PostForm">
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New Post
-          </Button>
+          <Link to="/PostForm">
+            <Button variant="contained" startIcon={<Iconify icon="line-md:document-add" />}>
+              New Post
+            </Button>
           </Link>
         </Stack>
 
@@ -178,7 +178,7 @@ export default function UserPage() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, status  } = row;
+                    const { id, name, status } = row;
                     const selectedUser = selected.indexOf(name) !== -1;
 
                     return (
@@ -186,11 +186,9 @@ export default function UserPage() {
                         <TableCell padding="checkbox">
                           <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
                         </TableCell>
-                        
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-
                             <Typography variant="subtitle2" noWrap>
                               {name}
                             </Typography>
@@ -199,7 +197,6 @@ export default function UserPage() {
                         <TableCell align="left">
                           <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
                         </TableCell>
-                        
 
                         <TableCell align="right">
                           <IconButton size="large" color="inherit" onClick={handleOpenMenu}>

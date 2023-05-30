@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
@@ -26,6 +28,7 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const [users, setUsers] = useState('');
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -38,6 +41,22 @@ export default function AccountPopover() {
     sessionStorage.removeItem('token');
     window.location.href = '/';
   };
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    const decode = jwtDecode(token);
+    axios
+      .get(`${process.env.REACT_APP_API_ENDPOINT}api/Employees/${decode.EmployeeId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <>
@@ -82,10 +101,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {users.employeeName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {users.accountEmail}
           </Typography>
         </Box>
 

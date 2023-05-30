@@ -269,7 +269,7 @@ export default function PhucKhao() {
           </Typography>
           <Button
             variant="contained"
-            startIcon={<Iconify icon="eva:plus-fill" />}
+            startIcon={<Iconify icon="line-md:document-add" />}
             onClick={() => {
               setOpenCreateUserForm(!openCreateUserForm);
               setShowUserList(!showUserList);
