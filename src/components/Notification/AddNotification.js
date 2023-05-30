@@ -59,17 +59,12 @@ const AddNotification = ({ addUser }) => {
       })
       .then((response) => {
         console.log(response.data);
-        if (response.data === 'Create Thành công') {
-          setSuccessMessage('Tạo thông báo thành công!');
+        if (response.data === 'Tạo thông báo thành công') {
+          setSuccessMessage(response.data);
           setTimeout(() => {
             setSuccessMessage('');
           }, 3000);
           addUser(formData);
-        } else if (response.data === 'Email đã tồn tại') {
-          setErrorMessage(response.data);
-          setTimeout(() => {
-            setErrorMessage('');
-          }, 3000);
         }
       })
       .catch((error) => {
