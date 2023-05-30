@@ -13,6 +13,7 @@ import {
   FormControl,
   Snackbar,
   SnackbarContent,
+  CircularProgress,
 } from '@mui/material';
 import { AddAPhoto } from '@mui/icons-material';
 import axios from 'axios';
@@ -23,6 +24,7 @@ const AddNotification = ({ addUser }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   const [imageSelected, setImageSelected] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -41,8 +43,14 @@ const AddNotification = ({ addUser }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleLoading = (loading) => {
+    setIsLoading(loading);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    handleLoading(true); // Set isLoading to true
 
     const token = sessionStorage.getItem('token');
     const form = new FormData();
@@ -73,9 +81,12 @@ const AddNotification = ({ addUser }) => {
         setTimeout(() => {
           setErrorMessage('');
         }, 3000);
+      })
+      .finally(() => {
+        handleLoading(false); // Set isLoading to false after response is received
       });
   };
-  console.log(formData);
+
   return (
     <>
       <Snackbar
@@ -194,7 +205,13 @@ const AddNotification = ({ addUser }) => {
                   />
                 </Grid>
                 <Grid item xs={12} style={{ display: 'flex', justifyContent: 'right' }}>
-                  <Button type="submit" variant="contained" color="primary">
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    disabled={isLoading} // Disable button while isLoading is true
+                    startIcon={isLoading ? <CircularProgress size={20} /> : null} // Show loading indicator while isLoading is true
+                  >
                     Submit
                   </Button>
                 </Grid>
