@@ -46,7 +46,7 @@ const navConfig = [
       },
       {
         title: 'Quản lý THÔNG BÁO',
-        path: '/dashboard/quanlyphuckhao',
+        path: '/dashboard/notification',
         icon: icon('ic_bell'),
       },
     ],

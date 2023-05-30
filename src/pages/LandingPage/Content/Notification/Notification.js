@@ -40,7 +40,7 @@ function Notification() {
                         display: 'block',
                         marginBottom: '1rem',
                         textAlign: 'center',
-                        backgroundColor: '#bebbb7',
+                        backgroundColor: '#F15152',
                       }}
                     >
                       {post.title}
@@ -51,7 +51,7 @@ function Notification() {
                             <Card.Text style={{ color: '#000', textAlign: 'left' }}>{selectedPost.content}</Card.Text>
                           </Card.Body>
                           <Card.Img
-                            style={{ objectFit: 'cover', width: '50%', height: '50%' }}
+                            style={{ objectFit: 'cover', width: '70%', height: '80%' }}
                             className="img-fluid"
                             variant="top"
                             src={`data:image/jpeg;base64,${selectedPost.images}`}

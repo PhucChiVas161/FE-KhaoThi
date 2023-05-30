@@ -413,7 +413,7 @@ export default function QuanLyPhucKhao() {
         <Dialog open={Boolean(deleteConfirmation)} onClose={handleCancelDelete}>
           <DialogTitle>Confirm Delete</DialogTitle>
           <DialogContent>
-            <DialogContentText>Are you sure you want to delete this user?</DialogContentText>
+            <DialogContentText>Bạn có chắc xoá đơn phúc khảo này không ???</DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCancelDelete}>No</Button>

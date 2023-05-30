@@ -28,18 +28,16 @@ import {
   Snackbar,
   SnackbarContent,
 } from '@mui/material';
-import CreateUserForm from '../components/adduser/CreateUserForm';
+import AddNotification from '../components/Notification/AddNotification';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
-import EditUserForm from '../components/edituser/EditUserForm';
+import EditNotification from '../components/Notification/EditNotification';
 
 const TABLE_HEAD = [
-  { id: 'employeeName', label: 'Name', alignRight: false },
-  { id: 'accountEmail', label: 'Email', alignRight: false },
-  { id: 'employeeMSSV', label: 'MSSV', alignRight: false },
-  { id: 'accountRole', label: 'Role', alignRight: false },
-  { id: 'employeeGender', label: 'Gender', alignRight: false },
+  { id: 'title', label: 'Tiêu đề', alignRight: false },
+  { id: 'createAt', label: 'Ngày đăng', alignRight: false },
+  { id: 'updateAt', label: 'Cập nhật', alignRight: false },
   { id: '' },
 ];
 
@@ -61,17 +59,17 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.employeeName.toLowerCase().includes(query.toLowerCase()));
+    return filter(array, (_user) => _user.title.toLowerCase().includes(query.toLowerCase()));
   }
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function UserPage() {
+export default function Notification() {
   const [open, setOpen] = useState(null);
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('employeeName');
+  const [orderBy, setOrderBy] = useState('title');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [users, setUsers] = useState([]);
@@ -85,7 +83,7 @@ export default function UserPage() {
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     axios
-      .get(`${process.env.REACT_APP_API_ENDPOINT}api/Employees`, {
+      .get(`${process.env.REACT_APP_API_ENDPOINT}api/Noti`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -114,18 +112,18 @@ export default function UserPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.employeeId);
+      const newSelecteds = users.map((n) => n.notiId);
       setSelected(newSelecteds);
     } else {
       setSelected([]);
     }
   };
 
-  const handleClick = (event, employeeName) => {
-    const selectedIndex = selected.indexOf(employeeName);
+  const handleClick = (event, title) => {
+    const selectedIndex = selected.indexOf(title);
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = [...selected, employeeName];
+      newSelected = [...selected, title];
     } else if (selectedIndex === 0) {
       newSelected = selected.slice(1);
     } else if (selectedIndex === selected.length - 1) {
@@ -150,10 +148,10 @@ export default function UserPage() {
     setFilterName(event.target.value);
   };
 
-  const deleteUser = (employeeId) => {
+  const deleteUser = (notiId) => {
     const token = sessionStorage.getItem('token');
     axios
-      .delete(`${process.env.REACT_APP_API_ENDPOINT}api/Employees/${employeeId}`, {
+      .delete(`${process.env.REACT_APP_API_ENDPOINT}api/Noti/${notiId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -161,16 +159,16 @@ export default function UserPage() {
       .then((response) => {
         console.log('User deleted successfully');
         console.log(response);
-        setSuccessMessage('Xoá người dùng thành công!');
+        setSuccessMessage('Xoá thông báo thành công!');
         setTimeout(() => {
           setSuccessMessage('');
         }, 3000); // Thời gian đóng thông báo (3 giây)
-        setUsers((prevUsers) => prevUsers.filter((user) => user.employeeId !== employeeId));
-        setSelected((prevSelected) => prevSelected.filter((id) => id !== employeeId));
+        setUsers((prevUsers) => prevUsers.filter((user) => user.notiId !== notiId));
+        setSelected((prevSelected) => prevSelected.filter((id) => id !== notiId));
       })
       .catch((error) => {
         console.log(error);
-        setErrorMessage('Xoá người dùng thất bại!');
+        setErrorMessage('Xoá thông báo thất bại!');
         setTimeout(() => {
           setErrorMessage('');
         }, 3000); // Thời gian đóng thông báo (3 giây)
@@ -183,8 +181,8 @@ export default function UserPage() {
     }
     handleCloseMenu();
   };
-  const handleShowConfirmation = (employeeId) => {
-    setDeleteConfirmation(employeeId);
+  const handleShowConfirmation = (notiId) => {
+    setDeleteConfirmation(notiId);
   };
 
   const handleConfirmDelete = () => {
@@ -217,7 +215,7 @@ export default function UserPage() {
   return (
     <>
       <Helmet>
-        <title>Quản lý NGƯỜI DÙNG | KHẢO THÍ - VLU</title>
+        <title>User | KHẢO THÍ - VLU</title>
       </Helmet>
       <Snackbar
         open={!!successMessage}
@@ -255,22 +253,22 @@ export default function UserPage() {
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Quản lý NGƯỜI DÙNG
+            USER
           </Typography>
           <Button
             variant="contained"
-            startIcon={<Iconify icon="line-md:account-add" />}
+            startIcon={<Iconify icon="line-md:bell-twotone" />}
             onClick={() => {
               setOpenCreateUserForm(!openCreateUserForm);
               setShowUserList(!showUserList);
             }}
           >
-            Thêm người dùng
+            Thêm thông báo
           </Button>
         </Stack>
-        {openCreateUserForm && <CreateUserForm addUser={addUser} />}
+        {openCreateUserForm && <AddNotification addUser={addUser} />}
         {showEditForm && (
-          <EditUserForm employeeId={selected.length > 0 ? selected[0] : null} onClose={handleCloseEdit} />
+          <EditNotification notiId={selected.length > 0 ? selected[0] : null} onClose={handleCloseEdit} />
         )}
 
         {showUserList && (
@@ -290,40 +288,25 @@ export default function UserPage() {
                   />
                   <TableBody>
                     {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                      const {
-                        employeeId,
-                        employeeName,
-                        accountEmail,
-                        accountRole,
-                        avatarUrl,
-                        employeeMSSV,
-                        employeeGender,
-                      } = row;
-                      const selectedUser = selected.indexOf(employeeId) !== -1;
+                      const { notiId, title, createAt, updateAt } = row;
+                      const dateTimeCreate = new Date(createAt);
+                      const dateTimeUpdate = new Date(updateAt);
+                      const formattedDateTimeCreate = dateTimeCreate.toLocaleString();
+                      const formattedDateTimeUpdate = dateTimeUpdate.toLocaleString();
+                      const selectedUser = selected.indexOf(notiId) !== -1;
                       const defaultAvatarUrl = `/assets/images/avatars/avatar_${index + 1}.jpg`;
 
                       return (
-                        <TableRow hover key={employeeId} tabIndex={-1} role="checkbox" selected={selectedUser}>
+                        <TableRow hover key={notiId} tabIndex={-1} role="checkbox" selected={selectedUser}>
                           <TableCell padding="checkbox">
-                            <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, employeeId)} />
+                            <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, notiId)} />
                           </TableCell>
 
-                          <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={employeeName} src={avatarUrl || defaultAvatarUrl} />
-                              <Typography variant="subtitle2" noWrap>
-                                {employeeName}
-                              </Typography>
-                            </Stack>
-                          </TableCell>
+                          <TableCell align="left">{title}</TableCell>
 
-                          <TableCell align="left">{accountEmail}</TableCell>
+                          <TableCell align="left">{formattedDateTimeCreate}</TableCell>
 
-                          <TableCell align="left">{employeeMSSV}</TableCell>
-
-                          <TableCell align="left">{accountRole}</TableCell>
-
-                          <TableCell align="left">{employeeGender}</TableCell>
+                          <TableCell align="left">{formattedDateTimeUpdate}</TableCell>
 
                           <TableCell align="right">
                             <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
@@ -408,7 +391,7 @@ export default function UserPage() {
         <Dialog open={Boolean(deleteConfirmation)} onClose={handleCancelDelete}>
           <DialogTitle>Confirm Delete</DialogTitle>
           <DialogContent>
-            <DialogContentText>Bạn có chắc xoá người dùng này không ?</DialogContentText>
+            <DialogContentText>Bạn có chắc xoá thông báo này không ???</DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCancelDelete}>No</Button>

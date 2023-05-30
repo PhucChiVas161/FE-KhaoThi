@@ -146,17 +146,17 @@ export default function UserPage() {
   return (
     <>
       <Helmet>
-        <title> PostAdm | KHẢO THÍ - VLU </title>
+        <title> Quản lý TIN TỨC | KHẢO THÍ - VLU </title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            POST
+            Quản lý TIN TỨC
           </Typography>
           <Link to="/PostForm">
             <Button variant="contained" startIcon={<Iconify icon="line-md:document-add" />}>
-              New Post
+              Thêm tin tức
             </Button>
           </Link>
         </Stack>
