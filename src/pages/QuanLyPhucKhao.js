@@ -3,6 +3,8 @@ import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 import {
   Card,
   Table,
@@ -212,6 +214,39 @@ export default function QuanLyPhucKhao() {
     setShowEditForm(false);
     setShowUserList(true);
   };
+  const handleExportExcel = () => {
+    const currentDate = new Date();
+    const dateString = currentDate.toISOString().split('T')[0];
+    const timeString = currentDate.toLocaleTimeString().replace(/:/g, '-');
+
+    const data = users.map((user) => ({
+      Name: user.employeeName,
+      Email: user.accountEmail,
+      MSSV: user.employeeMSSV,
+      'Mã đơn': user.phucKhaoId,
+      'Mã lớp': user.maLop,
+      hocKy: user.hocKy,
+      namHoc: user.namHoc,
+      maHocPhan: user.maHocPhan,
+      tenHocPhan: user.tenHocPhan,
+      ngayGioThi: user.ngayGioThi,
+      phongThi: user.phongThi,
+      lanThi: user.lanThi,
+      lyDo: user.lyDo,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Users');
+
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const excelBlob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    const fileName = `PhucKhao_${dateString}_${timeString}.xlsx`;
+    saveAs(excelBlob, fileName);
+  };
 
   const emptyRows = Math.max(0, rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage));
   const filteredUsers = applySortFilter(users, getComparator(order, orderBy), filterName);
@@ -274,110 +309,122 @@ export default function QuanLyPhucKhao() {
         {showEditForm && <ShowPhucKhao id={selected.length > 0 ? selected[0] : null} onClose={handleCloseEdit} />}
 
         {showUserList && (
-          <Card>
-            <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-            <Scrollbar>
-              <TableContainer sx={{ minWidth: 800 }}>
-                <Table>
-                  <UserListHead
-                    order={order}
-                    orderBy={orderBy}
-                    headLabel={TABLE_HEAD}
-                    rowCount={users.length}
-                    numSelected={selected.length}
-                    onRequestSort={handleRequestSort}
-                    onSelectAllClick={handleSelectAllClick}
-                  />
-                  <TableBody>
-                    {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                      const { phucKhaoId, avatarUrl, status, updateAt, employeeName, employeeMSSV, accountEmail } = row;
-                      const dateTime = new Date(updateAt);
-                      const formattedDateTime = dateTime.toLocaleString();
-                      const selectedUser = selected.indexOf(phucKhaoId) !== -1;
-                      const defaultAvatarUrl = `/assets/images/avatars/avatar_${index + 1}.jpg`;
-                      console.log(typeof phucKhaoId);
+          <div>
+            <Button startIcon={<Iconify icon="line-md:download-outline-loop" />} onClick={handleExportExcel}>
+              Export Excel
+            </Button>
+            <Card>
+              <UserListToolbar
+                numSelected={selected.length}
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+              />
+              <Scrollbar>
+                <TableContainer sx={{ minWidth: 800 }}>
+                  <Table>
+                    <UserListHead
+                      order={order}
+                      orderBy={orderBy}
+                      headLabel={TABLE_HEAD}
+                      rowCount={users.length}
+                      numSelected={selected.length}
+                      onRequestSort={handleRequestSort}
+                      onSelectAllClick={handleSelectAllClick}
+                    />
+                    <TableBody>
+                      {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                        const { phucKhaoId, avatarUrl, status, updateAt, employeeName, employeeMSSV, accountEmail } =
+                          row;
+                        const dateTime = new Date(updateAt);
+                        const formattedDateTime = dateTime.toLocaleString();
+                        const selectedUser = selected.indexOf(phucKhaoId) !== -1;
+                        const defaultAvatarUrl = `/assets/images/avatars/avatar_${index + 1}.jpg`;
+                        console.log(typeof phucKhaoId);
 
-                      return (
-                        <TableRow hover key={phucKhaoId} tabIndex={-1} role="checkbox" selected={selectedUser}>
-                          <TableCell padding="checkbox">
-                            <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, phucKhaoId)} />
-                          </TableCell>
+                        return (
+                          <TableRow hover key={phucKhaoId} tabIndex={-1} role="checkbox" selected={selectedUser}>
+                            <TableCell padding="checkbox">
+                              <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, phucKhaoId)} />
+                            </TableCell>
 
-                          <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={employeeName} src={avatarUrl || defaultAvatarUrl} />
-                              <Typography variant="subtitle2" noWrap>
-                                {employeeName}
+                            <TableCell component="th" scope="row" padding="none">
+                              <Stack direction="row" alignItems="center" spacing={2}>
+                                <Avatar alt={employeeName} src={avatarUrl || defaultAvatarUrl} />
+                                <Typography variant="subtitle2" noWrap>
+                                  {employeeName}
+                                </Typography>
+                              </Stack>
+                            </TableCell>
+
+                            <TableCell align="left">{employeeMSSV}</TableCell>
+
+                            <TableCell align="left">{accountEmail}</TableCell>
+
+                            <TableCell align="left">{phucKhaoId}</TableCell>
+
+                            <TableCell align="left">
+                              <Label
+                                color={
+                                  (status === 'Received' && 'info') ||
+                                  (status === 'Inprocess' && 'warning') ||
+                                  'success'
+                                }
+                              >
+                                {sentenceCase(status)}
+                              </Label>
+                            </TableCell>
+
+                            <TableCell align="left">{formattedDateTime}</TableCell>
+
+                            <TableCell align="right">
+                              <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
+                                <Iconify icon={'eva:more-vertical-fill'} />
+                              </IconButton>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                      {emptyRows > 0 && (
+                        <TableRow style={{ height: 53 * emptyRows }}>
+                          <TableCell colSpan={6} />
+                        </TableRow>
+                      )}
+                    </TableBody>
+
+                    {isNotFound && (
+                      <TableBody>
+                        <TableRow>
+                          <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                            <Paper sx={{ textAlign: 'center' }}>
+                              <Typography variant="h6" paragraph>
+                                Not found
                               </Typography>
-                            </Stack>
-                          </TableCell>
 
-                          <TableCell align="left">{employeeMSSV}</TableCell>
-
-                          <TableCell align="left">{accountEmail}</TableCell>
-
-                          <TableCell align="left">{phucKhaoId}</TableCell>
-
-                          <TableCell align="left">
-                            <Label
-                              color={
-                                (status === 'Received' && 'info') || (status === 'Inprocess' && 'warning') || 'success'
-                              }
-                            >
-                              {sentenceCase(status)}
-                            </Label>
-                          </TableCell>
-
-                          <TableCell align="left">{formattedDateTime}</TableCell>
-
-                          <TableCell align="right">
-                            <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
-                              <Iconify icon={'eva:more-vertical-fill'} />
-                            </IconButton>
+                              <Typography variant="body2">
+                                No results found for &nbsp;
+                                <strong>&quot;{filterName}&quot;</strong>.
+                                <br /> Try checking for typos or using complete words.
+                              </Typography>
+                            </Paper>
                           </TableCell>
                         </TableRow>
-                      );
-                    })}
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={6} />
-                      </TableRow>
+                      </TableBody>
                     )}
-                  </TableBody>
+                  </Table>
+                </TableContainer>
+              </Scrollbar>
 
-                  {isNotFound && (
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                          <Paper sx={{ textAlign: 'center' }}>
-                            <Typography variant="h6" paragraph>
-                              Not found
-                            </Typography>
-
-                            <Typography variant="body2">
-                              No results found for &nbsp;
-                              <strong>&quot;{filterName}&quot;</strong>.
-                              <br /> Try checking for typos or using complete words.
-                            </Typography>
-                          </Paper>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  )}
-                </Table>
-              </TableContainer>
-            </Scrollbar>
-
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={users.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Card>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={users.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Card>
+          </div>
         )}
       </Container>
 

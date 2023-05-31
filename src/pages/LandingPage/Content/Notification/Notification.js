@@ -40,7 +40,8 @@ function Notification() {
                         display: 'block',
                         marginBottom: '1rem',
                         textAlign: 'center',
-                        backgroundColor: '#F15152',
+                        backgroundColor: '#D51F35',
+                        color: 'white',
                       }}
                     >
                       {post.title}
@@ -48,14 +49,19 @@ function Notification() {
                         <Card>
                           <Card.Body>
                             <Card.Title style={{ color: '#000', textAlign: 'left' }}>{selectedPost.title}</Card.Title>
-                            <Card.Text style={{ color: '#000', textAlign: 'left' }}>{selectedPost.content}</Card.Text>
+                            <Card.Text style={{ color: '#000', textAlign: 'left' }}>
+                              {selectedPost.content}{' '}
+                              <a href="https://online.vlu.edu.vn/" style={{ display: 'inline' }}>
+                                Tại đây
+                              </a>
+                            </Card.Text>
                           </Card.Body>
-                          <Card.Img
+                          {/* <Card.Img
                             style={{ objectFit: 'cover', width: '70%', height: '80%' }}
                             className="img-fluid"
                             variant="top"
                             src={`data:image/jpeg;base64,${selectedPost.images}`}
-                          />
+                          /> */}
                         </Card>
                       )}
                     </ListGroup.Item>

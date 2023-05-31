@@ -1,7 +1,7 @@
 function Footer() {
   return (
     <div id="lienhe">
-      <section className="contact-section bg-danger">
+      <section className="contact-section" style={{ background: '#D51F35' }}>
         <div className="container px-4 px-lg-5">
           <div className="row gx-4 gx-lg-5">
             <div className="col-md-4 mb-3 mb-md-0">
@@ -14,7 +14,7 @@ function Footer() {
                   <h4 className="text-uppercase m-0">Address</h4>
                   <hr className="my-4 mx-auto" />
                   <div className="small text-black-50">
-                    Phòng 2.05, Lầu 2 - Tòa nhà A, Cơ sở chính, 69/68 Đặng Thùy Trâm, P. 13, Q. Bình Thạnh, Tp. HCM
+                    Phòng 2.06, Lầu 2 - Tòa nhà A, Cơ sở chính, 69/68 Đặng Thùy Trâm, P. 13, Q. Bình Thạnh, Tp. HCM
                   </div>
                 </div>
               </div>
