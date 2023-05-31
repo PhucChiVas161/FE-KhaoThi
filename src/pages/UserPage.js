@@ -213,6 +213,10 @@ export default function UserPage() {
   };
 
   const handleExportExcel = () => {
+    const currentDate = new Date();
+    const dateString = currentDate.toISOString().split('T')[0];
+    const timeString = currentDate.toLocaleTimeString().replace(/:/g, '-');
+
     const data = users.map((user) => ({
       Name: user.employeeName,
       Email: user.accountEmail,
@@ -229,7 +233,9 @@ export default function UserPage() {
     const excelBlob = new Blob([excelBuffer], {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     });
-    saveAs(excelBlob, 'users.xlsx');
+
+    const fileName = `users_${dateString}_${timeString}.xlsx`;
+    saveAs(excelBlob, fileName);
   };
 
   const emptyRows = Math.max(0, rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage));
