@@ -1,6 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { useState, useEffect } from 'react';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 import axios from 'axios';
 import {
   Card,
@@ -210,6 +212,26 @@ export default function UserPage() {
     setUsers((prevUsers) => [...prevUsers, newUser]);
   };
 
+  const handleExportExcel = () => {
+    const data = users.map((user) => ({
+      Name: user.employeeName,
+      Email: user.accountEmail,
+      MSSV: user.employeeMSSV,
+      Role: user.accountRole,
+      Gender: user.employeeGender,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Users');
+
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const excelBlob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+    saveAs(excelBlob, 'users.xlsx');
+  };
+
   const emptyRows = Math.max(0, rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage));
   const filteredUsers = applySortFilter(users, getComparator(order, orderBy), filterName);
   const isNotFound = !filteredUsers.length && !!filterName;
@@ -274,105 +296,113 @@ export default function UserPage() {
         )}
 
         {showUserList && (
-          <Card>
-            <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-            <Scrollbar>
-              <TableContainer sx={{ minWidth: 800 }}>
-                <Table>
-                  <UserListHead
-                    order={order}
-                    orderBy={orderBy}
-                    headLabel={TABLE_HEAD}
-                    rowCount={users.length}
-                    numSelected={selected.length}
-                    onRequestSort={handleRequestSort}
-                    onSelectAllClick={handleSelectAllClick}
-                  />
-                  <TableBody>
-                    {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                      const {
-                        employeeId,
-                        employeeName,
-                        accountEmail,
-                        accountRole,
-                        avatarUrl,
-                        employeeMSSV,
-                        employeeGender,
-                      } = row;
-                      const selectedUser = selected.indexOf(employeeId) !== -1;
-                      const defaultAvatarUrl = `/assets/images/avatars/avatar_${index + 1}.jpg`;
+          <div>
+            <Button startIcon={<Iconify icon="line-md:download-outline-loop" />} onClick={handleExportExcel}>
+              Export Excel
+            </Button>
+            <Card>
+              <UserListToolbar
+                numSelected={selected.length}
+                filterName={filterName}
+                onFilterName={handleFilterByName}
+              />
+              <Scrollbar>
+                <TableContainer sx={{ minWidth: 800 }}>
+                  <Table>
+                    <UserListHead
+                      order={order}
+                      orderBy={orderBy}
+                      headLabel={TABLE_HEAD}
+                      rowCount={users.length}
+                      numSelected={selected.length}
+                      onRequestSort={handleRequestSort}
+                      onSelectAllClick={handleSelectAllClick}
+                    />
+                    <TableBody>
+                      {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                        const {
+                          employeeId,
+                          employeeName,
+                          accountEmail,
+                          accountRole,
+                          avatarUrl,
+                          employeeMSSV,
+                          employeeGender,
+                        } = row;
+                        const selectedUser = selected.indexOf(employeeId) !== -1;
+                        const defaultAvatarUrl = `/assets/images/avatars/avatar_${index + 1}.jpg`;
 
-                      return (
-                        <TableRow hover key={employeeId} tabIndex={-1} role="checkbox" selected={selectedUser}>
-                          <TableCell padding="checkbox">
-                            <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, employeeId)} />
-                          </TableCell>
+                        return (
+                          <TableRow hover key={employeeId} tabIndex={-1} role="checkbox" selected={selectedUser}>
+                            <TableCell padding="checkbox">
+                              <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, employeeId)} />
+                            </TableCell>
 
-                          <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={employeeName} src={avatarUrl || defaultAvatarUrl} />
-                              <Typography variant="subtitle2" noWrap>
-                                {employeeName}
+                            <TableCell component="th" scope="row" padding="none">
+                              <Stack direction="row" alignItems="center" spacing={2}>
+                                <Avatar alt={employeeName} src={avatarUrl || defaultAvatarUrl} />
+                                <Typography variant="subtitle2" noWrap>
+                                  {employeeName}
+                                </Typography>
+                              </Stack>
+                            </TableCell>
+
+                            <TableCell align="left">{accountEmail}</TableCell>
+
+                            <TableCell align="left">{employeeMSSV}</TableCell>
+
+                            <TableCell align="left">{accountRole}</TableCell>
+
+                            <TableCell align="left">{employeeGender}</TableCell>
+
+                            <TableCell align="right">
+                              <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
+                                <Iconify icon={'eva:more-vertical-fill'} />
+                              </IconButton>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                      {emptyRows > 0 && (
+                        <TableRow style={{ height: 53 * emptyRows }}>
+                          <TableCell colSpan={6} />
+                        </TableRow>
+                      )}
+                    </TableBody>
+
+                    {isNotFound && (
+                      <TableBody>
+                        <TableRow>
+                          <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                            <Paper sx={{ textAlign: 'center' }}>
+                              <Typography variant="h6" paragraph>
+                                Not found
                               </Typography>
-                            </Stack>
-                          </TableCell>
 
-                          <TableCell align="left">{accountEmail}</TableCell>
-
-                          <TableCell align="left">{employeeMSSV}</TableCell>
-
-                          <TableCell align="left">{accountRole}</TableCell>
-
-                          <TableCell align="left">{employeeGender}</TableCell>
-
-                          <TableCell align="right">
-                            <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
-                              <Iconify icon={'eva:more-vertical-fill'} />
-                            </IconButton>
+                              <Typography variant="body2">
+                                No results found for &nbsp;
+                                <strong>&quot;{filterName}&quot;</strong>.
+                                <br /> Try checking for typos or using complete words.
+                              </Typography>
+                            </Paper>
                           </TableCell>
                         </TableRow>
-                      );
-                    })}
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: 53 * emptyRows }}>
-                        <TableCell colSpan={6} />
-                      </TableRow>
+                      </TableBody>
                     )}
-                  </TableBody>
-
-                  {isNotFound && (
-                    <TableBody>
-                      <TableRow>
-                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                          <Paper sx={{ textAlign: 'center' }}>
-                            <Typography variant="h6" paragraph>
-                              Not found
-                            </Typography>
-
-                            <Typography variant="body2">
-                              No results found for &nbsp;
-                              <strong>&quot;{filterName}&quot;</strong>.
-                              <br /> Try checking for typos or using complete words.
-                            </Typography>
-                          </Paper>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  )}
-                </Table>
-              </TableContainer>
-            </Scrollbar>
-
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={users.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Card>
+                  </Table>
+                </TableContainer>
+              </Scrollbar>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={users.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Card>
+          </div>
         )}
       </Container>
 
