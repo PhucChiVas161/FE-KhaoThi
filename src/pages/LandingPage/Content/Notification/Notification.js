@@ -8,9 +8,14 @@ function Notification() {
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_ENDPOINT}api/Noti`)
       .then((response) => response.json())
-      .then((data) => setPosts(data))
+      .then((data) => {
+        // Sắp xếp mảng data theo thứ tự giảm dần của notiId
+        const sortedPosts = data.sort((a, b) => b.notiId - a.notiId);
+        setPosts(sortedPosts);
+      })
       .catch((error) => console.error(error));
   }, []);
+
   const handlePostClick = (post) => {
     if (selectedPost && selectedPost.notiId === post.notiId) {
       setSelectedPost(null);
