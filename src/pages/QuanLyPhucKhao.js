@@ -90,6 +90,8 @@ export default function QuanLyPhucKhao() {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [showEditForm, setShowEditForm] = useState(false);
+  const [importing, setImporting] = useState(false);
+  const [key, setKey] = useState(0);
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -168,8 +170,7 @@ export default function QuanLyPhucKhao() {
         },
       })
       .then((response) => {
-        console.log('User deleted successfully');
-        console.log(response);
+        console.log(response.data);
         setSuccessMessage('Xoá đơn phúc khảo thành công!');
         setTimeout(() => {
           setSuccessMessage('');
@@ -248,6 +249,36 @@ export default function QuanLyPhucKhao() {
     saveAs(excelBlob, fileName);
   };
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImporting(true);
+      const formData = new FormData();
+      formData.append('file', file);
+
+      axios
+        .post(`${process.env.REACT_APP_API_ENDPOINT}api/DanhMucs/import`, formData)
+        .then((response) => {
+          console.log(response.data);
+          setSuccessMessage(response.data);
+          setTimeout(() => {
+            setSuccessMessage('');
+          }, 3000); // Thời gian đóng thông báo (3 giây)
+        })
+        .catch((error) => {
+          console.log(error);
+          setErrorMessage('Thêm Data thất bại, vui lòng thử lại sau');
+          setTimeout(() => {
+            setErrorMessage('');
+          }, 3000); // Thời gian đóng thông báo (3 giây)
+        })
+        .finally(() => {
+          setImporting(false); // Thời gian đóng thông báo (3 giây)
+          setKey(key + 1);
+        });
+    }
+  };
+
   const emptyRows = Math.max(0, rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage));
   const filteredUsers = applySortFilter(users, getComparator(order, orderBy), filterName);
   const isNotFound = !filteredUsers.length && !!filterName;
@@ -313,6 +344,24 @@ export default function QuanLyPhucKhao() {
             <Button startIcon={<Iconify icon="line-md:download-outline-loop" />} onClick={handleExportExcel}>
               Export Excel
             </Button>
+            <Button
+              startIcon={<Iconify icon="line-md:upload-outline-loop" />}
+              component="label"
+              disabled={importing}
+              key={key}
+            >
+              Import KTHP
+              <input id="fileInput" type="file" hidden onChange={handleFileChange} accept=".xlsx" />
+            </Button>
+            (Mẫu file{' '}
+            <a
+              href="https://vanlangunivn-my.sharepoint.com/:x:/g/personal/phuc_207ct40540_vanlanguni_vn/EfAxzrAK9QhLl9GcfipxT60BSfiAiz-iFn8lHFTHGG3oTA?e=zAszoe"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              "tại đây"
+            </a>
+            )
             <Card>
               <UserListToolbar
                 numSelected={selected.length}

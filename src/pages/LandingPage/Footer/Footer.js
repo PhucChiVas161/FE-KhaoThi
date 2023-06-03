@@ -42,7 +42,7 @@ function Footer() {
               </div>
             </div>
           </div>
-          <div className="social d-flex justify-content-center">
+          {/* <div className="social d-flex justify-content-center">
             <a className="mx-2" href="#!">
               <i className="fab fa-twitter" />
             </a>
@@ -52,7 +52,7 @@ function Footer() {
             <a className="mx-2" href="#!">
               <i className="fab fa-github" />
             </a>
-          </div>
+          </div> */}
         </div>
       </section>
       <footer className="footer bg-dark small text-center text-white-50">
