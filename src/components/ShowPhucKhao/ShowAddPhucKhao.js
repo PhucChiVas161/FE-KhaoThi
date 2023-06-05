@@ -102,14 +102,6 @@ const ShowAddPhucKhao = ({ onClose, addUser }) => {
     return acc;
   }, []);
 
-  const uniqueTenHPs = danhMucs.reduce((acc, current) => {
-    const isDuplicate = acc.find((item) => item.tenHP === current.tenHP);
-    if (!isDuplicate) {
-      acc.push(current);
-    }
-    return acc;
-  }, []);
-
   return (
     <>
       <Snackbar
