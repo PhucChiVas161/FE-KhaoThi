@@ -13,6 +13,7 @@ import {
   FormControl,
   Snackbar,
   SnackbarContent,
+  Autocomplete,
 } from '@mui/material';
 import axios from 'axios';
 
@@ -21,11 +22,10 @@ const ShowForm = ({ id, onClose }) => {
     accountEmail: '',
     employeeName: '',
     employeeMSSV: '',
-    accountRole: '',
-    employeeGender: '',
   });
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [danhMucs, setDanhMucs] = useState([]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -47,6 +47,22 @@ const ShowForm = ({ id, onClose }) => {
       });
   }, []);
   console.log(formData);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    axios
+      .get(`${process.env.REACT_APP_API_ENDPOINT}api/DanhMucs`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setDanhMucs(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -77,6 +93,14 @@ const ShowForm = ({ id, onClose }) => {
         // Xử lý lỗi (tuỳ theo yêu cầu của bạn)
       });
   };
+
+  const uniqueLopHPs = danhMucs.reduce((acc, current) => {
+    const isDuplicate = acc.find((item) => item.lopHP === current.lopHP);
+    if (!isDuplicate) {
+      acc.push(current);
+    }
+    return acc;
+  }, []);
 
   return (
     <>
@@ -157,102 +181,54 @@ const ShowForm = ({ id, onClose }) => {
                     fullWidth
                   />
                 </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    InputLabelProps={{
-                      shrink: true,
+                <Grid item xs={6}>
+                  <Autocomplete
+                    inputValue={formData.lopHP}
+                    onInputChange={(event, newValue) => {
+                      setFormData({ ...formData, lopHP: newValue, maPhongThi: '' });
                     }}
-                    name="hocKy"
-                    label="Học kỳ"
-                    value={formData.hocKy}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    name="lanThi"
-                    type="number"
-                    label="Lần thi"
-                    value={formData.lanThi}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    name="namHoc"
-                    label="Năm Học"
-                    value={formData.namHoc}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    name="maHocPhan"
-                    label="Mã học phần"
-                    value={formData.maHocPhan}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    name="maLop"
-                    label="Mã lớp"
-                    value={formData.maLop}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    name="tenHocPhan"
-                    label="Tên học phần"
-                    value={formData.tenHocPhan}
-                    onChange={handleChange}
-                    fullWidth
+                    options={uniqueLopHPs.map((option) => option.lopHP)}
+                    renderInput={(params) => <TextField {...params} label="Lớp học phần" />}
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField
-                    InputLabelProps={{
-                      shrink: true,
+                  <Autocomplete
+                    inputValue={formData.maPhongThi}
+                    onInputChange={(event, newValue) => {
+                      setFormData({ ...formData, maPhongThi: newValue });
                     }}
-                    name="ngayGioThi"
-                    label="Ngày giờ thi"
-                    value={formData.ngayGioThi}
-                    onChange={handleChange}
-                    fullWidth
+                    options={danhMucs
+                      .filter((option) => option.lopHP === formData.lopHP)
+                      .map((option) => option.maPhongThi)}
+                    renderInput={(params) => <TextField {...params} label="Mã phòng thi" />}
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField
-                    InputLabelProps={{
-                      shrink: true,
+                  <Autocomplete
+                    inputValue={formData.tenHP}
+                    onInputChange={(event, newValue) => {
+                      setFormData({ ...formData, tenHP: newValue });
                     }}
-                    name="phongThi"
-                    label="Phòng thi"
-                    value={formData.phongThi}
-                    onChange={handleChange}
-                    fullWidth
+                    options={danhMucs
+                      .filter((option) => option.maPhongThi === formData.maPhongThi)
+                      .map((option) => option.tenHP)}
+                    renderInput={(params) => <TextField {...params} label="Tên Học Phần" />}
                   />
+                </Grid>
+                <Grid item xs={6}>
+                  <FormControl fullWidth>
+                    <InputLabel id="lanThi-label">Lần Thi</InputLabel>
+                    <Select
+                      labelId="lanThi-label"
+                      id="lanThi"
+                      name="lanThi"
+                      value={formData.lanThi}
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="1">1</MenuItem>
+                      <MenuItem value="2">2</MenuItem>
+                    </Select>
+                  </FormControl>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField

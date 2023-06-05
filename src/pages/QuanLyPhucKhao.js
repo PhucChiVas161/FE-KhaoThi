@@ -255,9 +255,13 @@ export default function QuanLyPhucKhao() {
       setImporting(true);
       const formData = new FormData();
       formData.append('file', file);
-
+      const token = sessionStorage.getItem('token');
       axios
-        .post(`${process.env.REACT_APP_API_ENDPOINT}api/DanhMucs/import`, formData)
+        .post(`${process.env.REACT_APP_API_ENDPOINT}api/DanhMucs/import`, formData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((response) => {
           console.log(response.data);
           setSuccessMessage(response.data);

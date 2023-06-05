@@ -42,6 +42,8 @@ const TABLE_HEAD = [
   { id: 'phucKhaoId', label: 'Mã đơn', alignRight: false },
   { id: 'status', label: 'Trạng thái', alignRight: false },
   { id: 'updateAt', label: 'Ngày nhận', alignRight: false },
+  { id: 'phanHoi', label: 'Phản hồi', alignRight: false },
+  { id: 'ghiChu', label: 'Ghi chú', alignRight: false },
   { id: '' },
 ];
 
@@ -298,7 +300,7 @@ export default function PhucKhao() {
                   />
                   <TableBody>
                     {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                      const { phucKhaoId, status, updateAt, tenHocPhan } = row;
+                      const { phucKhaoId, status, updateAt, tenHP, phanHoi, ghiChu } = row;
                       const dateTime = new Date(updateAt);
                       const formattedDateTime = dateTime.toLocaleString();
                       const selectedUser = selected.indexOf(phucKhaoId) !== -1;
@@ -311,7 +313,7 @@ export default function PhucKhao() {
                             <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, phucKhaoId)} />
                           </TableCell>
 
-                          <TableCell align="left">{tenHocPhan}</TableCell>
+                          <TableCell align="left">{tenHP}</TableCell>
 
                           <TableCell align="left">{phucKhaoId}</TableCell>
 
@@ -326,6 +328,10 @@ export default function PhucKhao() {
                           </TableCell>
 
                           <TableCell align="left">{formattedDateTime}</TableCell>
+
+                          <TableCell align="left">{phanHoi}</TableCell>
+
+                          <TableCell align="left">{ghiChu}</TableCell>
 
                           <TableCell align="right">
                             <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
