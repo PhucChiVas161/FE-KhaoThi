@@ -244,9 +244,6 @@ const ShowAddPhucKhao = ({ onClose, addUser }) => {
                   />
                 </Grid>
                 <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Button variant="contained" color="error" onClick={onClose}>
-                    Close
-                  </Button>
                   <Button type="submit" variant="contained" color="primary">
                     Submit
                   </Button>

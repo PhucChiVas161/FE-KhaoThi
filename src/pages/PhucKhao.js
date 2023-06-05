@@ -28,6 +28,7 @@ import {
   DialogActions,
   Snackbar,
   SnackbarContent,
+  TextField,
 } from '@mui/material';
 import jwtDecode from 'jwt-decode';
 import Label from '../components/label';
@@ -229,7 +230,7 @@ export default function PhucKhao() {
   return (
     <>
       <Helmet>
-        <title>Quản lý PHÚC KHẢO | KHẢO THÍ - VLU</title>
+        <title>PHÚC KHẢO | KHẢO THÍ - VLU</title>
       </Helmet>
       <Snackbar
         open={!!successMessage}
@@ -329,9 +330,27 @@ export default function PhucKhao() {
 
                           <TableCell align="left">{formattedDateTime}</TableCell>
 
-                          <TableCell align="left">{phanHoi}</TableCell>
+                          <TableCell align="left">
+                            <TextField
+                              InputProps={{
+                                readOnly: true,
+                              }}
+                              multiline
+                              value={phanHoi}
+                              fullWidth
+                            />
+                          </TableCell>
 
-                          <TableCell align="left">{ghiChu}</TableCell>
+                          <TableCell align="left">
+                            <TextField
+                              InputProps={{
+                                readOnly: true,
+                              }}
+                              multiline
+                              value={ghiChu}
+                              fullWidth
+                            />
+                          </TableCell>
 
                           <TableCell align="right">
                             <IconButton size="large" color="inherit" onClick={handleOpenMenu}>

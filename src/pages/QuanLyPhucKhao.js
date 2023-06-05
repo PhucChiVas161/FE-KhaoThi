@@ -39,6 +39,7 @@ import ShowPhucKhao from '../components/ShowPhucKhao/ShowPhucKhao';
 
 const TABLE_HEAD = [
   { id: 'employeeName', label: 'Name', alignRight: false },
+  { id: 'tenHP', label: 'Tên học phần', alignRight: false },
   { id: 'employeeMSSV', label: 'MSSV', alignRight: false },
   { id: 'employeeEmail', label: 'Email', alignRight: false },
   { id: 'phucKhaoId', label: 'Mã đơn', alignRight: false },
@@ -71,7 +72,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.employeeName.toLowerCase().includes(query.toLowerCase()));
+    return filter(array, (_user) => _user.phucKhaoId.toString().includes(query.toLowerCase()));
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -81,7 +82,7 @@ export default function QuanLyPhucKhao() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('employeeName');
+  const [orderBy, setOrderBy] = useState('phucKhaoId');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [users, setUsers] = useState([]);
@@ -132,11 +133,11 @@ export default function QuanLyPhucKhao() {
     }
   };
 
-  const handleClick = (event, employeeName) => {
-    const selectedIndex = selected.indexOf(employeeName);
+  const handleClick = (event, phucKhaoId) => {
+    const selectedIndex = selected.indexOf(phucKhaoId);
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = [...selected, employeeName];
+      newSelected = [...selected, phucKhaoId];
     } else if (selectedIndex === 0) {
       newSelected = selected.slice(1);
     } else if (selectedIndex === selected.length - 1) {
@@ -221,19 +222,15 @@ export default function QuanLyPhucKhao() {
     const timeString = currentDate.toLocaleTimeString().replace(/:/g, '-');
 
     const data = users.map((user) => ({
-      Name: user.employeeName,
+      Tên: user.employeeName,
       Email: user.accountEmail,
       MSSV: user.employeeMSSV,
       'Mã đơn': user.phucKhaoId,
-      'Mã lớp': user.maLop,
-      hocKy: user.hocKy,
-      namHoc: user.namHoc,
-      maHocPhan: user.maHocPhan,
-      tenHocPhan: user.tenHocPhan,
-      ngayGioThi: user.ngayGioThi,
-      phongThi: user.phongThi,
-      lanThi: user.lanThi,
-      lyDo: user.lyDo,
+      'Lớp học phần': user.lopHP,
+      'Mã phòng thi': user.maPhongThi,
+      'Tên học phần': user.tenHP,
+      'Lần thi': user.lanThi,
+      'Lý do phúc khảo': user.lyDo,
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(data);
@@ -386,8 +383,16 @@ export default function QuanLyPhucKhao() {
                     />
                     <TableBody>
                       {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                        const { phucKhaoId, avatarUrl, status, updateAt, employeeName, employeeMSSV, accountEmail } =
-                          row;
+                        const {
+                          phucKhaoId,
+                          avatarUrl,
+                          status,
+                          updateAt,
+                          employeeName,
+                          employeeMSSV,
+                          accountEmail,
+                          tenHP,
+                        } = row;
                         const dateTime = new Date(updateAt);
                         const formattedDateTime = dateTime.toLocaleString();
                         const selectedUser = selected.indexOf(phucKhaoId) !== -1;
@@ -408,6 +413,8 @@ export default function QuanLyPhucKhao() {
                                 </Typography>
                               </Stack>
                             </TableCell>
+
+                            <TableCell align="left">{tenHP}</TableCell>
 
                             <TableCell align="left">{employeeMSSV}</TableCell>
 

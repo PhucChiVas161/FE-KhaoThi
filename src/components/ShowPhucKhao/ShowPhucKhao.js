@@ -157,21 +157,46 @@ const ShowPhucKhao = ({ id, onClose }) => {
                     fullWidth
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                   <TextField
                     InputLabelProps={{
                       shrink: true,
                     }}
                     disabled
-                    name="hocKy"
-                    type="email"
-                    label="Học kỳ"
-                    value={formData.hocKy}
+                    name="lopHP"
+                    label="Lớp học phần"
+                    value={formData.lopHP}
                     onChange={handleChange}
                     fullWidth
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6}>
+                  <TextField
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    disabled
+                    name="maPhongThi"
+                    label="Mã phòng thi"
+                    value={formData.maPhongThi}
+                    onChange={handleChange}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextField
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    disabled
+                    name="tenHP"
+                    label="Tên học phần"
+                    value={formData.tenHP}
+                    onChange={handleChange}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={6}>
                   <TextField
                     InputLabelProps={{
                       shrink: true,
@@ -184,84 +209,7 @@ const ShowPhucKhao = ({ id, onClose }) => {
                     fullWidth
                   />
                 </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    disabled
-                    name="namHoc"
-                    label="Năm Học"
-                    value={formData.namHoc}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    disabled
-                    name="maHocPhan"
-                    label="Mã học phần"
-                    value={formData.maHocPhan}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    disabled
-                    name="maLop"
-                    label="Mã lớp"
-                    value={formData.maLop}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    disabled
-                    name="tenHocPhan"
-                    label="Tên học phần"
-                    value={formData.tenHocPhan}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    disabled
-                    name="ngayGioThi"
-                    label="Ngày giờ thi"
-                    value={formData.ngayGioThi}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    disabled
-                    name="phongThi"
-                    label="Phòng thi"
-                    value={formData.phongThi}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </Grid>
+
                 <Grid item xs={12}>
                   <TextField
                     InputLabelProps={{
@@ -292,6 +240,32 @@ const ShowPhucKhao = ({ id, onClose }) => {
                       {/* Add more menu items as needed */}
                     </Select>
                   </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    multiline
+                    name="phanHoi"
+                    label="Phản hồi"
+                    value={formData.phanHoi}
+                    onChange={handleChange}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    multiline
+                    name="ghiChu"
+                    label="Ghi chú"
+                    value={formData.ghiChu}
+                    onChange={handleChange}
+                    fullWidth
+                  />
                 </Grid>
                 <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Button variant="contained" color="error" onClick={onClose}>

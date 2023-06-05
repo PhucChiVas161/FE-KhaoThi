@@ -105,60 +105,14 @@ const CreateUserForm = ({ addUser }) => {
       </Snackbar>
       <form onSubmit={handleSubmit}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Card style={{ width: '300px', margin: '20px' }}>
-            <CardContent>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  height: '100%',
-                  position: 'relative',
-                }}
-              >
-                {/* Circular image upload section */}
-                <div
-                  style={{
-                    width: '150px',
-                    height: '150px',
-                    borderRadius: '50%',
-                    border: '2px dashed #ccc',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  {/* Camera icon */}
-                  <IconButton component="label" htmlFor="avatar" style={{ padding: 0 }}>
-                    <AddAPhoto style={{ fontSize: '4rem', color: '#ccc' }} />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      id="avatar"
-                      name="avatar"
-                      onChange={handleChange}
-                      style={{ display: 'none' }}
-                    />
-                  </IconButton>
-                </div>
-                {/* Upload Photo label */}
-                <Typography variant="subtitle1" component="label" htmlFor="avatar" style={{ marginTop: '10px' }}>
-                  Thêm Avatar
-                </Typography>
-                <Typography variant="subtitle2" component="label" htmlFor="Allow">
-                  Chức năng demo, chưa gắn chức năng
-                </Typography>
-              </div>
-            </CardContent>
-          </Card>
-          <Card style={{ width: '600px', margin: '20px' }}>
+          <Card style={{ width: '900px', margin: '20px' }}>
             <CardContent>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <TextField
                     name="accountEmail"
                     type="email"
-                    label="Account Email"
+                    label="Email"
                     value={formData.accountEmail}
                     onChange={handleChange}
                     fullWidth
@@ -168,7 +122,7 @@ const CreateUserForm = ({ addUser }) => {
                 <Grid item xs={6}>
                   <TextField
                     name="employeeName"
-                    label="Employee Name"
+                    label="Tên"
                     value={formData.employeeName}
                     onChange={handleChange}
                     fullWidth
@@ -179,7 +133,7 @@ const CreateUserForm = ({ addUser }) => {
                   <TextField
                     name="accountPassword"
                     type="password"
-                    label="Account Password"
+                    label="Mật khẩu"
                     value={formData.accountPassword}
                     onChange={handleChange}
                     fullWidth
@@ -189,7 +143,7 @@ const CreateUserForm = ({ addUser }) => {
                 <Grid item xs={6}>
                   <TextField
                     name="employeeMSSV"
-                    label="Employee MSSV"
+                    label="MSSV"
                     value={formData.employeeMSSV}
                     onChange={handleChange}
                     fullWidth
@@ -198,7 +152,7 @@ const CreateUserForm = ({ addUser }) => {
                 </Grid>
                 <Grid item xs={6}>
                   <FormControl fullWidth>
-                    <InputLabel id="accountRole-label">Account Role</InputLabel>
+                    <InputLabel id="accountRole-label">Vai trò</InputLabel>
                     <Select
                       labelId="accountRole-label"
                       id="accountRole"
