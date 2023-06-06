@@ -6,7 +6,7 @@ function Notification() {
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_ENDPOINT}api/Noti`)
+    fetch(`${process.env.REACT_APP_API_ENDPOINT}api/Notis`)
       .then((response) => response.json())
       .then((data) => {
         // Sắp xếp mảng data theo thứ tự giảm dần của notiId
@@ -56,7 +56,7 @@ function Notification() {
                             <Card.Title style={{ color: '#000', textAlign: 'left' }}>{selectedPost.title}</Card.Title>
                             <Card.Text style={{ color: '#000', textAlign: 'left' }}>
                               {selectedPost.content}{' '}
-                              <a href="https://online.vlu.edu.vn/" style={{ display: 'inline' }}>
+                              <a href={selectedPost.link} style={{ display: 'inline' }}>
                                 Tại đây
                               </a>
                             </Card.Text>

@@ -22,22 +22,7 @@ const AddNotification = ({ addUser }) => {
   const [formData, setFormData] = useState({});
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [imagePreview, setImagePreview] = useState('');
-  const [imageSelected, setImageSelected] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setFormData({ ...formData, images: file });
-      setImagePreview(reader.result);
-      setImageSelected(true); // Set imageSelected to true
-    };
-
-    reader.readAsDataURL(file);
-  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -56,13 +41,13 @@ const AddNotification = ({ addUser }) => {
     const form = new FormData();
     form.append('title', formData.title);
     form.append('content', formData.content);
-    form.append('images', formData.images);
+    form.append('link', formData.link);
 
     axios
-      .post(`${process.env.REACT_APP_API_ENDPOINT}api/Noti`, form, {
+      .post(`${process.env.REACT_APP_API_ENDPOINT}api/Notis`, form, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
       })
       .then((response) => {
@@ -123,65 +108,7 @@ const AddNotification = ({ addUser }) => {
       </Snackbar>
       <form onSubmit={handleSubmit}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Card style={{ width: '300px', margin: '20px' }}>
-            <CardContent>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  height: '100%',
-                  position: 'relative',
-                }}
-              >
-                {/* Circular image upload section */}
-                <div
-                  style={{
-                    width: '150px',
-                    height: '150px',
-                    borderRadius: '50%',
-                    border: '2px dashed #ccc',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  {/* Camera icon */}
-                  <IconButton component="label" htmlFor="images" style={{ padding: 0 }}>
-                    {!imageSelected ? <AddAPhoto style={{ fontSize: '4rem', color: '#ccc' }} /> : null}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      id="images"
-                      name="images"
-                      onChange={handleImageChange}
-                      style={{ display: 'none' }}
-                    />
-                  </IconButton>
-
-                  {/* Image preview */}
-                  {imagePreview && (
-                    <img
-                      src={imagePreview}
-                      alt="Preview"
-                      style={{
-                        maxWidth: '100%',
-                        maxHeight: '100%',
-                        borderRadius: '50%',
-                        objectFit: 'cover',
-                        objectPosition: 'center',
-                      }}
-                    />
-                  )}
-                </div>
-                {/* Upload Photo label */}
-                <Typography variant="subtitle1" component="label" htmlFor="avatar" style={{ marginTop: '10px' }}>
-                  Upload ảnh
-                </Typography>
-              </div>
-            </CardContent>
-          </Card>
-          <Card style={{ width: '600px', margin: '20px' }}>
+          <Card style={{ width: '900px', margin: '20px' }}>
             <CardContent>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -199,6 +126,16 @@ const AddNotification = ({ addUser }) => {
                     name="content"
                     label="Nội dung"
                     value={formData.content}
+                    onChange={handleChange}
+                    fullWidth
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    name="link"
+                    label="Link dẫn đến PDF"
+                    value={formData.link}
                     onChange={handleChange}
                     fullWidth
                     required

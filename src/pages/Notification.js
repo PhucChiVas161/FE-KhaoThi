@@ -83,7 +83,7 @@ export default function Notification() {
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     axios
-      .get(`${process.env.REACT_APP_API_ENDPOINT}api/Noti`, {
+      .get(`${process.env.REACT_APP_API_ENDPOINT}api/Notis`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
