@@ -15,6 +15,7 @@ import PostPageAdmin from './pages/PostPageAdmin';
 import QuanLyPhucKhao from './pages/QuanLyPhucKhao';
 import PhucKhao from './pages/PhucKhao';
 import Notification from './pages/Notification';
+import Contacts from './pages/UserPage/test';
 
 export default function Router() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -42,6 +43,7 @@ export default function Router() {
         { path: 'quanlyphuckhao', element: <QuanLyPhucKhao /> },
         { path: 'phuckhao', element: <PhucKhao /> },
         { path: 'notification', element: <Notification /> },
+        { path: 'test', element: <Contacts /> },
       ],
     },
     {

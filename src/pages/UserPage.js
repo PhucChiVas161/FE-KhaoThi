@@ -102,6 +102,7 @@ export default function UserPage() {
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
+    console.log(event);
   };
 
   const handleCloseMenu = () => {
