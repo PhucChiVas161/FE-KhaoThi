@@ -1,7 +1,21 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Icon } from '@iconify/react';
-import { Box, IconButton, Popover, MenuItem, Button, LinearProgress } from '@mui/material';
+import {
+  Box,
+  IconButton,
+  Popover,
+  MenuItem,
+  Button,
+  LinearProgress,
+  Snackbar,
+  SnackbarContent,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from '@mui/material';
 import {
   DataGrid,
   GridToolbarColumnsButton,
@@ -9,6 +23,7 @@ import {
   GridToolbarExport,
   GridToolbarFilterButton,
 } from '@mui/x-data-grid';
+import { Helmet } from 'react-helmet';
 import Header from '../../components/Header';
 import Label from '../../components/label/Label';
 
@@ -17,6 +32,10 @@ const Contacts = () => {
   const [open, setOpen] = useState(null);
   const [openCreateUserForm, setOpenCreateUserForm] = useState(false);
   const [showUserList, setShowUserList] = useState(true);
+  const [deleteConfirmation, setDeleteConfirmation] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [selected, setSelected] = useState('');
 
   //  API GET User
   useEffect(() => {
@@ -40,7 +59,8 @@ const Contacts = () => {
     id: index + 1,
   }));
   //  Xử lý mở menu
-  const handleOpenMenu = (event) => {
+  const handleOpenMenu = (event, employeeId) => {
+    setSelected([employeeId]);
     setOpen(event.currentTarget);
   };
 
@@ -56,6 +76,13 @@ const Contacts = () => {
       headerName: 'Họ và tên',
       flex: 1,
       cellClassName: 'name-column--cell',
+      renderCell: (params) => (
+        <Label
+          color={(params.value === 'Manager' && 'info') || (params.value === 'Inprocess' && 'warning') || 'success'}
+        >
+          {params.value}
+        </Label>
+      ),
     },
     {
       field: 'accountEmail',
@@ -127,50 +154,147 @@ const Contacts = () => {
     </GridToolbarContainer>
   );
 
-  return (
-    <Box m="20px">
-      <Header title="TEST TABLE MỚI" subtitle="TESTTTTTT" />
-      {showUserList && (
-        <Box>
-          <DataGrid
-            slots={{
-              toolbar: CustomToolbar,
-              loadingOverlay: LinearProgress,
-            }}
-            rows={transformedUsers}
-            columns={columns}
-          />
-        </Box>
-      )}
-      <Popover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: {
-            p: 1,
-            width: 140,
-            '& .MuiMenuItem-root': {
-              px: 1,
-              typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
-        }}
-      >
-        <MenuItem>
-          <Icon icon={'eva:edit-fill'} sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
+  //  Delete User
+  const deleteUser = (row) => {
+    const token = sessionStorage.getItem('token');
+    axios
+      .delete(`${process.env.REACT_APP_API_ENDPOINT}api/Employees/${row}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log('User deleted successfully');
+        console.log(response);
+        setSuccessMessage('Xoá người dùng thành công!');
+        setTimeout(() => {
+          setSuccessMessage('');
+        }, 3000); // Thời gian đóng thông báo (3 giây)
+        setUsers((prevUsers) => prevUsers.filter((user) => user.employeeId !== row));
+        setSelected((prevSelected) => prevSelected.filter((id) => id !== row));
+      })
+      .catch((error) => {
+        console.log(error);
+        setErrorMessage('Xoá người dùng thất bại!');
+        setTimeout(() => {
+          setErrorMessage('');
+        }, 3000); // Thời gian đóng thông báo (3 giây)
+      });
+  };
 
-        <MenuItem sx={{ color: 'error.main' }}>
-          <Icon icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
-      </Popover>
-    </Box>
+  const handleDeleteUser = () => {
+    handleShowConfirmation(selected[0]);
+    handleCloseMenu();
+  };
+  const handleShowConfirmation = (row) => {
+    console.log(row);
+    setDeleteConfirmation(row);
+  };
+
+  const handleConfirmDelete = () => {
+    deleteUser(deleteConfirmation);
+    setDeleteConfirmation(null);
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteConfirmation(null);
+  };
+
+  return (
+    <>
+      <Helmet>
+        <title>Quản lý NGƯỜI DÙNG | KHẢO THÍ - VLU</title>
+      </Helmet>
+      <Snackbar
+        open={!!successMessage}
+        autoHideDuration={3000}
+        onClose={() => setSuccessMessage('')}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <SnackbarContent
+          sx={{ backgroundColor: '#43a047', color: 'white' }}
+          message={successMessage}
+          action={
+            <Button color="inherit" size="small" onClick={() => setSuccessMessage('')}>
+              Đóng
+            </Button>
+          }
+        />
+      </Snackbar>
+      <Snackbar
+        open={!!errorMessage}
+        autoHideDuration={3000}
+        onClose={() => setErrorMessage('')}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      >
+        <SnackbarContent
+          sx={{ backgroundColor: '#f44336', color: 'white' }}
+          message={errorMessage}
+          action={
+            <Button color="inherit" size="small" onClick={() => setErrorMessage('')}>
+              Đóng
+            </Button>
+          }
+        />
+      </Snackbar>
+      <Box m="20px">
+        <Header title="TEST TABLE MỚI" subtitle="TESTTTTTT" />
+        {showUserList && (
+          <Box>
+            <DataGrid
+              slots={{
+                toolbar: CustomToolbar,
+                loadingOverlay: LinearProgress,
+              }}
+              rows={transformedUsers}
+              columns={columns}
+            />
+          </Box>
+        )}
+        <Popover
+          open={Boolean(open)}
+          anchorEl={open}
+          onClose={handleCloseMenu}
+          anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+          PaperProps={{
+            sx: {
+              p: 1,
+              width: 140,
+              '& .MuiMenuItem-root': {
+                px: 1,
+                typography: 'body2',
+                borderRadius: 0.75,
+              },
+            },
+          }}
+        >
+          <MenuItem>
+            <Icon icon={'eva:edit-fill'} sx={{ mr: 2 }} />
+            Edit
+          </MenuItem>
+
+          <MenuItem sx={{ color: 'error.main' }} onClick={handleDeleteUser}>
+            <Icon icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
+            Delete
+          </MenuItem>
+        </Popover>
+      </Box>
+      {deleteConfirmation && (
+        <Dialog open={Boolean(deleteConfirmation)} onClose={handleCancelDelete}>
+          <DialogTitle>Confirm Delete</DialogTitle>
+          <DialogContent>
+            <DialogContentText>Bạn có chắc xoá người dùng này không ?</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCancelDelete}>No</Button>
+            <Button onClick={handleConfirmDelete} autoFocus>
+              Yes
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
+    </>
   );
 };
 
