@@ -26,8 +26,10 @@ import {
 import { Helmet } from 'react-helmet';
 import Header from '../../components/Header';
 import Label from '../../components/label/Label';
+import CreateUserForm from '../../components/User/CreateUserForm';
+import EditUserForm from '../../components/User/EditUserForm';
 
-const Contacts = () => {
+const UserPage = () => {
   const [users, setUsers] = useState([]);
   const [open, setOpen] = useState(null);
   const [openCreateUserForm, setOpenCreateUserForm] = useState(false);
@@ -36,6 +38,7 @@ const Contacts = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [selected, setSelected] = useState('');
+  const [showEditForm, setShowEditForm] = useState(false);
 
   //  API GET User
   useEffect(() => {
@@ -200,6 +203,30 @@ const Contacts = () => {
     setDeleteConfirmation(null);
   };
 
+  //  Thêm ng dùng vào danh sách nếu thêm thành trong bên client
+  const addUser = (newUser) => {
+    setUsers((prevUsers) => [...prevUsers, newUser]);
+  };
+
+  //  Đóng form thêm ng dùng
+  const handleCloseAddUser = () => {
+    setOpenCreateUserForm(false);
+    setShowUserList(true);
+  };
+
+  //  Mở form Edit ng dùng
+  const handleOpenEdit = () => {
+    setShowEditForm(true);
+    setShowUserList(false);
+    handleCloseMenu();
+  };
+
+  //  Đóng from Edit ng dùng
+  const handleCloseEdit = () => {
+    setShowEditForm(false);
+    setShowUserList(true);
+  };
+
   return (
     <>
       <Helmet>
@@ -239,6 +266,10 @@ const Contacts = () => {
       </Snackbar>
       <Box m="20px">
         <Header title="TEST TABLE MỚI" subtitle="TESTTTTTT" />
+        {openCreateUserForm && <CreateUserForm addUser={addUser} onClose={handleCloseAddUser} />}
+        {showEditForm && (
+          <EditUserForm employeeId={selected.length > 0 ? selected[0] : null} onClose={handleCloseEdit} />
+        )}
         {showUserList && (
           <Box>
             <DataGrid
@@ -269,14 +300,14 @@ const Contacts = () => {
             },
           }}
         >
-          <MenuItem>
-            <Icon icon={'eva:edit-fill'} sx={{ mr: 2 }} />
-            Edit
+          <MenuItem onClick={handleOpenEdit}>
+            <Icon icon="line-md:edit-twotone" width="20" height="20" sx={{ mr: 2 }} />
+            Chỉnh sửa
           </MenuItem>
 
           <MenuItem sx={{ color: 'error.main' }} onClick={handleDeleteUser}>
-            <Icon icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
-            Delete
+            <Icon icon="line-md:account-delete" width="20" height="20" sx={{ mr: 2 }} />
+            Xoá
           </MenuItem>
         </Popover>
       </Box>
@@ -298,4 +329,4 @@ const Contacts = () => {
   );
 };
 
-export default Contacts;
+export default UserPage;

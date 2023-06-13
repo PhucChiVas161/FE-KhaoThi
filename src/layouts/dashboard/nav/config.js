@@ -24,11 +24,6 @@ const navConfig = [
         path: '/dashboard/phuckhao',
         icon: icon('ic_document'),
       },
-      {
-        title: 'test',
-        path: '/dashboard/test',
-        icon: icon('ic_document'),
-      },
     ],
   },
   {

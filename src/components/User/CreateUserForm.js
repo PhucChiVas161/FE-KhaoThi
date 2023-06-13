@@ -14,10 +14,9 @@ import {
   Snackbar,
   SnackbarContent,
 } from '@mui/material';
-import { AddAPhoto } from '@mui/icons-material';
 import axios from 'axios';
 
-const CreateUserForm = ({ addUser }) => {
+const CreateUserForm = ({ addUser, onClose }) => {
   const [formData, setFormData] = useState({
     accountEmail: '',
     employeeName: '',
@@ -182,7 +181,10 @@ const CreateUserForm = ({ addUser }) => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} style={{ display: 'flex', justifyContent: 'right' }}>
+                <Grid item xs={12} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Button variant="contained" color="error" onClick={onClose}>
+                    Close
+                  </Button>
                   <Button type="submit" variant="contained" color="primary">
                     Submit
                   </Button>

@@ -6,7 +6,6 @@ import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
 //
 import PostPage from './pages/PostPage';
-import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import DashboardAppPage from './pages/DashboardAppPage';
@@ -15,7 +14,7 @@ import PostPageAdmin from './pages/PostPageAdmin';
 import QuanLyPhucKhao from './pages/QuanLyPhucKhao';
 import PhucKhao from './pages/PhucKhao';
 import Notification from './pages/Notification';
-import Contacts from './pages/UserPage/test';
+import UserPage from './pages/UserPage/UserPage';
 
 export default function Router() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -37,13 +36,13 @@ export default function Router() {
       element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         { element: <Navigate to="/dashboard/post" />, index: true },
+        // { path: 'user', element: <UserPage /> },
         { path: 'user', element: <UserPage /> },
         { path: 'post', element: <PostPage /> },
         { path: 'postadm', element: <PostPageAdmin /> },
         { path: 'quanlyphuckhao', element: <QuanLyPhucKhao /> },
         { path: 'phuckhao', element: <PhucKhao /> },
         { path: 'notification', element: <Notification /> },
-        { path: 'test', element: <Contacts /> },
       ],
     },
     {

@@ -115,53 +115,7 @@ const EditUserForm = ({ employeeId, onClose }) => {
       </Snackbar>
       <form onSubmit={handleSubmit}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <Card style={{ width: '300px', margin: '20px' }}>
-            <CardContent>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  height: '100%',
-                  position: 'relative',
-                }}
-              >
-                {/* Circular image upload section */}
-                <div
-                  style={{
-                    width: '150px',
-                    height: '150px',
-                    borderRadius: '50%',
-                    border: '2px dashed #ccc',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  {/* Camera icon */}
-                  <IconButton component="label" htmlFor="avatar" style={{ padding: 0 }}>
-                    <AddAPhoto style={{ fontSize: '4rem', color: '#ccc' }} />
-                    <input
-                      type="file"
-                      accept="image/*"
-                      id="avatar"
-                      name="avatar"
-                      onChange={handleChange}
-                      style={{ display: 'none' }}
-                    />
-                  </IconButton>
-                </div>
-                {/* Upload Photo label */}
-                <Typography variant="subtitle1" component="label" htmlFor="avatar" style={{ marginTop: '10px' }}>
-                  Thêm Avatar
-                </Typography>
-                <Typography variant="subtitle2" component="label" htmlFor="Allow">
-                  Chức năng demo, chưa gắn chức năng
-                </Typography>
-              </div>
-            </CardContent>
-          </Card>
-          <Card style={{ width: '600px', margin: '20px' }}>
+          <Card style={{ width: '900px', margin: '20px' }}>
             <CardContent>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
