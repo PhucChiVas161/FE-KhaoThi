@@ -79,13 +79,6 @@ const UserPage = () => {
       headerName: 'Họ và tên',
       flex: 1,
       cellClassName: 'name-column--cell',
-      renderCell: (params) => (
-        <Label
-          color={(params.value === 'Manager' && 'info') || (params.value === 'Inprocess' && 'warning') || 'success'}
-        >
-          {params.value}
-        </Label>
-      ),
     },
     {
       field: 'accountEmail',
