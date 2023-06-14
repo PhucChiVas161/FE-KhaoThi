@@ -1,5 +1,5 @@
 {
-  "name": "KhaoThi23VLU",
+  "name": "khaothi23vlu",
   "author": "PhucChiVas",
   "license": "MIT",
   "version": "1.0",
@@ -33,7 +33,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
-    "@faker-js/faker": "^7.6.0",
+    "@faker-js/faker": "^8.0.2",
     "@iconify/react": "^4.1.0",
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.103",

@@ -258,7 +258,7 @@ const UserPage = () => {
         />
       </Snackbar>
       <Box m="20px">
-        <Header title="TEST TABLE MỚI" subtitle="TESTTTTTT" />
+        <Header title="Quản lý NGƯỜI DÙNG" />
         {openCreateUserForm && <CreateUserForm addUser={addUser} onClose={handleCloseAddUser} />}
         {showEditForm && (
           <EditUserForm employeeId={selected.length > 0 ? selected[0] : null} onClose={handleCloseEdit} />
