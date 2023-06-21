@@ -31,6 +31,7 @@ const ShowAddPhucKhao = ({ onClose, addUser }) => {
     const token = sessionStorage.getItem('token');
     const decode = jwtDecode(token);
     const status = 'Received';
+    const phucKhaoId = 'string';
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}api/Employees/${decode.EmployeeId}`, {
         headers: {
@@ -40,7 +41,7 @@ const ShowAddPhucKhao = ({ onClose, addUser }) => {
       .then((response) => {
         const { accountEmail, employeeMSSV, employeeName, employeeId } = response.data;
         setUsers({ accountEmail, employeeMSSV, employeeName });
-        setFormData({ employeeId, status, accountEmail, employeeMSSV, employeeName });
+        setFormData({ employeeId, status, accountEmail, employeeMSSV, employeeName, phucKhaoId });
       })
       .catch((error) => {
         console.log(error);
