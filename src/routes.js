@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Navigate, useRoutes } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Navigate, useRoutes, useLocation } from 'react-router-dom';
 
 // layouts
 import DashboardLayout from './layouts/dashboard';
@@ -17,7 +17,14 @@ import Notification from './pages/Notification';
 import UserPage from './pages/UserPage/UserPage';
 
 export default function Router() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation();
+  const [isLoggedIn, setIsLoggedIn] = useState(!!sessionStorage.getItem('token'));
+
+  useEffect(() => {
+    if (isLoggedIn && location.pathname !== '/login') {
+      sessionStorage.setItem('last_known_location', location.pathname);
+    }
+  }, [location.pathname, isLoggedIn]);
 
   const routes = useRoutes([
     { path: 'index', element: <LandingPage /> },
@@ -35,8 +42,10 @@ export default function Router() {
       path: 'dashboard',
       element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
-        { element: <Navigate to="/dashboard/post" />, index: true },
-        // { path: 'user', element: <UserPage /> },
+        {
+          element: <Navigate to={sessionStorage.getItem('last_known_location') || '/dashboard/post'} />,
+          index: true,
+        },
         { path: 'user', element: <UserPage /> },
         { path: 'post', element: <PostPage /> },
         { path: 'postadm', element: <PostPageAdmin /> },

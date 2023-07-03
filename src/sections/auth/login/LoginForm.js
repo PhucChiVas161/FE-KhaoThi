@@ -10,6 +10,7 @@ import Iconify from '../../../components/iconify';
 // ----------------------------------------------------------------------
 const LOGIN_URL = `${process.env.REACT_APP_API_ENDPOINT}api/Accounts/login`;
 const SESSION_TOKEN_KEY = 'token';
+const SESSION_CSRT_KEY = 'csrf';
 export default function LoginForm({ onLogin }) {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -18,30 +19,40 @@ export default function LoginForm({ onLogin }) {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   // ----------------------------------------------------------------------
-  const handleLogin = async (token) => {
-    sessionStorage.setItem(SESSION_TOKEN_KEY, token);
-    onLogin();
-    navigate('/dashboard', { replace: true });
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true); // set loading to true
+    setLoading(true);
+
     try {
-      const {
-        data: { message, token },
-      } = await axios.post(LOGIN_URL, { accountEmail, accountPassword });
-      if (message === 'Email hoặc mật khẩu không đúng') {
+      const response = await axios.post(LOGIN_URL, { accountEmail, accountPassword });
+      const token = response.headers.get('Authorization');
+      const csrf_token = response.headers.get('X-CSRF-Token');
+
+      if (response.data.message === 'Email hoặc mật khẩu không đúng') {
         setErrorMessage('Email hoặc mật khẩu không đúng. Vui lòng thử lại 😥');
       } else {
-        handleLogin(token);
+        sessionStorage.setItem(SESSION_TOKEN_KEY, token);
+        sessionStorage.setItem(SESSION_CSRT_KEY, csrf_token);
+        handleLogin();
       }
     } catch (error) {
       setErrorMessage('Đã có lỗi xảy ra, vui lòng thử lại 😥');
       console.log(error);
     } finally {
-      setLoading(false); // set loading back to false after response is received
+      setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    const token = sessionStorage.getItem(SESSION_TOKEN_KEY);
+    if (token) {
+      handleLogin();
+    }
+  }, []);
+
+  const handleLogin = () => {
+    onLogin();
+    navigate('/dashboard', { replace: true });
   };
 
   useEffect(() => {
@@ -58,6 +69,7 @@ export default function LoginForm({ onLogin }) {
           type="email"
           label="Email VLU"
           value={accountEmail}
+          autoComplete="email"
           onChange={(e) => {
             setAccountEmail(e.target.value);
             setErrorMessage('');
@@ -70,6 +82,7 @@ export default function LoginForm({ onLogin }) {
           label="Ngày tháng năm sinh (01012001)"
           type={showPassword ? 'text' : 'password'}
           value={accountPassword}
+          autoComplete="current-password"
           onChange={(e) => {
             setAccountPassword(e.target.value);
             setErrorMessage('');
