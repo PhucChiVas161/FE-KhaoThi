@@ -158,6 +158,7 @@ export default function Notification() {
           Authorization: `Bearer ${token}`,
           'X-CSRF-TOKEN': crsf,
           'Content-Type': 'application/json',
+          Cookie: `csrf ${crsf}`, // Gửi tất cả các cookies trong yêu cầu
         },
       })
       .then((response) => {

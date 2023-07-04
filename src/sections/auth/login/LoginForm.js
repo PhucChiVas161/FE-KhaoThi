@@ -25,15 +25,17 @@ export default function LoginForm({ onLogin }) {
     setLoading(true);
 
     try {
-      const response = await axios.post(LOGIN_URL, { accountEmail, accountPassword });
-      const token = response.headers.get('Authorization');
-      const csrf_token = response.headers.get('X-CSRF-Token');
-
+      const response = await axios.post(
+        LOGIN_URL,
+        { accountEmail, accountPassword },
+        {
+          withCredentials: true,
+        }
+      );
       if (response.data.message === 'Email hoặc mật khẩu không đúng') {
         setErrorMessage('Email hoặc mật khẩu không đúng. Vui lòng thử lại 😥');
       } else {
-        Cookies.set(SESSION_TOKEN_KEY, token, { secure: false, sameSite: 'strict', expires: 1 / 48 });
-        Cookies.set(SESSION_CSRT_KEY, csrf_token, { secure: false, sameSite: 'strict', expires: 1 / 48 });
+        console.log(Cookies.get(SESSION_TOKEN_KEY));
         handleLogin();
       }
     } catch (error) {
