@@ -153,12 +153,11 @@ export default function Notification() {
     const token = Cookies.get('token');
     const crsf = Cookies.get('csrf');
     axios
-      .delete(`${process.env.REACT_APP_API_ENDPOINT}api/Noti/${notiId}`, {
+      .delete(`${process.env.REACT_APP_API_ENDPOINT}api/Notis/${notiId}`, {
+        withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,
           'X-CSRF-TOKEN': crsf,
-          'Content-Type': 'application/json',
-          Cookie: `csrf ${crsf}`, // Gửi tất cả các cookies trong yêu cầu
         },
       })
       .then((response) => {
