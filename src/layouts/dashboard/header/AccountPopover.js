@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 // @mui
 import { alpha } from '@mui/material/styles';
@@ -38,11 +39,11 @@ export default function AccountPopover() {
     setOpen(null);
   };
   const handleLogout = () => {
-    sessionStorage.removeItem('token');
+    Cookies.remove('token');
     window.location.href = '/';
   };
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     const decode = jwtDecode(token);
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}api/Employees/${decode.EmployeeId}`, {

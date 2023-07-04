@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Cookies from 'js-cookie';
 import {
   TextField,
   Button,
@@ -35,7 +36,7 @@ const CreateUserForm = ({ addUser, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Gửi dữ liệu qua API
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     axios
       .post(`${process.env.REACT_APP_API_ENDPOINT}api/Accounts/create`, formData, {
         headers: {

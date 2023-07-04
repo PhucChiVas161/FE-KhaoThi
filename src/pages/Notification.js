@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import {
   Card,
   Table,
@@ -81,7 +82,7 @@ export default function Notification() {
   const [showEditForm, setShowEditForm] = useState(false);
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}api/Notis`, {
         headers: {
@@ -149,11 +150,14 @@ export default function Notification() {
   };
 
   const deleteUser = (notiId) => {
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
+    const crsf = Cookies.get('csrf');
     axios
       .delete(`${process.env.REACT_APP_API_ENDPOINT}api/Noti/${notiId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
+          'X-CSRF-TOKEN': crsf,
+          'Content-Type': 'application/json',
         },
       })
       .then((response) => {

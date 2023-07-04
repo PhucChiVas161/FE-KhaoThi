@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import {
   TextField,
   Button,
@@ -43,7 +44,7 @@ const EditNotification = ({ notiId, onClose }) => {
   };
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}api/Notis/${notiId}`, {
         headers: {
@@ -62,7 +63,7 @@ const EditNotification = ({ notiId, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     const form = new FormData();
     form.append('title', formData.title);
     form.append('content', formData.content);

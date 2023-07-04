@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import {
   TextField,
   Button,
@@ -14,7 +15,6 @@ import {
   Snackbar,
   SnackbarContent,
 } from '@mui/material';
-import { AddAPhoto } from '@mui/icons-material';
 import axios from 'axios';
 
 const EditUserForm = ({ employeeId, onClose }) => {
@@ -33,7 +33,7 @@ const EditUserForm = ({ employeeId, onClose }) => {
   };
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}api/Employees/${employeeId}`, {
         headers: {
@@ -52,7 +52,7 @@ const EditUserForm = ({ employeeId, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Gửi dữ liệu qua API
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     axios
       .post(`${process.env.REACT_APP_API_ENDPOINT}api/Employees/update`, formData, {
         headers: {

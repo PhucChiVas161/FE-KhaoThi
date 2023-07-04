@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { Icon } from '@iconify/react';
 import {
   Box,
@@ -42,7 +43,7 @@ const UserPage = () => {
 
   //  API GET User
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}api/Employees`, {
         headers: {
@@ -152,7 +153,7 @@ const UserPage = () => {
 
   //  Delete User
   const deleteUser = (row) => {
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     axios
       .delete(`${process.env.REACT_APP_API_ENDPOINT}api/Employees/${row}`, {
         headers: {

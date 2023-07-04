@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import CryptoJS from 'crypto-js';
+import Cookies from 'js-cookie';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
 import { Box, Link, Drawer, Typography, Avatar } from '@mui/material';
@@ -45,7 +45,7 @@ export default function Nav({ openNav, onCloseNav }) {
   const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     const decode = jwtDecode(token);
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}api/Employees/${decode.EmployeeId}`, {

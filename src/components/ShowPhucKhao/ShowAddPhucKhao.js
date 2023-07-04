@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import jwtDecode from 'jwt-decode';
+import Cookies from 'js-cookie';
 import {
   TextField,
   Button,
@@ -28,7 +29,7 @@ const ShowAddPhucKhao = ({ onClose, addUser }) => {
   };
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     const decode = jwtDecode(token);
     const status = 'Received';
     const phucKhaoId = 'string';
@@ -50,7 +51,7 @@ const ShowAddPhucKhao = ({ onClose, addUser }) => {
   console.log(formData);
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}api/DanhMucs`, {
         headers: {
@@ -68,7 +69,7 @@ const ShowAddPhucKhao = ({ onClose, addUser }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Gửi dữ liệu qua API
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     axios
       .post(`${process.env.REACT_APP_API_ENDPOINT}api/PhucKhao/`, formData, {
         headers: {

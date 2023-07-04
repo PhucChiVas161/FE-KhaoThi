@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Navigate, useRoutes, useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 // layouts
 import DashboardLayout from './layouts/dashboard';
@@ -18,7 +19,7 @@ import UserPage from './pages/UserPage/UserPage';
 
 export default function Router() {
   const location = useLocation();
-  const [isLoggedIn, setIsLoggedIn] = useState(!!sessionStorage.getItem('token'));
+  const [isLoggedIn, setIsLoggedIn] = useState(!!Cookies.get('token'));
 
   useEffect(() => {
     if (isLoggedIn && location.pathname !== '/login') {
@@ -43,7 +44,7 @@ export default function Router() {
       element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         {
-          element: <Navigate to={sessionStorage.getItem('last_known_location') || '/dashboard/post'} />,
+          element: <Navigate to={Cookies.get('last_known_location') || '/dashboard/post'} />,
           index: true,
         },
         { path: 'user', element: <UserPage /> },

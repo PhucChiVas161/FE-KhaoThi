@@ -15,7 +15,7 @@ import {
   SnackbarContent,
   CircularProgress,
 } from '@mui/material';
-import { AddAPhoto } from '@mui/icons-material';
+import Cookies from 'js-cookie';
 import axios from 'axios';
 
 const AddNotification = ({ addUser }) => {
@@ -37,7 +37,7 @@ const AddNotification = ({ addUser }) => {
 
     handleLoading(true); // Set isLoading to true
 
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     const form = new FormData();
     form.append('title', formData.title);
     form.append('content', formData.content);

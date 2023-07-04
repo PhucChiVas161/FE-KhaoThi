@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 // @mui
 import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox, Alert } from '@mui/material';
@@ -31,8 +32,8 @@ export default function LoginForm({ onLogin }) {
       if (response.data.message === 'Email hoặc mật khẩu không đúng') {
         setErrorMessage('Email hoặc mật khẩu không đúng. Vui lòng thử lại 😥');
       } else {
-        sessionStorage.setItem(SESSION_TOKEN_KEY, token);
-        sessionStorage.setItem(SESSION_CSRT_KEY, csrf_token);
+        Cookies.set(SESSION_TOKEN_KEY, token, { secure: false, sameSite: 'strict', expires: 1 / 48 });
+        Cookies.set(SESSION_CSRT_KEY, csrf_token, { secure: false, sameSite: 'strict', expires: 1 / 48 });
         handleLogin();
       }
     } catch (error) {
@@ -44,7 +45,7 @@ export default function LoginForm({ onLogin }) {
   };
 
   useEffect(() => {
-    const token = sessionStorage.getItem(SESSION_TOKEN_KEY);
+    const token = Cookies.get(SESSION_TOKEN_KEY);
     if (token) {
       handleLogin();
     }
@@ -56,7 +57,7 @@ export default function LoginForm({ onLogin }) {
   };
 
   useEffect(() => {
-    const token = sessionStorage.getItem(SESSION_TOKEN_KEY);
+    const token = Cookies.get(SESSION_TOKEN_KEY);
     if (token) {
       handleLogin(token);
     }

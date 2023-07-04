@@ -3,6 +3,7 @@ import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import {
@@ -95,7 +96,7 @@ export default function QuanLyPhucKhao() {
   const [key, setKey] = useState(0);
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}api/PhucKhao`, {
         headers: {
@@ -163,7 +164,7 @@ export default function QuanLyPhucKhao() {
   };
 
   const deleteUser = (phucKhaoId) => {
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     axios
       .delete(`${process.env.REACT_APP_API_ENDPOINT}api/PhucKhao/${phucKhaoId}`, {
         headers: {
@@ -252,7 +253,7 @@ export default function QuanLyPhucKhao() {
       setImporting(true);
       const formData = new FormData();
       formData.append('file', file);
-      const token = sessionStorage.getItem('token');
+      const token = Cookies.get('token');
       axios
         .post(`${process.env.REACT_APP_API_ENDPOINT}api/DanhMucs/import`, formData, {
           headers: {

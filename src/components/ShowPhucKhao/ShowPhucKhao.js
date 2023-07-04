@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import {
   TextField,
   Button,
@@ -32,7 +33,7 @@ const ShowPhucKhao = ({ id, onClose }) => {
   };
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}api/PhucKhao/details/${id}`, {
         headers: {
@@ -51,7 +52,7 @@ const ShowPhucKhao = ({ id, onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Gửi dữ liệu qua API
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     axios
       .post(`${process.env.REACT_APP_API_ENDPOINT}api/PhucKhao/update/${id}`, formData, {
         headers: {

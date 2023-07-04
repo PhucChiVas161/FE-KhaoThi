@@ -3,6 +3,7 @@ import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import {
   Card,
   Table,
@@ -94,7 +95,7 @@ export default function PhucKhao() {
   const [openCreateUserForm, setOpenCreateUserForm] = useState(false);
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     const decode = jwtDecode(token);
     axios
       .get(`${process.env.REACT_APP_API_ENDPOINT}api/PhucKhao/${decode.EmployeeId}`, {
@@ -168,7 +169,7 @@ export default function PhucKhao() {
   };
 
   const deleteUser = (phucKhaoId) => {
-    const token = sessionStorage.getItem('token');
+    const token = Cookies.get('token');
     axios
       .delete(`${process.env.REACT_APP_API_ENDPOINT}api/PhucKhao/${phucKhaoId}`, {
         headers: {
