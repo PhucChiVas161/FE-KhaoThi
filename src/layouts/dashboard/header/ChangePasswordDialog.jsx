@@ -55,7 +55,7 @@ export default function ChangePasswordDialog({ open, onClose }) {
         }
       )
       .then((response) => {
-        if (response.data.idValid === true) {
+        if (response.data.isValid === true) {
           onClose();
           enqueueSnackbar('Đổi mật khẩu thành công. Sẽ đăng xuất trong vòng ' + countDown + 's', {
             variant: 'success',

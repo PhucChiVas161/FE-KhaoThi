@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { useHandleErrors } from '../../hooks/useHandleErrors';
 import { useSnackbar } from 'notistack';
 import {
   TextField,
@@ -28,6 +29,7 @@ const EditUser = ({ employeeId, onClose, onSuccess }) => {
     employeeGender: '',
   });
   const { enqueueSnackbar } = useSnackbar();
+  const handleErrors = useHandleErrors();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -63,13 +65,17 @@ const EditUser = ({ employeeId, onClose, onSuccess }) => {
         withCredentials: true,
       })
       .then((response) => {
-        enqueueSnackbar('Cập nhật thông tin người dùng thành công!', { variant: 'success' });
-        onSuccess(formData);
-        handleClose();
+        if (response.status === 200) {
+          enqueueSnackbar('Tạo người dùng thành công!', { variant: 'success' });
+          onSuccess(formData);
+          onClose();
+        }
       })
       .catch((error) => {
-        console.error(error);
-        enqueueSnackbar('Cập nhật thông tin người dùng thất bại!', { variant: 'error' });
+        if (error.response.status === 400) {
+          handleErrors(error.response.data.errors);
+        }
+        enqueueSnackbar('Tạo người dùng thất bại!', { variant: 'error' });
       });
   };
 

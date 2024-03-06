@@ -52,7 +52,6 @@ const CreateUser = ({ addUser, onClose, open }) => {
         }
       })
       .catch((error) => {
-        console.error(error);
         if (error.response.status === 400) {
           handleErrors(error.response.data.errors);
         }

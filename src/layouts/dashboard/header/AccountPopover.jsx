@@ -74,6 +74,7 @@ export default function AccountPopover() {
 
   const handleLogout = () => {
     Cookies.remove('token');
+    sessionStorage.clear();
     window.location.href = '/';
   };
 

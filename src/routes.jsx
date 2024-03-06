@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Navigate, useRoutes, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { Navigate, useRoutes } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 // layouts
@@ -20,14 +20,7 @@ import ForgotChangePassword from './components/User/ForgotChangePassword';
 import PostponeExam from './pages/PostponeExamPage/PostponeExam';
 
 export default function Router() {
-  const location = useLocation();
-  const [isLoggedIn, setIsLoggedIn] = useState(!!Cookies.get('token'));
-
-  useEffect(() => {
-    if (isLoggedIn && location.pathname !== '/login') {
-      sessionStorage.setItem('last_known_location', location.pathname);
-    }
-  }, [location.pathname, isLoggedIn]);
+  const [isLoggedIn, setIsLoggedIn] = useState(Cookies.get('token'));
 
   const routes = useRoutes([
     { path: 'index', element: <LandingPage /> },
@@ -46,7 +39,7 @@ export default function Router() {
       element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
       children: [
         {
-          element: <Navigate to={sessionStorage.getItem('last_known_location') || '/dashboard/post'} />,
+          element: <Navigate to={'/dashboard/post' || '/index'} />,
           index: true,
         },
         // { path: 'app', element: <DashboardAppPage /> },
