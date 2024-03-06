@@ -1,0 +1,18 @@
+@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,600,600i&display=swap&subset=vietnamese");
+@import url('https://fonts.googleapis.com/css?family=Quicksand:500,700&display=swap&subset=vietnamese');
+
+
+
+.titlepj{
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-weight: 700;
+    font-family: 'Courier New', Courier, monospace;
+    color: rgb(211, 105, 105);
+}
+
+.titleh4{
+    font-weight: 700;
+    font-family: 'Courier New', Courier, monospace;
+    color: rgb(211, 105, 105);
+}
