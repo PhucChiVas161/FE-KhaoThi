@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import ChangePasswordDialog from './ChangePasswordDialog';
 import ProfileDialog from './ProfileDialog';
 // @mui

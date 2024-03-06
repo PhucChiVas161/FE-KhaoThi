@@ -12,7 +12,7 @@ import {
   DialogActions,
 } from '@mui/material';
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const ProfileDialog = ({ open, onClose }) => {
   const [formData, setFormData] = useState({

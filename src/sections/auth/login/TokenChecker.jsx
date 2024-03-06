@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { Snackbar, Alert, AlertTitle } from '@mui/material';
 import Cookies from 'js-cookie';
 
@@ -12,7 +12,7 @@ const TokenChecker = () => {
   const checkTokenExp = () => {
     const token = Cookies.get(TOKEN_KEY);
     if (token) {
-      const decodedToken = jwt_decode(token);
+      const decodedToken = jwtDecode(token);
       setTokenExp(decodedToken.exp);
     }
   };
@@ -33,7 +33,7 @@ const TokenChecker = () => {
       const timer = setTimeout(() => {
         const token = Cookies.get(TOKEN_KEY);
         if (token) {
-          const decodedToken = jwt_decode(token);
+          const decodedToken = jwtDecode(token);
           const currentTime = Date.now() / 1000;
           if (decodedToken.exp <= currentTime) {
             window.location.reload();

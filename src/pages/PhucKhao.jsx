@@ -31,7 +31,7 @@ import {
   SnackbarContent,
   TextField,
 } from '@mui/material';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import Label from '../components/label';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
