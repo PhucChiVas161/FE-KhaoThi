@@ -11,6 +11,7 @@ export default function ChangePasswordDialog({ open, onClose }) {
   const [newPass, setNewPass] = useState('');
   const [isLengthValid, setIsLengthValid] = useState(false);
   const [isUpperCaseValid, setIsUpperCaseValid] = useState(false);
+  const [isLowerCaseValid, setIsLowerCaseValid] = useState(false);
   const [isDigitValid, setIsDigitValid] = useState(false);
   const [isSpecialCharValid, setIsSpecialCharValid] = useState(false);
   const [newPassConfirm, setNewPassConfirm] = useState('');
@@ -24,6 +25,7 @@ export default function ChangePasswordDialog({ open, onClose }) {
   useEffect(() => {
     setIsLengthValid(newPass.length >= 8);
     setIsUpperCaseValid(/[A-Z]/.test(newPass));
+    setIsLowerCaseValid(/[a-z]/.test(newPass));
     setIsDigitValid(/\d/.test(newPass));
     setIsSpecialCharValid(/[!@#$%^&*]/.test(newPass));
   }, [newPass]);
@@ -131,6 +133,10 @@ export default function ChangePasswordDialog({ open, onClose }) {
           <Typography display="flex" alignItems="center" color={isUpperCaseValid ? 'success' : 'error'}>
             {isUpperCaseValid && <Icon icon="line-md:clipboard-check" color={isUpperCaseValid ? 'green' : 'red'} />} Có
             ít nhất một ký tự viết hoa
+          </Typography>
+          <Typography display="flex" alignItems="center" color={isLowerCaseValid ? 'success' : 'error'}>
+            {isLowerCaseValid && <Icon icon="line-md:clipboard-check" color={isLowerCaseValid ? 'green' : 'red'} />} Có
+            ít nhất một ký tự viết thường
           </Typography>
           <Typography display="flex" alignItems="center" color={isDigitValid ? 'success' : 'error'}>
             {isDigitValid && <Icon icon="line-md:clipboard-check" color={isDigitValid ? 'green' : 'red'} />} Có ít nhất

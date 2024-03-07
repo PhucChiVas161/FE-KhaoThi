@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 // @mui
 import { Link, Stack, IconButton, InputAdornment, TextField, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -22,6 +23,9 @@ export default function LoginForm({ onLogin }) {
   const [openForgot, setOpenForgot] = useState(false);
   const [formLogin, setFormLogin] = useState(true);
   // ----------------------------------------------------------------------
+  LoginForm.propTypes = {
+    onLogin: PropTypes.string.isRequired,
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -33,7 +37,6 @@ export default function LoginForm({ onLogin }) {
           withCredentials: true,
         }
       );
-      console.log(response);
       if (response.status === 200) {
         handleLogin();
       }
