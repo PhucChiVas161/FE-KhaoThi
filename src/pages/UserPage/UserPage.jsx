@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import {
-  Box,
   IconButton,
   Popover,
   MenuItem,
@@ -300,17 +299,16 @@ const UserPage = () => {
         />
       )}
       {showUserList && (
-        <Box>
-          <DataGrid
-            slots={{
-              toolbar: CustomToolbar,
-              loadingOverlay: LinearProgress,
-            }}
-            loading={loading}
-            rows={transformedUsers}
-            columns={columns}
-          />
-        </Box>
+        <DataGrid
+          emptyRowsWhenPaging
+          slots={{
+            toolbar: CustomToolbar,
+            loadingOverlay: LinearProgress,
+          }}
+          loading={loading}
+          rows={transformedUsers}
+          columns={columns}
+        />
       )}
       <Popover
         open={Boolean(open)}

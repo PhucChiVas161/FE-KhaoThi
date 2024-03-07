@@ -56,7 +56,7 @@ export default function LoginForm({ onLogin }) {
     if (token) {
       handleLogin();
     }
-  }, []);
+  });
 
   const handleLogin = () => {
     onLogin();
@@ -68,7 +68,7 @@ export default function LoginForm({ onLogin }) {
     if (token) {
       handleLogin(token);
     }
-  }, []);
+  });
 
   const handleForgotPassword = () => {
     setOpenForgot(!openForgot);
