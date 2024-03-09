@@ -39,7 +39,7 @@ const EditUser = ({ employeeId, onClose, onSuccess }) => {
     setOpen(true);
     const token = Cookies.get('token');
     axios
-      .get(`${import.meta.env.VITE_API_ENDPOINT}api/Employees/${employeeId}`, {
+      .get(`${import.meta.env.VITE_API_ENDPOINT}api/employees/${employeeId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

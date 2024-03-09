@@ -4,6 +4,8 @@ import { styled } from '@mui/material/styles';
 import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
 // hooks
 import useResponsive from '../hooks/useResponsive';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 // components
 import Logo from '../components/logo';
 import Iconify from '../components/iconify';
@@ -42,7 +44,10 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 export default function LoginPage({ onLogin }) {
   const mdUp = useResponsive('up', 'md');
-
+  const LOGIN_URL = 'https://localhost:7070/api/accounts/signin-google';
+  const handleSubmit = () => {
+    window.location.href = LOGIN_URL; // Correct redirect URI
+  };
   return (
     <>
       <Helmet>
@@ -79,8 +84,8 @@ export default function LoginPage({ onLogin }) {
             </Typography>
 
             {/* Đăng nhập bằng các bên thứ 3 */}
-            {/* <Stack direction="row" spacing={2}>
-              <Button fullWidth size="large" color="inherit" variant="outlined">
+            <Stack direction="row" spacing={2}>
+              <Button fullWidth size="large" color="inherit" variant="outlined" onClick={handleSubmit}>
                 <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
               </Button>
 
@@ -88,16 +93,16 @@ export default function LoginPage({ onLogin }) {
                 <Iconify icon="line-md:facebook" color="#1877F2" width={22} height={22} />
               </Button>
 
-              <Button fullWidth size="large" color="inherit" variant="outlined">
+              {/* <Button fullWidth size="large" color="inherit" variant="outlined">
                 <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={22} height={22} />
-              </Button>
+              </Button> */}
             </Stack>
 
             <Divider sx={{ my: 3 }}>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                OR
+                HOẶC
               </Typography>
-            </Divider> */}
+            </Divider>
 
             <LoginForm onLogin={onLogin} />
           </StyledContent>
