@@ -44,9 +44,17 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 export default function LoginPage({ onLogin }) {
   const mdUp = useResponsive('up', 'md');
-  const LOGIN_URL = 'https://localhost:7070/api/accounts/signin-google';
-  const handleSubmit = () => {
-    window.location.href = LOGIN_URL; // Correct redirect URI
+  const LOGIN_URL_GOOGLE = 'https://localhost:7070/api/accounts/signin-google';
+  const LOGIN_URL_FACEBOOK = 'https://localhost:7070/api/accounts/signin-facebook';
+  const LOGIN_URL_MICROSOFT = 'https://localhost:7070/api/accounts/signin-microsoft';
+  const handleSubmitGoogle = () => {
+    window.location.href = LOGIN_URL_GOOGLE;
+  };
+  const handleSubmitFacebook = () => {
+    window.location.href = LOGIN_URL_FACEBOOK;
+  };
+  const handleSubmitMicrosoft = () => {
+    window.location.href = LOGIN_URL_MICROSOFT;
   };
   return (
     <>
@@ -85,17 +93,17 @@ export default function LoginPage({ onLogin }) {
 
             {/* Đăng nhập bằng các bên thứ 3 */}
             <Stack direction="row" spacing={2}>
-              <Button fullWidth size="large" color="inherit" variant="outlined" onClick={handleSubmit}>
+              <Button fullWidth size="large" color="inherit" variant="outlined" onClick={handleSubmitGoogle}>
                 <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
               </Button>
 
-              <Button fullWidth size="large" color="inherit" variant="outlined">
+              <Button fullWidth size="large" color="inherit" variant="outlined" onClick={handleSubmitFacebook}>
                 <Iconify icon="line-md:facebook" color="#1877F2" width={22} height={22} />
               </Button>
 
-              {/* <Button fullWidth size="large" color="inherit" variant="outlined">
-                <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={22} height={22} />
-              </Button> */}
+              <Button fullWidth size="large" color="inherit" variant="outlined" onClick={handleSubmitMicrosoft}>
+                <Iconify icon="logos:microsoft-icon" color="#1C9CEA" width={22} height={22} />
+              </Button>
             </Stack>
 
             <Divider sx={{ my: 3 }}>

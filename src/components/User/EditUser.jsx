@@ -57,7 +57,7 @@ const EditUser = ({ employeeId, onClose, onSuccess }) => {
     const token = Cookies.get('token');
     const csrf = Cookies.get('csrf');
     axios
-      .post(`${import.meta.env.VITE_API_ENDPOINT}api/Employees/update`, formData, {
+      .post(`${import.meta.env.VITE_API_ENDPOINT}api/employees/update`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'X-CSRF-TOKEN': csrf,
