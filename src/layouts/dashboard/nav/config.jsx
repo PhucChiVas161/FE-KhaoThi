@@ -11,12 +11,12 @@ const navConfig = [
     items: [
       {
         title: 'Tin tức',
-        path: '/dashboard/post',
+        path: '/Dashboard/Post',
         icon: icon('ic_news'),
       },
       {
         title: 'Phúc khảo',
-        path: '/dashboard/phuckhao',
+        path: '/Dashboard/Recheck',
         icon: icon('ic_document'),
       },
     ],
@@ -26,27 +26,27 @@ const navConfig = [
     items: [
       {
         title: 'Quản lý NGƯỜI DÙNG',
-        path: '/dashboard/user',
+        path: '/Dashboard/UsersManagement',
         icon: icon('ic_account'),
       },
       {
-        title: 'Quản lý TIN TỨC',
-        path: '/dashboard/postadm',
-        icon: icon('ic_news'),
-      },
-      {
         title: 'Quản lý PHÚC KHẢO',
-        path: '/dashboard/quanlyphuckhao',
+        path: '/Dashboard/RecheckManagement',
         icon: icon('ic_document'),
       },
       {
-        title: 'Quản lý THÔNG BÁO',
-        path: '/dashboard/notification',
-        icon: icon('ic_bell'),
+        title: 'Quản lý HOÃN THI',
+        path: '/Dashboard/ExamDeferralManagement',
+        icon: icon('ic_postpone'),
       },
       {
-        title: 'Quản lý HOÃN THI',
-        path: '/dashboard/postponeadm',
+        title: 'Quản lý TIN TỨC',
+        path: '/Dashboard/PostManagement',
+        icon: icon('ic_news'),
+      },
+      {
+        title: 'Quản lý THÔNG BÁO',
+        path: '/Dashboard/NotificationManagement',
         icon: icon('ic_bell'),
       },
     ],

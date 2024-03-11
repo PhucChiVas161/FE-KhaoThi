@@ -23,9 +23,9 @@ export default function Router() {
   const [isLoggedIn, setIsLoggedIn] = useState(Cookies.get('token'));
 
   const routes = useRoutes([
-    { path: 'index', element: <LandingPage /> },
+    { path: 'Index', element: <LandingPage /> },
     {
-      path: 'login',
+      path: 'Login',
       element: (
         <LoginPage
           onLogin={() => {
@@ -35,27 +35,27 @@ export default function Router() {
       ),
     },
     {
-      path: 'dashboard',
-      element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/login" />,
+      path: 'Dashboard',
+      element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/Login" />,
       children: [
         {
-          element: <Navigate to={'/dashboard/post' || '/index'} />,
+          element: <Navigate to={'/Dashboard/Post' || '/Index'} />,
           index: true,
         },
         // { path: 'app', element: <DashboardAppPage /> },
-        { path: 'user', element: <UserPage /> },
-        { path: 'postponeadm', element: <PostponeExam /> },
-        { path: 'post', element: <PostPage /> },
-        { path: 'postadm', element: <PostPageAdmin /> },
-        { path: 'quanlyphuckhao', element: <QuanLyPhucKhao /> },
-        { path: 'phuckhao', element: <PhucKhao /> },
-        { path: 'notification', element: <Notification /> },
+        { path: 'Post', element: <PostPage /> },
+        { path: 'Recheck', element: <PhucKhao /> },
+        { path: 'UsersManagement', element: <UserPage /> },
+        { path: 'RecheckManagement', element: <QuanLyPhucKhao /> },
+        { path: 'ExamDeferralManagement', element: <PostponeExam /> },
+        { path: 'PostManagement', element: <PostPageAdmin /> },
+        { path: 'NotificationManagement', element: <Notification /> },
       ],
     },
     {
       element: <SimpleLayout />,
       children: [
-        { element: <Navigate to="/index" />, index: true },
+        { element: <Navigate to="/Index" />, index: true },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],

@@ -1,4 +1,3 @@
-import React from 'react';
 import { FaHome } from 'react-icons/fa';
 
 const Nav = () => (
@@ -41,7 +40,7 @@ const Nav = () => (
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/login">
+              <a className="nav-link" href="/Login">
                 ĐĂNG NHẬP
               </a>
             </li>

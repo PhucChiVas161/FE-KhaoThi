@@ -9,9 +9,7 @@ function Notification() {
     fetch(`${import.meta.env.VITE_API_ENDPOINT}api/Notis`)
       .then((response) => response.json())
       .then((data) => {
-        // Sắp xếp mảng data theo thứ tự giảm dần của notiId
-        const sortedPosts = data.sort((a, b) => b.notiId - a.notiId);
-        setPosts(sortedPosts);
+        setPosts(data);
       })
       .catch((error) => console.error(error));
   }, []);
@@ -61,12 +59,6 @@ function Notification() {
                               </a>
                             </Card.Text>
                           </Card.Body>
-                          {/* <Card.Img
-                            style={{ objectFit: 'cover', width: '70%', height: '80%' }}
-                            className="img-fluid"
-                            variant="top"
-                            src={`data:image/jpeg;base64,${selectedPost.images}`}
-                          /> */}
                         </Card>
                       )}
                     </ListGroup.Item>
