@@ -17,7 +17,8 @@ import PhucKhao from './pages/PhucKhao';
 import Notification from './pages/Notification';
 import UserPage from './pages/UserPage/UserPage';
 import ForgotChangePassword from './components/User/ForgotChangePassword';
-import PostponeExam from './pages/PostponeExamPage/PostponeExam';
+import PostponeManagement from './pages/PostponeExamPage/PostponeManagement';
+import Postpone from './pages/PostponeExamPage/Postpone';
 
 export default function Router() {
   const [isLoggedIn, setIsLoggedIn] = useState(Cookies.get('token'));
@@ -45,9 +46,10 @@ export default function Router() {
         // { path: 'app', element: <DashboardAppPage /> },
         { path: 'Post', element: <PostPage /> },
         { path: 'Recheck', element: <PhucKhao /> },
+        { path: 'Postpone', element: <Postpone /> },
         { path: 'UsersManagement', element: <UserPage /> },
         { path: 'RecheckManagement', element: <QuanLyPhucKhao /> },
-        { path: 'ExamDeferralManagement', element: <PostponeExam /> },
+        { path: 'PostponeManagement', element: <PostponeManagement /> },
         { path: 'PostManagement', element: <PostPageAdmin /> },
         { path: 'NotificationManagement', element: <Notification /> },
       ],

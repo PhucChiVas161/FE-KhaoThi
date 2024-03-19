@@ -19,6 +19,8 @@
     "@mui/material": "^5.15.12",
     "@mui/system": "^5.15.12",
     "@mui/x-data-grid": "^6.19.6",
+    "@mui/x-data-grid-premium": "^6.19.6",
+    "@mui/x-license-pro": "^6.10.2",
     "apexcharts": "^3.46.0",
     "axios": "^1.6.7",
     "change-case": "^5.4.3",
