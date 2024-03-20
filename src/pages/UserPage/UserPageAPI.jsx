@@ -11,6 +11,16 @@ export const getUsers = () => {
   });
 };
 
+//GetOneUser
+export const getOneUsers = (employeeId) => {
+  const token = Cookies.get('token');
+  return axios.get(`${import.meta.env.VITE_API_ENDPOINT}api/Employees/${employeeId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 //Delete User
 export const deleteUsers = (row) => {
   const token = Cookies.get('token');
