@@ -104,7 +104,7 @@ const ProfileDialog = ({ open, onClose }) => {
                 <TextField
                   name="employeeGender"
                   label="Giới tính"
-                  value={formData.employeeGender}
+                  value={formData.employeeGender === '0' ? 'Nữ' : 'Nam'}
                   InputProps={{
                     readOnly: true,
                   }}
