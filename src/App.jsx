@@ -1,16 +1,18 @@
-import { BrowserRouter } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
-import { SnackbarProvider } from "notistack";
+import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import { SnackbarProvider } from 'notistack';
+import { LicenseInfo } from '@mui/x-license-pro';
 // routes
-import Router from "./routes";
+import Router from './routes';
 // theme
-import ThemeProvider from "./theme";
+import ThemeProvider from './theme';
 // components
-import { StyledChart } from "./components/chart";
-import ScrollToTop from "./components/scroll-to-top";
-import TokenChecker from "./sections/auth/login/TokenChecker";
+import { StyledChart } from './components/chart';
+import ScrollToTop from './components/scroll-to-top';
+import TokenChecker from './sections/auth/login/TokenChecker';
 
 // ----------------------------------------------------------------------
+LicenseInfo.setLicenseKey(`${import.meta.env.VITE_LICENSE_KEY}`);
 
 export default function App() {
   return (
@@ -20,7 +22,7 @@ export default function App() {
           <TokenChecker />
           <SnackbarProvider
             autoHideDuration={3000}
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
             maxSnack={4}
           >
             <ScrollToTop />

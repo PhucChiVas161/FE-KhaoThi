@@ -15,12 +15,12 @@ import {
   Link,
 } from '@mui/material';
 import {
-  DataGrid,
+  DataGridPremium,
   GridToolbarColumnsButton,
   GridToolbarContainer,
   GridToolbarExport,
   GridToolbarFilterButton,
-} from '@mui/x-data-grid';
+} from '@mui/x-data-grid-premium';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
 import Header from '../../components/Header';
@@ -77,34 +77,34 @@ const UserPage = () => {
 
   //  Hiển thị cột
   const columns = [
-    { field: 'id', headerName: 'STT', flex: 0.5 },
+    { field: 'id', headerName: 'STT', flex: 0.2 },
     {
       field: 'employeeName',
       headerName: 'Họ và tên',
-      flex: 1,
+      flex: 0.8,
       cellClassName: 'name-column--cell',
     },
     {
       field: 'accountEmail',
       headerName: 'Email',
-      flex: 1,
+      flex: 0.8,
     },
     {
       field: 'employeeMSSV',
       headerName: 'MSSV',
-      flex: 1,
+      flex: 0.5,
     },
     {
       field: 'employeeGender',
       headerName: 'Giới tính',
-      flex: 1,
+      flex: 0.3,
       valueGetter: (params) => getGenderLabel(params.value),
     },
 
     {
       field: 'accountRole',
       headerName: 'Vai trò',
-      flex: 1,
+      flex: 0.3,
       renderCell: (params) => (
         <Label
           color={(params.value === 'Manager' && 'error') || (params.value === 'Lecturer' && 'warning') || 'success'}
@@ -116,7 +116,7 @@ const UserPage = () => {
     {
       field: 'actions',
       headerName: 'Hành động',
-      flex: 0.5,
+      flex: 0.2,
       renderCell: (params) => (
         <IconButton color="inherit" onClick={(event) => handleOpenMenu(event, params.row.employeeId)}>
           <Icon icon={'mdi:dots-vertical'} />
@@ -288,7 +288,6 @@ const UserPage = () => {
       <Helmet>
         <title>Quản lý NGƯỜI DÙNG | KHẢO THÍ - VLU</title>
       </Helmet>
-      {/* <Box m="20px"> */}
       <Header title="Quản lý NGƯỜI DÙNG" />
       {openCreateUserForm && <CreateUser addUser={addUser} onClose={handleCloseAddUser} open={openCreateUserForm} />}
       {showEditForm && (
@@ -299,7 +298,7 @@ const UserPage = () => {
         />
       )}
       {showUserList && (
-        <DataGrid
+        <DataGridPremium
           emptyRowsWhenPaging
           slots={{
             toolbar: CustomToolbar,
@@ -322,17 +321,6 @@ const UserPage = () => {
           vertical: 'top',
           horizontal: 'right',
         }}
-        PaperProps={{
-          sx: {
-            p: 1,
-            width: 140,
-            '& .MuiMenuItem-root': {
-              px: 1,
-              typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
-        }}
       >
         <MenuItem onClick={handleOpenEdit}>
           <Icon icon="line-md:edit-twotone" width="20" height="20" sx={{ mr: 2 }} />
@@ -344,7 +332,6 @@ const UserPage = () => {
           Xoá
         </MenuItem>
       </Popover>
-      {/* </Box> */}
       {deleteConfirmation && (
         <Dialog open={Boolean(deleteConfirmation)} onClose={handleCancelDelete}>
           <DialogTitle>Confirm Delete</DialogTitle>

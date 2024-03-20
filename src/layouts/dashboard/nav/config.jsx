@@ -19,6 +19,11 @@ const navConfig = [
         path: '/Dashboard/Recheck',
         icon: icon('ic_document'),
       },
+      {
+        title: 'Hoãn Thi',
+        path: '/Dashboard/Postpone',
+        icon: icon('ic_postpone'),
+      },
     ],
   },
   {
@@ -36,7 +41,7 @@ const navConfig = [
       },
       {
         title: 'Quản lý HOÃN THI',
-        path: '/Dashboard/ExamDeferralManagement',
+        path: '/Dashboard/PostponeManagement',
         icon: icon('ic_postpone'),
       },
       {

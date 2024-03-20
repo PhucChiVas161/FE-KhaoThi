@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGridPremium } from '@mui/x-data-grid-premium';
 import { getPostponeExam } from './PostponeExamAPI';
 import { Helmet } from 'react-helmet';
-import { Box, LinearProgress } from '@mui/material';
+import { LinearProgress } from '@mui/material';
+import Header from '../../components/Header';
 
-const PostponeExam = () => {
+const Postpone = () => {
   const [postponeExam, setPostponeExam] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -66,21 +67,19 @@ const PostponeExam = () => {
   return (
     <>
       <Helmet>
-        <title>Quản lý HOÃN THI | KHẢO THÍ - VLU</title>
+        <title>HOÃN THI | KHẢO THÍ - VLU</title>
       </Helmet>
-
-      <Box>
-        <DataGrid
-          slots={{
-            loadingOverlay: LinearProgress,
-          }}
-          loading={loading}
-          rows={transformedPostponeExam}
-          columns={columns}
-        />
-      </Box>
+      <Header title="HOÃN THI" />
+      <DataGridPremium
+        slots={{
+          loadingOverlay: LinearProgress,
+        }}
+        loading={loading}
+        rows={transformedPostponeExam}
+        columns={columns}
+      />
     </>
   );
 };
 
-export default PostponeExam;
+export default Postpone;
