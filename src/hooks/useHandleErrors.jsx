@@ -12,6 +12,7 @@ const errorMessages = {
   8: 'MSSV đã tồn tại',
   9: 'Mật khẩu cũ không khớp',
   10: 'Email không tồn tại',
+  11: 'Khoá học không tồn tại',
 };
 
 export const useHandleErrors = () => {
