@@ -19,3 +19,12 @@ export const getPostponeExam = (employeeId) => {
     },
   });
 };
+//Create One Postpone
+export const createPostponeExam = (formData) => {
+  const token = Cookies.get('token');
+  return axios.post(`${import.meta.env.VITE_API_ENDPOINT}api/postpone/create`, formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

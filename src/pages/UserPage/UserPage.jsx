@@ -297,18 +297,16 @@ const UserPage = () => {
           onSuccess={updateUser}
         />
       )}
-      {showUserList && (
-        <DataGridPremium
-          emptyRowsWhenPaging
-          slots={{
-            toolbar: CustomToolbar,
-            loadingOverlay: LinearProgress,
-          }}
-          loading={loading}
-          rows={transformedUsers}
-          columns={columns}
-        />
-      )}
+      <DataGridPremium
+        emptyRowsWhenPaging
+        slots={{
+          toolbar: CustomToolbar,
+          loadingOverlay: LinearProgress,
+        }}
+        loading={loading}
+        rows={transformedUsers}
+        columns={columns}
+      />
       <Popover
         open={Boolean(open)}
         anchorEl={open}

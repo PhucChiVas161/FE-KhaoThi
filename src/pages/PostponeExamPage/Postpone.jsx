@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react';
-import { DataGridPremium, GridActionsCellItem } from '@mui/x-data-grid-premium';
+import { DataGridPremium, GridToolbarContainer } from '@mui/x-data-grid-premium';
 import { getPostponeExam } from './PostponeExamAPI';
 import { Helmet } from 'react-helmet';
-import { LinearProgress } from '@mui/material';
+import { LinearProgress, Button } from '@mui/material';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 import Header from '../../components/Header';
+import { Icon } from '@iconify/react';
+import CreatePostpone from '../../components/Postpone/CreatePostpone';
 
 const Postpone = () => {
   const [postponeExam, setPostponeExam] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [openCreatePostpone, setOpenCreatePostpone] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get('token');
@@ -75,15 +78,39 @@ const Postpone = () => {
       flex: 0.5,
     },
   ];
-
+  //Add nút gửi hoãn thi
+  const CustomToolbar = () => (
+    <GridToolbarContainer>
+      <Button
+        startIcon={<Icon icon="line-md:clipboard-plus-twotone" />}
+        onClick={() => {
+          setOpenCreatePostpone(!openCreatePostpone);
+        }}
+      >
+        Gửi hoãn thi
+      </Button>
+    </GridToolbarContainer>
+  );
+  //Đóng form
+  const handleCloseCreatePostpone = () => {
+    setOpenCreatePostpone(false);
+  };
+  //Add data in table when success
+  const createPostpone = (createPostpone) => {
+    setPostponeExam((prevPostpone) => [...prevPostpone, createPostpone]);
+  };
   return (
     <>
       <Helmet>
         <title>HOÃN THI | KHẢO THÍ - VLU</title>
       </Helmet>
       <Header title="HOÃN THI" />
+      {openCreatePostpone && (
+        <CreatePostpone createPostpone={createPostpone} onClose={handleCloseCreatePostpone} open={openCreatePostpone} />
+      )}
       <DataGridPremium
         slots={{
+          toolbar: CustomToolbar,
           loadingOverlay: LinearProgress,
         }}
         loading={loading}
