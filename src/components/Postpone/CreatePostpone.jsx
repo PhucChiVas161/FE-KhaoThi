@@ -58,7 +58,7 @@ const CreatePostpone = ({ createPostpone, onClose, open }) => {
   useEffect(() => {
     const token = Cookies.get('token');
     axios
-      .get(`${import.meta.env.VITE_API_ENDPOINT}api/DanhMucs`, {
+      .get(`${import.meta.env.VITE_API_ENDPOINT}api/Course`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

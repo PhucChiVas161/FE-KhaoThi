@@ -258,7 +258,7 @@ export default function QuanLyPhucKhao() {
       formData.append('file', file);
       const token = Cookies.get('token');
       axios
-        .post(`${import.meta.env.VITE_API_ENDPOINT}api/DanhMucs/import`, formData, {
+        .post(`${import.meta.env.VITE_API_ENDPOINT}api/Course/import`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -364,7 +364,7 @@ export default function QuanLyPhucKhao() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              "tại đây"
+              Tại Đây
             </a>
             )
             <Card>
