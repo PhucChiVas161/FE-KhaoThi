@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { DataGridPremium, GridToolbarContainer } from '@mui/x-data-grid-premium';
+import { DataGridPremium, GridToolbarContainer, GridActionsCellItem } from '@mui/x-data-grid-premium';
 import { IconButton, MenuItem, Popover } from '@mui/material';
 import { getPostponeExam } from './PostponeExamAPI';
 import { Helmet } from 'react-helmet';
@@ -11,7 +11,6 @@ import Header from '../../components/Header';
 import { Icon } from '@iconify/react';
 import CreatePostpone from '../../components/Postpone/CreatePostpone';
 import DetailPostpone from '../../components/Postpone/DetailPostpone';
-
 const Postpone = () => {
   const [postponeExam, setPostponeExam] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -40,15 +39,11 @@ const Postpone = () => {
     id: index + 1,
   }));
 
-  const handleOpenMenu = (event, postponeExamId) => {
-    setSelected([postponeExamId]);
-    setOpen(event.currentTarget);
-  };
-
   const handleCloseMenu = () => {
     setOpen(null);
   };
-  const handleOpenDetail = () => {
+  const handleOpenDetail = (event, postponeExamId) => {
+    setOpen(event.currentTarget);
     setShowDetail(!showDetail);
     handleCloseMenu();
   };
@@ -94,13 +89,17 @@ const Postpone = () => {
     },
     {
       field: 'actions',
-      headerName: 'Hành động',
-      flex: 0.5,
-      renderCell: (params) => (
-        <IconButton color="inherit" onClick={(event) => handleOpenMenu(event, params.row.postponeExamId)}>
-          <Icon icon={'mdi:dots-vertical'} />
-        </IconButton>
-      ),
+      type: 'actions',
+      width: 80,
+      getActions: (params) => [
+        <GridActionsCellItem
+          icon={<Icon icon="line-md:alert-circle-twotone-loop" width="24" height="24" />}
+          label="Chi tiết"
+          onClick={(event) => handleOpenDetail(event, params.row.postponeExamId)}
+          open={open}
+          showInMenu
+        />,
+      ],
       disableExport: true,
     },
   ];
@@ -151,24 +150,6 @@ const Postpone = () => {
         columns={columns}
         getRowHeight={() => 'auto'}
       />
-      <Popover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-        <MenuItem onClick={handleOpenDetail}>
-          <Icon icon="line-md:edit-twotone" width="20" height="20" sx={{ mr: 2 }} />
-          Chi tiết
-        </MenuItem>
-      </Popover>
     </>
   );
 };

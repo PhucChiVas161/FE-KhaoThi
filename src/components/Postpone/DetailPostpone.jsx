@@ -54,7 +54,13 @@ const DetailPostpone = ({ postponeExamId, onClose, open }) => {
                 <TextField disabled name="lyDo" label="Lý do" value={postponeExam.lyDo} fullWidth />
               </Grid>
               <Grid item xs={12}>
-                <TextField disabled name="Trạng thái" label="Trạng thái" value={postponeExam.lanThi} fullWidth />
+                <TextField disabled name="Trạng thái" label="Trạng thái" value={postponeExam.status} fullWidth />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField disabled name="Phản hồi" label="Phản hồi" value={postponeExam.phanHoi} fullWidth />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField disabled name="Ghi chú" label="Ghi chú" value={postponeExam.ghiChu} fullWidth />
               </Grid>
             </Grid>
           </CardContent>
@@ -62,9 +68,6 @@ const DetailPostpone = ({ postponeExamId, onClose, open }) => {
         <DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Button variant="contained" color="error" onClick={onClose}>
             Đóng
-          </Button>
-          <Button variant="contained" color="primary" type="submit">
-            Lưu
           </Button>
         </DialogActions>
       </DialogContent>
