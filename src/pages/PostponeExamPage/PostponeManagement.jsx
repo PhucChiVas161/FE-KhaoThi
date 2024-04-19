@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import {
   DataGridPremium,
   useKeepGroupedColumnsHidden,
@@ -10,13 +10,15 @@ import { Helmet } from 'react-helmet';
 import { LinearProgress } from '@mui/material';
 import Header from '../../components/Header';
 import { Icon } from '@iconify/react';
-import { IconButton, MenuItem, Popover } from '@mui/material';
+import DetailPostpone from '../../components/Postpone/DetailPostpone';
 
 const PostponeManagement = () => {
   const [postponeExam, setPostponeExam] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState('');
   const [open, setOpen] = useState(null);
+  const [showDetail, setShowDetail] = useState(false);
+  const [hidden, setHidden] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -36,9 +38,16 @@ const PostponeManagement = () => {
     id: index + 1,
   }));
 
-  const handleOpenMenu = (event, postponeExamId) => {
+  const handleCloseMenu = () => {
+    setOpen(null);
+  };
+
+  const handleOpenDetail = (event, postponeExamId) => {
     setSelected([postponeExamId]);
     setOpen(event.currentTarget);
+    setHidden(!hidden);
+    setShowDetail(!showDetail);
+    handleCloseMenu();
   };
 
   const columns = [
@@ -79,13 +88,13 @@ const PostponeManagement = () => {
       flex: 1,
     },
     {
-      field: 'status',
-      headerName: 'Trạng thái',
-    },
-    {
       field: 'phanHoi',
       headerName: 'Phản hồi',
       flex: 1,
+    },
+    {
+      field: 'status',
+      headerName: 'Kết quả',
     },
     {
       field: 'ghiChu',
@@ -95,18 +104,23 @@ const PostponeManagement = () => {
     {
       field: 'actions',
       type: 'actions',
-      flex: 0.5,
+      flex: 0.7,
       getActions: (params) => [
         <GridActionsCellItem
-          icon={<Icon icon="line-md:clipboard-plus-twotone" />}
-          label="Toggle Admin"
-          onClick={() => console.log(params.row.postponeExamId)}
-          showInMenu
+          icon={<Icon icon="line-md:confirm-circle-twotone" width="1.2rem" height="1.2rem" color="green" />}
+          label="Chấp nhận"
+          // onClick={duplicateUser(params.id)}
         />,
         <GridActionsCellItem
-          icon={<Icon icon="line-md:clipboard-plus-twotone" />}
-          label="Duplicate User"
+          icon={<Icon icon="line-md:close-circle-twotone" width="1.2rem" height="1.2rem" color="red" />}
+          label="Từ chối"
           // onClick={duplicateUser(params.id)}
+        />,
+        <GridActionsCellItem
+          icon={<Icon icon="line-md:alert-circle-twotone-loop" />}
+          label="Chi tiết"
+          onClick={(event) => handleOpenDetail(event, params.row.postponeExamId)}
+          open={open}
           showInMenu
         />,
       ],
@@ -128,6 +142,14 @@ const PostponeManagement = () => {
         <title>Quản lý HOÃN THI | KHẢO THÍ - VLU</title>
       </Helmet>
       <Header title="Quản lý HOÃN THI" />
+      {showDetail && (
+        <DetailPostpone
+          postponeExamId={selected.length > 0 ? selected[0] : null}
+          onClose={handleOpenDetail}
+          open={showDetail}
+          hidden={hidden}
+        />
+      )}
       <DataGridPremium
         slots={{
           loadingOverlay: LinearProgress,
@@ -139,24 +161,6 @@ const PostponeManagement = () => {
         initialState={initialState}
         apiRef={apiRef}
       />
-      <Popover
-        open={open}
-        anchorEl={open}
-        // onClose={handleCloseMenu}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-        <MenuItem>
-          Chi tiết
-          <Icon icon="line-md:alert-circle-loop" />
-        </MenuItem>
-      </Popover>
     </>
   );
 };

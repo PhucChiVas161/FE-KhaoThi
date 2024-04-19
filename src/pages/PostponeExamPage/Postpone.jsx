@@ -18,6 +18,7 @@ const Postpone = () => {
   const [selected, setSelected] = useState('');
   const [open, setOpen] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get('token');
@@ -43,8 +44,10 @@ const Postpone = () => {
     setOpen(null);
   };
   const handleOpenDetail = (event, postponeExamId) => {
+    setSelected([postponeExamId]);
     setOpen(event.currentTarget);
     setShowDetail(!showDetail);
+    setHidden(!hidden);
     handleCloseMenu();
   };
 
@@ -61,13 +64,13 @@ const Postpone = () => {
       flex: 1,
     },
     {
-      field: 'status',
-      headerName: 'Trạng thái',
+      field: 'phanHoi',
+      headerName: 'Phản hồi',
       flex: 1,
     },
     {
-      field: 'phanHoi',
-      headerName: 'Phản hồi',
+      field: 'status',
+      headerName: 'Kết quả',
       flex: 1,
     },
     {
@@ -138,6 +141,7 @@ const Postpone = () => {
           postponeExamId={selected.length > 0 ? selected[0] : null}
           onClose={handleOpenDetail}
           open={showDetail}
+          hidden={hidden}
         />
       )}
       <DataGridPremium

@@ -197,7 +197,6 @@ const UserPage = () => {
     handleCloseMenu();
   };
   const handleShowConfirmation = (row) => {
-    console.log(row);
     setDeleteConfirmation(row);
   };
 
