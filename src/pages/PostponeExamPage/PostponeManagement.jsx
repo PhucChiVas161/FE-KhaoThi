@@ -47,10 +47,16 @@ const PostponeManagement = () => {
   };
 
   const updatePostponeRefresh = (updatePostponeRefresh) => {
-    setPostponeExam((prevPostpone) => [...prevPostpone, updatePostponeRefresh]);
-    setPostponeExam((prevRows) =>
-      prevRows.filter((row) => row.postponeExamId !== updatePostponeRefresh.postponeExamId)
-    );
+    setPostponeExam((prevPostpone) => {
+      // Tìm kiếm và cập nhật bản ghi trong prevPostpone
+      const updatedRows = prevPostpone.map((row) => {
+        if (row.postponeExamId === updatePostponeRefresh.postponeExamId) {
+          return updatePostponeRefresh;
+        }
+        return row;
+      });
+      return updatedRows;
+    });
   };
 
   const columns = [
