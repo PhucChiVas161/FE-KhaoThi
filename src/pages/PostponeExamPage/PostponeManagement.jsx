@@ -4,6 +4,7 @@ import {
   useKeepGroupedColumnsHidden,
   useGridApiRef,
   GridActionsCellItem,
+  GridToolbar,
 } from '@mui/x-data-grid-premium';
 import { getPostponeExamAll } from './PostponeExamAPI';
 import { Helmet } from 'react-helmet';
@@ -16,7 +17,7 @@ const PostponeManagement = () => {
   const [postponeExam, setPostponeExam] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState('');
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [hidden, setHidden] = useState(true);
 
@@ -38,16 +39,18 @@ const PostponeManagement = () => {
     id: index + 1,
   }));
 
-  const handleCloseMenu = () => {
-    setOpen(null);
-  };
-
   const handleOpenDetail = (event, postponeExamId) => {
     setSelected([postponeExamId]);
-    setOpen(event.currentTarget);
+    setOpen(!open);
     setHidden(!hidden);
     setShowDetail(!showDetail);
-    handleCloseMenu();
+  };
+
+  const updatePostponeRefresh = (updatePostponeRefresh) => {
+    setPostponeExam((prevPostpone) => [...prevPostpone, updatePostponeRefresh]);
+    setPostponeExam((prevRows) =>
+      prevRows.filter((row) => row.postponeExamId !== updatePostponeRefresh.postponeExamId)
+    );
   };
 
   const columns = [
@@ -142,17 +145,10 @@ const PostponeManagement = () => {
         <title>Quản lý HOÃN THI | KHẢO THÍ - VLU</title>
       </Helmet>
       <Header title="Quản lý HOÃN THI" />
-      {showDetail && (
-        <DetailPostpone
-          postponeExamId={selected.length > 0 ? selected[0] : null}
-          onClose={handleOpenDetail}
-          open={showDetail}
-          hidden={hidden}
-        />
-      )}
       <DataGridPremium
         slots={{
           loadingOverlay: LinearProgress,
+          toolbar: GridToolbar,
         }}
         loading={loading}
         rows={transformedPostponeExam}
@@ -161,6 +157,15 @@ const PostponeManagement = () => {
         initialState={initialState}
         apiRef={apiRef}
       />
+      {showDetail && (
+        <DetailPostpone
+          postponeExamId={selected.length > 0 ? selected[0] : null}
+          onClose={handleOpenDetail}
+          updatePostponeRefresh={updatePostponeRefresh}
+          open={showDetail}
+          hidden={hidden}
+        />
+      )}
     </>
   );
 };

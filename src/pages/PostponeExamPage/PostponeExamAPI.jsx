@@ -38,3 +38,12 @@ export const detailPostpone = (postponeExamId) => {
     },
   });
 };
+// Update Postpone
+export const updatePostpone = (formData) => {
+  const token = Cookies.get('token');
+  return axios.put(`${import.meta.env.VITE_API_ENDPOINT}api/Postpone/update`, formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

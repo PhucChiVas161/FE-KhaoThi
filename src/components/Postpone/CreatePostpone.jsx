@@ -29,7 +29,7 @@ const CreatePostpone = ({ createPostpone, onClose, open }) => {
     lanThi: '',
     lyDo: '',
   });
-  const [danhMucs, setDanhMucs] = useState([]);
+  const [course, setCourse] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
   const handleErrors = useHandleErrors();
 
@@ -64,13 +64,13 @@ const CreatePostpone = ({ createPostpone, onClose, open }) => {
         },
       })
       .then((response) => {
-        setDanhMucs(response.data);
+        setCourse(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
-  const uniqueLopHPs = danhMucs.reduce((acc, current) => {
+  const uniqueLopHPs = course.reduce((acc, current) => {
     const isDuplicate = acc.find((item) => item.lopHP === current.lopHP);
     if (!isDuplicate) {
       acc.push(current);
@@ -102,7 +102,7 @@ const CreatePostpone = ({ createPostpone, onClose, open }) => {
                     onInputChange={(event, newValue) => {
                       setFormData({ ...formData, maPhongThi: newValue });
                     }}
-                    options={danhMucs
+                    options={course
                       .filter((option) => option.lopHP === formData.lopHP)
                       .map((option) => option.maPhongThi)}
                     renderInput={(params) => <TextField {...params} label="Mã phòng thi" />}
@@ -114,7 +114,7 @@ const CreatePostpone = ({ createPostpone, onClose, open }) => {
                     onInputChange={(event, newValue) => {
                       setFormData({ ...formData, tenHP: newValue });
                     }}
-                    options={danhMucs.filter((option) => option.lopHP === formData.lopHP).map((option) => option.tenHP)}
+                    options={course.filter((option) => option.lopHP === formData.lopHP).map((option) => option.tenHP)}
                     renderInput={(params) => <TextField {...params} label="Tên Học Phần" />}
                   />
                 </Grid>
@@ -135,14 +135,30 @@ const CreatePostpone = ({ createPostpone, onClose, open }) => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    multiline
-                    name="lyDo"
-                    label="Lý do"
-                    value={formData.lyDo}
-                    onChange={handleChange}
-                    fullWidth
-                  />
+                  <FormControl fullWidth>
+                    <InputLabel id="lyDo-label">Lý do</InputLabel>
+                    <Select
+                      labelId="lyDo-label"
+                      id="lyDo"
+                      name="lyDo"
+                      value={formData.lyDo}
+                      onChange={handleChange}
+                      label="Lý do"
+                    >
+                      <MenuItem value="Bệnh tật hoặc tình trạng sức khỏe khẩn cấp">
+                        Bệnh tật hoặc tình trạng sức khỏe khẩn cấp
+                      </MenuItem>
+                      <MenuItem value="Tai nạn hoặc tình huống khẩn cấp gia đình">
+                        Tai nạn hoặc tình huống khẩn cấp gia đình
+                      </MenuItem>
+                      <MenuItem value="Các vấn đề kỹ thuật hoặc hạ tầng như mất điện, internet, máy tính, v.v.">
+                        Các vấn đề kỹ thuật hoặc hạ tầng như mất điện, internet, máy tính, v.v.
+                      </MenuItem>
+                      <MenuItem value="Các sự kiện chính đáng như tang lễ, cưới xin, v.v.">
+                        Các sự kiện chính đáng như tang lễ, cưới xin, v.v.
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
                 </Grid>
               </Grid>
             </CardContent>

@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { DataGridPremium, GridToolbarContainer, GridActionsCellItem } from '@mui/x-data-grid-premium';
-import { IconButton, MenuItem, Popover } from '@mui/material';
 import { getPostponeExam } from './PostponeExamAPI';
 import { Helmet } from 'react-helmet';
 import { LinearProgress, Button } from '@mui/material';
@@ -16,7 +15,7 @@ const Postpone = () => {
   const [loading, setLoading] = useState(false);
   const [openCreatePostpone, setOpenCreatePostpone] = useState(false);
   const [selected, setSelected] = useState('');
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [hidden, setHidden] = useState(false);
 
@@ -40,15 +39,11 @@ const Postpone = () => {
     id: index + 1,
   }));
 
-  const handleCloseMenu = () => {
-    setOpen(null);
-  };
   const handleOpenDetail = (event, postponeExamId) => {
     setSelected([postponeExamId]);
-    setOpen(event.currentTarget);
+    setOpen(!open);
     setShowDetail(!showDetail);
     setHidden(!hidden);
-    handleCloseMenu();
   };
 
   const columns = [

@@ -51,7 +51,7 @@ const ProfileDialog = ({ open, onClose }) => {
         <Card>
           <CardContent>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
+              <Grid item xs={6}>
                 <TextField
                   name="accountEmail"
                   type="email"
@@ -76,7 +76,7 @@ const ProfileDialog = ({ open, onClose }) => {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <TextField
                   name="employeeMSSV"
                   label="MSSV"
@@ -88,7 +88,7 @@ const ProfileDialog = ({ open, onClose }) => {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <TextField
                   name="accountRole"
                   label="Vai trò"
@@ -100,7 +100,7 @@ const ProfileDialog = ({ open, onClose }) => {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <TextField
                   name="employeeGender"
                   label="Giới tính"
