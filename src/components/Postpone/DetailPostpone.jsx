@@ -10,6 +10,10 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useHandleErrors } from '../../hooks/useHandleErrors';
@@ -104,7 +108,22 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
                   <TextField disabled name="lyDo" label="Lý do" value={postponeExam.lyDo} fullWidth />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField disabled name="Kết quả" label="Kết quả" value={postponeExam.status} fullWidth />
+                  <FormControl disabled={hidden} fullWidth>
+                    <InputLabel id="status-label">Trạng thái</InputLabel>
+                    <Select
+                      labelId="status-label"
+                      id="status"
+                      name="status"
+                      label="Trạng thái"
+                      value={postponeExam.status} // Ensure that the value is never undefined
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="Chờ duyệt">Chờ duyệt</MenuItem>
+                      <MenuItem value="Từ chối">Từ chối</MenuItem>
+                      <MenuItem value="Chấp nhận">Chấp nhận</MenuItem>
+                      {/* Add more menu items as needed */}
+                    </Select>
+                  </FormControl>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField

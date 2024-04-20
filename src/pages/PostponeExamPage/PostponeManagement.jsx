@@ -113,18 +113,8 @@ const PostponeManagement = () => {
     {
       field: 'actions',
       type: 'actions',
-      flex: 0.7,
+      flex: 0.1,
       getActions: (params) => [
-        <GridActionsCellItem
-          icon={<Icon icon="line-md:confirm-circle-twotone" width="1.2rem" height="1.2rem" color="green" />}
-          label="Chấp nhận"
-          // onClick={duplicateUser(params.id)}
-        />,
-        <GridActionsCellItem
-          icon={<Icon icon="line-md:close-circle-twotone" width="1.2rem" height="1.2rem" color="red" />}
-          label="Từ chối"
-          // onClick={duplicateUser(params.id)}
-        />,
         <GridActionsCellItem
           icon={<Icon icon="line-md:alert-circle-twotone-loop" />}
           label="Chi tiết"
@@ -133,7 +123,7 @@ const PostponeManagement = () => {
           showInMenu
         />,
       ],
-      disableExport: true,
+      // disableExport: true,
     },
   ];
   const apiRef = useGridApiRef();

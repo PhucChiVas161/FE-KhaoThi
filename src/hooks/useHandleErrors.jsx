@@ -12,7 +12,8 @@ const errorMessages = {
   8: 'MSSV đã tồn tại',
   9: 'Mật khẩu cũ không khớp',
   10: 'Email không tồn tại',
-  11: 'Khoá học không tồn tại',
+  11: 'Lớp học phần hoặc Mã phòng thi không tồn tại',
+  12: 'Bạn đã gửi đơn này rồi, vui lòng đợi phòng khảo thí duyệt',
 };
 
 export const useHandleErrors = () => {
