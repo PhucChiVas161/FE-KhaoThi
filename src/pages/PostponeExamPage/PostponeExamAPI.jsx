@@ -1,6 +1,5 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import Postpone from './Postpone';
 
 //Get PostponeExamAll
 export const getPostponeExamAll = () => {
