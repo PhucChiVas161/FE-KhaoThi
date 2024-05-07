@@ -13,7 +13,9 @@ const errorMessages = {
   9: 'Mật khẩu cũ không khớp',
   10: 'Email không tồn tại',
   11: 'Lớp học phần hoặc Mã phòng thi không tồn tại',
-  12: 'Bạn đã gửi đơn này rồi, vui lòng đợi phòng khảo thí duyệt',
+  12: 'Bạn đã gửi đơn hoãn thi này rồi, vui lòng đợi phòng khảo thí duyệt',
+  13: 'Đã vượt quá số lần gửi phúc khảo cho môn này',
+  14: 'Bạn đã gửi đơn phúc khảo này rồi, vui lòng đợi phòng khảo thí duyệt',
 };
 
 export const useHandleErrors = () => {

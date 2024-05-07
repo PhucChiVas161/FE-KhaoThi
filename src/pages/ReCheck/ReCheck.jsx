@@ -10,6 +10,7 @@ import Header from '../../components/Header';
 import { Icon } from '@iconify/react';
 import CreatePostpone from '../../components/Postpone/CreatePostpone';
 import DetailPostpone from '../../components/Postpone/DetailPostpone';
+import CreateReCheck from '../../components/ReCheck/CreateReCheck';
 const ReCheck = () => {
   const [reCheck, setRecheck] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -129,7 +130,7 @@ const ReCheck = () => {
       </Helmet>
       <Header title="PHÚC KHẢO" />
       {openCreateReCheck && (
-        <CreatePostpone createReCheck={createReCheck} onClose={handleCloseCreateReCheck} open={openCreateReCheck} />
+        <CreateReCheck createRecheck={createReCheck} onClose={handleCloseCreateReCheck} open={openCreateReCheck} />
       )}
       {showDetail && (
         <DetailPostpone

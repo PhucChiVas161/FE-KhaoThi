@@ -92,10 +92,10 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
                 <Grid item xs={6}>
                   <TextField disabled name="Tên học phần" label="Tên học phần" value={postponeExam.tenHP} fullWidth />
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={3}>
                   <TextField disabled name="Lần thi" label="Lần thi" value={postponeExam.lanThi} fullWidth />
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={3}>
                   <TextField
                     disabled
                     name="postponeExamId"
@@ -104,38 +104,45 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
                     fullWidth
                   />
                 </Grid>
-                <Grid item xs={2}>
-                  <TextField
-                    disabled
-                    multiline
-                    name="phanHoi"
-                    label="Phản hồi"
-                    value={postponeExam.status}
-                    fullWidth
-                    onChange={handleChange}
-                  />
+                <Grid item xs={12}>
+                  <TextField disabled name="lyDo" label="Lý do" value={postponeExam.lyDo} fullWidth />
                 </Grid>
-                <Grid item xs={4}>
-                  <TextField disabled name="lyDo" label="Lý do" value={postponeExam.lyDo} fullWidth multiline />
+                <Grid item xs={12}>
+                  <FormControl disabled={hidden} fullWidth>
+                    <InputLabel id="status-label">Trạng thái</InputLabel>
+                    <Select
+                      labelId="status-label"
+                      id="status"
+                      name="status"
+                      label="Trạng thái"
+                      value={postponeExam.status} // Ensure that the value is never undefined
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="Chờ duyệt">Chờ duyệt</MenuItem>
+                      <MenuItem value="Từ chối">Từ chối</MenuItem>
+                      <MenuItem value="Chấp nhận">Chấp nhận</MenuItem>
+                      {/* Add more menu items as needed */}
+                    </Select>
+                  </FormControl>
                 </Grid>
-                <Grid item xs={4}>
-                  <TextField
-                    disabled={hidden}
-                    multiline
-                    name="ghiChu"
-                    label="Ghi chú"
-                    value={postponeExam.ghiChu}
-                    fullWidth
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12}>
                   <TextField
                     disabled={hidden}
                     multiline
                     name="phanHoi"
                     label="Phản hồi"
                     value={postponeExam.phanHoi}
+                    fullWidth
+                    onChange={handleChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    disabled={hidden}
+                    multiline
+                    name="ghiChu"
+                    label="Ghi chú"
+                    value={postponeExam.ghiChu}
                     fullWidth
                     onChange={handleChange}
                   />
