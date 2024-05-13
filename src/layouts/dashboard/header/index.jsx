@@ -6,6 +6,7 @@ import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
 import { bgBlur } from '../../../utils/cssStyles';
 // components
 import Iconify from '../../../components/iconify';
+import Logo from '../../../components/logo';
 //
 import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
@@ -30,12 +31,14 @@ const StyledRoot = styled(AppBar)(({ theme }) => ({
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   minHeight: HEADER_MOBILE,
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
   [theme.breakpoints.up('lg')]: {
     minHeight: HEADER_DESKTOP,
     padding: theme.spacing(0, 5),
   },
 }));
-
 // ----------------------------------------------------------------------
 
 Header.propTypes = {
@@ -58,8 +61,8 @@ export default function Header({ onOpenNav }) {
         </IconButton>
 
         {/* <Searchbar /> */}
-        <Box sx={{ flexGrow: 1 }} />
-
+        <Box />
+        <Logo />
         <Stack
           direction="row"
           alignItems="center"

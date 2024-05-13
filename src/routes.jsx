@@ -12,7 +12,7 @@ import Page404 from './pages/Page404';
 import DashboardAppPage from './pages/DashboardAppPage';
 import LandingPage from './pages/LandingPage/index';
 import PostPageAdmin from './pages/PostPageAdmin';
-// import QuanLyPhucKhao from './pages/QuanLyPhucKhao';
+import QuanLyPhucKhao from './pages/QuanLyPhucKhao';
 // import PhucKhao from './pages/PhucKhao';
 import Notification from './pages/Notification';
 import UserPage from './pages/UserPage/UserPage';
@@ -48,7 +48,7 @@ export default function Router() {
         { path: 'Recheck', element: <ReCheck /> },
         { path: 'Postpone', element: <Postpone /> },
         { path: 'UsersManagement', element: <UserPage /> },
-        // { path: 'RecheckManagement', element: <QuanLyPhucKhao /> },
+        { path: 'RecheckManagement', element: <QuanLyPhucKhao /> },
         { path: 'PostponeManagement', element: <PostponeManagement /> },
         { path: 'PostManagement', element: <PostPageAdmin /> },
         { path: 'NotificationManagement', element: <Notification /> },
