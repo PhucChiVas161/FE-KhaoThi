@@ -20,6 +20,7 @@ import ForgotChangePassword from './components/User/ForgotChangePassword';
 import PostponeManagement from './pages/PostponeExamPage/PostponeManagement';
 import Postpone from './pages/PostponeExamPage/Postpone';
 import ReCheck from './pages/ReCheck/ReCheck';
+import ReCheckManagement from './pages/ReCheck/ReCheckManagement';
 export default function Router() {
   const [isLoggedIn, setIsLoggedIn] = useState(Cookies.get('token'));
 
@@ -50,7 +51,7 @@ export default function Router() {
         { path: 'UsersManagement', element: <UserPage /> },
         { path: 'RecheckManagement', element: <QuanLyPhucKhao /> },
         { path: 'PostponeManagement', element: <PostponeManagement /> },
-        { path: 'PostManagement', element: <PostPageAdmin /> },
+        { path: 'PostManagement', element: <ReCheckManagement /> },
         { path: 'NotificationManagement', element: <Notification /> },
       ],
     },

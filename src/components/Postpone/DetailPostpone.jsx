@@ -10,10 +10,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useHandleErrors } from '../../hooks/useHandleErrors';
@@ -92,10 +88,10 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
                 <Grid item xs={6}>
                   <TextField disabled name="Tên học phần" label="Tên học phần" value={postponeExam.tenHP} fullWidth />
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={1.5}>
                   <TextField disabled name="Lần thi" label="Lần thi" value={postponeExam.lanThi} fullWidth />
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={2.5}>
                   <TextField
                     disabled
                     name="postponeExamId"

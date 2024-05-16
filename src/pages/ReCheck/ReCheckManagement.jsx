@@ -6,15 +6,15 @@ import {
   GridActionsCellItem,
   GridToolbar,
 } from '@mui/x-data-grid-premium';
-import { getPostponeExamAll } from './PostponeExamAPI';
+import { getReCheckExamAll } from './ReCheckAPI';
 import { Helmet } from 'react-helmet';
 import { LinearProgress } from '@mui/material';
 import Header from '../../components/Header';
 import { Icon } from '@iconify/react';
-import DetailPostpone from '../../components/Postpone/DetailPostpone';
+import DetailReCheck from '../../components/ReCheck/DetailReCheck';
 
-const PostponeManagement = () => {
-  const [postponeExam, setPostponeExam] = useState([]);
+const ReCheckManagement = () => {
+  const [reCheck, setReCheck] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState('');
   const [open, setOpen] = useState(false);
@@ -23,9 +23,9 @@ const PostponeManagement = () => {
 
   useEffect(() => {
     setLoading(true);
-    getPostponeExamAll()
+    getReCheckExamAll()
       .then((response) => {
-        setPostponeExam(response.data);
+        setReCheck(response.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -34,24 +34,24 @@ const PostponeManagement = () => {
       });
   }, []);
 
-  const transformedPostponeExam = postponeExam.map((postponeExam, index) => ({
-    ...postponeExam,
+  const transformedReCheck = reCheck.map((reCheck, index) => ({
+    ...reCheck,
     id: index + 1,
   }));
 
-  const handleOpenDetail = (event, postponeExamId) => {
-    setSelected([postponeExamId]);
+  const handleOpenDetail = (event, reCheckId) => {
+    setSelected([reCheckId]);
     setOpen(!open);
     setHidden(!hidden);
     setShowDetail(!showDetail);
   };
 
-  const updatePostponeRefresh = (updatePostponeRefresh) => {
-    setPostponeExam((prevPostpone) => {
-      // Tìm kiếm và cập nhật bản ghi trong prevPostpone
-      const updatedRows = prevPostpone.map((row) => {
-        if (row.postponeExamId === updatePostponeRefresh.postponeExamId) {
-          return updatePostponeRefresh;
+  const updateReCheckRefresh = (updateReCheckRefresh) => {
+    setReCheck((prevReCheck) => {
+      // Tìm kiếm và cập nhật bản ghi trong prevReCheck
+      const updatedRows = prevReCheck.map((row) => {
+        if (row.reCheckId === updateReCheckRefresh.reCheckId) {
+          return updateReCheckRefresh;
         }
         return row;
       });
@@ -67,7 +67,7 @@ const PostponeManagement = () => {
       flex: 1,
     },
     {
-      field: 'postponeExamId',
+      field: 'reCheckId',
       headerName: 'Mã đơn',
       flex: 0.9,
     },
@@ -103,7 +103,7 @@ const PostponeManagement = () => {
     },
     {
       field: 'status',
-      headerName: 'Kết quả',
+      headerName: 'Trạng thái',
     },
     {
       field: 'ghiChu',
@@ -118,7 +118,7 @@ const PostponeManagement = () => {
         <GridActionsCellItem
           icon={<Icon icon="line-md:alert-circle-twotone-loop" />}
           label="Chi tiết"
-          onClick={(event) => handleOpenDetail(event, params.row.postponeExamId)}
+          onClick={(event) => handleOpenDetail(event, params.row.reCheckId)}
           open={open}
           showInMenu
         />,
@@ -138,9 +138,9 @@ const PostponeManagement = () => {
   return (
     <>
       <Helmet>
-        <title>Quản lý HOÃN THI | KHẢO THÍ - VLU</title>
+        <title>Quản lý PHÚC KHẢO | KHẢO THÍ - VLU</title>
       </Helmet>
-      <Header title="Quản lý HOÃN THI" />
+      <Header title="Quản lý PHÚC KHẢO" />
       <div style={{ height: 650, width: '100%' }}>
         <DataGridPremium
           slots={{
@@ -148,7 +148,7 @@ const PostponeManagement = () => {
             toolbar: GridToolbar,
           }}
           loading={loading}
-          rows={transformedPostponeExam}
+          rows={transformedReCheck}
           columns={columns}
           getRowHeight={() => 'auto'}
           initialState={initialState}
@@ -157,10 +157,10 @@ const PostponeManagement = () => {
         />
       </div>
       {showDetail && (
-        <DetailPostpone
-          postponeExamId={selected.length > 0 ? selected[0] : null}
+        <DetailReCheck
+          reCheckId={selected.length > 0 ? selected[0] : null}
           onClose={handleOpenDetail}
-          updatePostponeRefresh={updatePostponeRefresh}
+          updateReCheckRefresh={updateReCheckRefresh}
           open={showDetail}
           hidden={hidden}
         />
@@ -169,4 +169,4 @@ const PostponeManagement = () => {
   );
 };
 
-export default PostponeManagement;
+export default ReCheckManagement;

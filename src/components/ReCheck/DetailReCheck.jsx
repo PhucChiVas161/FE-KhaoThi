@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { detailPostpone, updatePostpone } from '../../pages/PostponeExamPage/PostponeExamAPI';
+import { detailReCheck, updateReCheck } from '../../pages/ReCheck/ReCheckAPI';
 import {
   TextField,
   Button,
@@ -18,11 +18,11 @@ import {
 import { useSnackbar } from 'notistack';
 import { useHandleErrors } from '../../hooks/useHandleErrors';
 
-const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeRefresh }) => {
-  const [postponeExam, setPostponeExam] = useState({});
-  const [status, setStatus] = useState(null);
+const DetailReCheck = ({ reCheckId, onClose, open, hidden, updateReCheckRefresh }) => {
+  const [reCheck, setReCheck] = useState({});
+  // const [status, setStatus] = useState(null);
   const [formData, setFormData] = useState({
-    postponeExamId: postponeExamId,
+    reCheckId: reCheckId,
     status: '',
     phanHoi: null,
     ghiChu: null,
@@ -37,11 +37,11 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
   const handleSubmit = (e) => {
     e.preventDefault();
     formData.status = status;
-    updatePostpone(formData)
+    updateReCheck(formData)
       .then((response) => {
         if (response.status === 200) {
-          enqueueSnackbar('Cập nhật hoãn thi thành công', { variant: 'success' });
-          updatePostponeRefresh(formData);
+          enqueueSnackbar('Cập nhật phúc khảo thành công', { variant: 'success' });
+          updateReCheckRefresh(formData);
           onClose();
         }
       })
@@ -49,65 +49,53 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
         if (error.response.status === 400) {
           handleErrors(error.response.data.errors);
         }
-        enqueueSnackbar('Cập nhật hoãn thi thất bại!', { variant: 'error' });
+        enqueueSnackbar('Cập nhật phúc khảo thất bại!', { variant: 'error' });
       });
   };
 
   useEffect(() => {
-    detailPostpone(postponeExamId)
+    detailReCheck(reCheckId)
       .then((response) => {
-        setPostponeExam(response.data);
+        setReCheck(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, [postponeExamId]);
+  }, [reCheckId]);
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md">
-      <DialogTitle>CHI TIẾT HOÃN THI</DialogTitle>
-      <form onSubmit={handleSubmit}>
+      <DialogTitle>CHI TIẾT PHÚC KHẢO</DialogTitle>
+      <FormControl onSubmit={handleSubmit}>
         <DialogContent>
           <Card>
             <CardContent>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <TextField disabled name="Họ và tên" label="Họ và tên" value={postponeExam.employeeName} fullWidth />
+                  <TextField disabled name="Họ và tên" label="Họ và tên" value={reCheck.employeeName} fullWidth />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField disabled name="Email" label="Email" value={postponeExam.accountEmail} fullWidth />
+                  <TextField disabled name="Email" label="Email" value={reCheck.accountEmail} fullWidth />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField disabled name="Lớp học phần" label="Lớp học phần" value={postponeExam.lopHP} fullWidth />
+                  <TextField disabled name="Lớp học phần" label="Lớp học phần" value={reCheck.lopHP} fullWidth />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField
-                    disabled
-                    name="Mã phòng thi"
-                    label="Mã phòng thi"
-                    value={postponeExam.maPhongThi}
-                    fullWidth
-                  />
+                  <TextField disabled name="Mã phòng thi" label="Mã phòng thi" value={reCheck.maPhongThi} fullWidth />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField disabled name="Tên học phần" label="Tên học phần" value={postponeExam.tenHP} fullWidth />
+                  <TextField disabled name="Tên học phần" label="Tên học phần" value={reCheck.tenHP} fullWidth />
                 </Grid>
                 <Grid item xs={3}>
-                  <TextField disabled name="Lần thi" label="Lần thi" value={postponeExam.lanThi} fullWidth />
+                  <TextField disabled name="Lần thi" label="Lần thi" value={reCheck.lanThi} fullWidth />
                 </Grid>
                 <Grid item xs={3}>
-                  <TextField
-                    disabled
-                    name="postponeExamId"
-                    label="Mã đơn"
-                    value={postponeExam.postponeExamId}
-                    fullWidth
-                  />
+                  <TextField disabled name="reCheckId" label="Mã đơn" value={reCheck.reCheckId} fullWidth />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField disabled name="lyDo" label="Lý do" value={postponeExam.lyDo} fullWidth />
+                  <TextField disabled name="lyDo" label="Lý do" value={reCheck.lyDo} fullWidth />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={4}>
                   <FormControl disabled={hidden} fullWidth>
                     <InputLabel id="status-label">Trạng thái</InputLabel>
                     <Select
@@ -115,34 +103,33 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
                       id="status"
                       name="status"
                       label="Trạng thái"
-                      value={postponeExam.status} // Ensure that the value is never undefined
+                      value={reCheck.status || ''}
                       onChange={handleChange}
                     >
                       <MenuItem value="Chờ duyệt">Chờ duyệt</MenuItem>
                       <MenuItem value="Từ chối">Từ chối</MenuItem>
                       <MenuItem value="Chấp nhận">Chấp nhận</MenuItem>
-                      {/* Add more menu items as needed */}
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={4}>
                   <TextField
                     disabled={hidden}
                     multiline
                     name="phanHoi"
                     label="Phản hồi"
-                    value={postponeExam.phanHoi}
+                    value={reCheck.phanHoi}
                     fullWidth
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={4}>
                   <TextField
                     disabled={hidden}
                     multiline
                     name="ghiChu"
                     label="Ghi chú"
-                    value={postponeExam.ghiChu}
+                    value={reCheck.ghiChu}
                     fullWidth
                     onChange={handleChange}
                   />
@@ -155,34 +142,18 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
               Đóng
             </Button>
             <div style={{ display: 'flex', gap: '8px' }}>
-              <Button
-                variant="contained"
-                color="warning"
-                onClick={() => {
-                  setStatus('Từ chối');
-                }}
-                type="submit"
-                hidden={hidden}
-              >
+              <Button variant="contained" color="warning" type="submit" hidden={hidden}>
                 Từ chối
               </Button>
-              <Button
-                variant="contained"
-                color="success"
-                onClick={() => {
-                  setStatus('Chấp nhận');
-                }}
-                type="submit"
-                hidden={hidden}
-              >
+              <Button variant="contained" color="success" type="submit" hidden={hidden}>
                 Chấp nhận
               </Button>
             </div>
           </DialogActions>
         </DialogContent>
-      </form>
+      </FormControl>
     </Dialog>
   );
 };
 
-export default DetailPostpone;
+export default DetailReCheck;

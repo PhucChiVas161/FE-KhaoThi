@@ -8,8 +8,7 @@ import moment from 'moment';
 import { jwtDecode } from 'jwt-decode';
 import Header from '../../components/Header';
 import { Icon } from '@iconify/react';
-import CreatePostpone from '../../components/Postpone/CreatePostpone';
-import DetailPostpone from '../../components/Postpone/DetailPostpone';
+import DetailReCheck from '../../components/ReCheck/DetailReCheck';
 import CreateReCheck from '../../components/ReCheck/CreateReCheck';
 const ReCheck = () => {
   const [reCheck, setRecheck] = useState([]);
@@ -133,23 +132,26 @@ const ReCheck = () => {
         <CreateReCheck createRecheck={createReCheck} onClose={handleCloseCreateReCheck} open={openCreateReCheck} />
       )}
       {showDetail && (
-        <DetailPostpone
+        <DetailReCheck
           reCheckId={selected.length > 0 ? selected[0] : null}
           onClose={handleOpenDetail}
           open={showDetail}
           hidden={hidden}
         />
       )}
-      <DataGridPremium
-        slots={{
-          toolbar: CustomToolbar,
-          loadingOverlay: LinearProgress,
-        }}
-        loading={loading}
-        rows={transformedReCheck}
-        columns={columns}
-        getRowHeight={() => 'auto'}
-      />
+      <div style={{ height: 650, width: '100%' }}>
+        <DataGridPremium
+          slots={{
+            toolbar: CustomToolbar,
+            loadingOverlay: LinearProgress,
+          }}
+          loading={loading}
+          rows={transformedReCheck}
+          columns={columns}
+          getRowHeight={() => 'auto'}
+          pagination
+        />
+      </div>
     </>
   );
 };

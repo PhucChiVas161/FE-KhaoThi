@@ -139,16 +139,19 @@ const Postpone = () => {
           hidden={hidden}
         />
       )}
-      <DataGridPremium
-        slots={{
-          toolbar: CustomToolbar,
-          loadingOverlay: LinearProgress,
-        }}
-        loading={loading}
-        rows={transformedPostponeExam}
-        columns={columns}
-        getRowHeight={() => 'auto'}
-      />
+      <div style={{ height: 650, width: '100%' }}>
+        <DataGridPremium
+          slots={{
+            toolbar: CustomToolbar,
+            loadingOverlay: LinearProgress,
+          }}
+          loading={loading}
+          rows={transformedPostponeExam}
+          columns={columns}
+          getRowHeight={() => 'auto'}
+          pagination
+        />
+      </div>
     </>
   );
 };
