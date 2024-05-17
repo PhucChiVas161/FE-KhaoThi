@@ -54,7 +54,7 @@ const CreateReCheck = ({ createRecheck, onClose, open }) => {
         enqueueSnackbar('Gửi phúc khảo thất bại!', { variant: 'error' });
       });
   };
-  // Nùi này là để lấy data từ danh mục và lọc ra các giá trị tương ứng
+  // Nùi này là để lấy data từ khoá học và lọc ra các giá trị tương ứng
   useEffect(() => {
     const token = Cookies.get('token');
     axios
@@ -79,7 +79,7 @@ const CreateReCheck = ({ createRecheck, onClose, open }) => {
   }, []);
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle>GỬI PHÚC KHẢO</DialogTitle>
       <form onSubmit={handleSubmit}>
         <DialogContent>

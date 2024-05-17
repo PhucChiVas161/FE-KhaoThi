@@ -6,14 +6,11 @@ import Cookies from 'js-cookie';
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
 //
-import PostPage from './pages/PostPage';
+
 import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import DashboardAppPage from './pages/DashboardAppPage';
 import LandingPage from './pages/LandingPage/index';
-import PostPageAdmin from './pages/PostPageAdmin';
-import QuanLyPhucKhao from './pages/QuanLyPhucKhao';
-// import PhucKhao from './pages/PhucKhao';
 import Notification from './pages/Notification';
 import UserPage from './pages/UserPage/UserPage';
 import ForgotChangePassword from './components/User/ForgotChangePassword';
@@ -41,17 +38,15 @@ export default function Router() {
       element: isLoggedIn ? <DashboardLayout /> : <Navigate to="/Login" />,
       children: [
         {
-          element: <Navigate to={'/Dashboard/Post' || '/Index'} />,
+          element: <Navigate to={'/Dashboard/Welcome' || '/Index'} />,
           index: true,
         },
-        // { path: 'app', element: <DashboardAppPage /> },
-        { path: 'Post', element: <PostPage /> },
+        { path: 'Welcome', element: <DashboardAppPage /> },
         { path: 'Recheck', element: <ReCheck /> },
         { path: 'Postpone', element: <Postpone /> },
         { path: 'UsersManagement', element: <UserPage /> },
-        { path: 'RecheckManagement', element: <QuanLyPhucKhao /> },
+        { path: 'RecheckManagement', element: <ReCheckManagement /> },
         { path: 'PostponeManagement', element: <PostponeManagement /> },
-        { path: 'PostManagement', element: <ReCheckManagement /> },
         { path: 'NotificationManagement', element: <Notification /> },
       ],
     },

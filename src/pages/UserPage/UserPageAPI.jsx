@@ -20,6 +20,15 @@ export const getOneUsers = (employeeId) => {
     },
   });
 };
+//GetUserByLecturer
+export const getUsersLecturer = () => {
+  const token = Cookies.get('token');
+  return axios.get(`${import.meta.env.VITE_API_ENDPOINT}api/employees/lecturer`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 
 //Delete User
 export const deleteUsers = (row) => {

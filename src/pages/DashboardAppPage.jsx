@@ -1,3 +1,8 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+
+import { jwtDecode } from 'jwt-decode';
 import { Helmet } from 'react-helmet-async';
 import { faker } from '@faker-js/faker';
 // @mui
@@ -22,6 +27,23 @@ import {
 
 export default function DashboardAppPage() {
   const theme = useTheme();
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    const token = Cookies.get('token');
+    const decode = jwtDecode(token);
+    axios
+      .get(`${import.meta.env.VITE_API_ENDPOINT}api/Employees/${decode.EmployeeId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <>
@@ -31,10 +53,10 @@ export default function DashboardAppPage() {
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
+          Xin chào, {users.employeeName} 👋👋👋
         </Typography>
 
-        <Grid container spacing={3}>
+        {/* <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} />
           </Grid>
@@ -212,7 +234,7 @@ export default function DashboardAppPage() {
               ]}
             />
           </Grid>
-        </Grid>
+        </Grid> */}
       </Container>
     </>
   );

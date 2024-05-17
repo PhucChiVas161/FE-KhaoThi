@@ -10,18 +10,21 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useHandleErrors } from '../../hooks/useHandleErrors';
 
 const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeRefresh }) => {
   const [postponeExam, setPostponeExam] = useState({});
-  const [status, setStatus] = useState(null);
   const [formData, setFormData] = useState({
     postponeExamId: postponeExamId,
     status: '',
-    phanHoi: null,
-    ghiChu: null,
+    phanHoi: '',
+    ghiChu: '',
   });
   const { enqueueSnackbar } = useSnackbar();
   const handleErrors = useHandleErrors();
@@ -32,7 +35,6 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    formData.status = status;
     updatePostpone(formData)
       .then((response) => {
         if (response.status === 200) {
@@ -53,6 +55,12 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
     detailPostpone(postponeExamId)
       .then((response) => {
         setPostponeExam(response.data);
+        setFormData({
+          postponeExamId: postponeExamId,
+          status: response.data.status || '',
+          phanHoi: response.data.phanHoi || '',
+          ghiChu: response.data.ghiChu || '',
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -60,7 +68,7 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
   }, [postponeExamId]);
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle>CHI TIẾT HOÃN THI</DialogTitle>
       <form onSubmit={handleSubmit}>
         <DialogContent>
@@ -88,10 +96,10 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
                 <Grid item xs={6}>
                   <TextField disabled name="Tên học phần" label="Tên học phần" value={postponeExam.tenHP} fullWidth />
                 </Grid>
-                <Grid item xs={1.5}>
+                <Grid item xs={3}>
                   <TextField disabled name="Lần thi" label="Lần thi" value={postponeExam.lanThi} fullWidth />
                 </Grid>
-                <Grid item xs={2.5}>
+                <Grid item xs={3}>
                   <TextField
                     disabled
                     name="postponeExamId"
@@ -100,19 +108,25 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
                     fullWidth
                   />
                 </Grid>
-                <Grid item xs={2}>
-                  <TextField
-                    disabled
-                    multiline
-                    name="phanHoi"
-                    label="Phản hồi"
-                    value={postponeExam.status}
-                    fullWidth
-                    onChange={handleChange}
-                  />
+                <Grid item xs={12}>
+                  <TextField disabled name="lyDo" label="Lý do" value={postponeExam.lyDo} fullWidth multiline />
                 </Grid>
                 <Grid item xs={4}>
-                  <TextField disabled name="lyDo" label="Lý do" value={postponeExam.lyDo} fullWidth multiline />
+                  <FormControl disabled={hidden} fullWidth>
+                    <InputLabel id="status-label">Trạng thái</InputLabel>
+                    <Select
+                      labelId="status-label"
+                      id="status"
+                      name="status"
+                      label="Trạng thái"
+                      value={formData.status}
+                      onChange={handleChange}
+                    >
+                      <MenuItem value="Chờ duyệt">Chờ duyệt</MenuItem>
+                      <MenuItem value="Từ chối">Từ chối</MenuItem>
+                      <MenuItem value="Chấp nhận">Chấp nhận</MenuItem>
+                    </Select>
+                  </FormControl>
                 </Grid>
                 <Grid item xs={4}>
                   <TextField
@@ -120,7 +134,7 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
                     multiline
                     name="ghiChu"
                     label="Ghi chú"
-                    value={postponeExam.ghiChu}
+                    value={formData.ghiChu}
                     fullWidth
                     onChange={handleChange}
                   />
@@ -131,7 +145,7 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
                     multiline
                     name="phanHoi"
                     label="Phản hồi"
-                    value={postponeExam.phanHoi}
+                    value={formData.phanHoi}
                     fullWidth
                     onChange={handleChange}
                   />
@@ -143,30 +157,9 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
             <Button variant="contained" color="error" onClick={onClose}>
               Đóng
             </Button>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <Button
-                variant="contained"
-                color="warning"
-                onClick={() => {
-                  setStatus('Từ chối');
-                }}
-                type="submit"
-                hidden={hidden}
-              >
-                Từ chối
-              </Button>
-              <Button
-                variant="contained"
-                color="success"
-                onClick={() => {
-                  setStatus('Chấp nhận');
-                }}
-                type="submit"
-                hidden={hidden}
-              >
-                Chấp nhận
-              </Button>
-            </div>
+            <Button variant="contained" color="primary" type="submit" hidden={hidden}>
+              Lưu
+            </Button>
           </DialogActions>
         </DialogContent>
       </form>

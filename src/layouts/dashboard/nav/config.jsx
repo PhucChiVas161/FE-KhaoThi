@@ -10,11 +10,6 @@ const navConfig = [
     title: 'Sinh viên',
     items: [
       {
-        title: 'Tin tức',
-        path: '/Dashboard/Post',
-        icon: icon('ic_news'),
-      },
-      {
         title: 'Phúc khảo',
         path: '/Dashboard/Recheck',
         icon: icon('ic_document'),
@@ -43,11 +38,6 @@ const navConfig = [
         title: 'Quản lý HOÃN THI',
         path: '/Dashboard/PostponeManagement',
         icon: icon('ic_postpone'),
-      },
-      {
-        title: 'Quản lý TIN TỨC',
-        path: '/Dashboard/PostManagement',
-        icon: icon('ic_news'),
       },
       {
         title: 'Quản lý THÔNG BÁO',

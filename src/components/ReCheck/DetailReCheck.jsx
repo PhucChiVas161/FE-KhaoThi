@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { detailReCheck, updateReCheck } from '../../pages/ReCheck/ReCheckAPI';
+import { getUsersLecturer } from '../../pages/UserPage/UserPageAPI';
 import {
   TextField,
   Button,
@@ -14,21 +15,46 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Autocomplete,
 } from '@mui/material';
 import { useSnackbar } from 'notistack';
 import { useHandleErrors } from '../../hooks/useHandleErrors';
 
 const DetailReCheck = ({ reCheckId, onClose, open, hidden, updateReCheckRefresh }) => {
   const [reCheck, setReCheck] = useState({});
-  // const [status, setStatus] = useState(null);
+  const [lecturers, setLecturers] = useState([]);
   const [formData, setFormData] = useState({
     reCheckId: reCheckId,
     status: '',
-    phanHoi: null,
-    ghiChu: null,
+    phanHoi: '',
   });
   const { enqueueSnackbar } = useSnackbar();
   const handleErrors = useHandleErrors();
+
+  useEffect(() => {
+    detailReCheck(reCheckId)
+      .then((response) => {
+        setReCheck(response.data);
+        setFormData({
+          reCheckId: reCheckId,
+          status: response.data.status || '',
+          phanHoi: response.data.phanHoi || '',
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [reCheckId]);
+  // Get Lecturer
+  useEffect(() => {
+    getUsersLecturer()
+      .then((response) => {
+        setLecturers(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,7 +62,6 @@ const DetailReCheck = ({ reCheckId, onClose, open, hidden, updateReCheckRefresh 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    formData.status = status;
     updateReCheck(formData)
       .then((response) => {
         if (response.status === 200) {
@@ -53,20 +78,10 @@ const DetailReCheck = ({ reCheckId, onClose, open, hidden, updateReCheckRefresh 
       });
   };
 
-  useEffect(() => {
-    detailReCheck(reCheckId)
-      .then((response) => {
-        setReCheck(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [reCheckId]);
-
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle>CHI TIẾT PHÚC KHẢO</DialogTitle>
-      <FormControl onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <DialogContent>
           <Card>
             <CardContent>
@@ -103,12 +118,13 @@ const DetailReCheck = ({ reCheckId, onClose, open, hidden, updateReCheckRefresh 
                       id="status"
                       name="status"
                       label="Trạng thái"
-                      value={reCheck.status || ''}
+                      value={formData.status}
                       onChange={handleChange}
                     >
                       <MenuItem value="Chờ duyệt">Chờ duyệt</MenuItem>
-                      <MenuItem value="Từ chối">Từ chối</MenuItem>
-                      <MenuItem value="Chấp nhận">Chấp nhận</MenuItem>
+                      <MenuItem value="Đã tiếp nhận">Đã tiếp nhận</MenuItem>
+                      <MenuItem value="Đang xử lý">Đang xử lý</MenuItem>
+                      <MenuItem value="Hoàn tất">Hoàn tất</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
@@ -118,20 +134,20 @@ const DetailReCheck = ({ reCheckId, onClose, open, hidden, updateReCheckRefresh 
                     multiline
                     name="phanHoi"
                     label="Phản hồi"
-                    value={reCheck.phanHoi}
+                    value={formData.phanHoi}
                     fullWidth
                     onChange={handleChange}
                   />
                 </Grid>
                 <Grid item xs={4}>
-                  <TextField
-                    disabled={hidden}
-                    multiline
-                    name="ghiChu"
-                    label="Ghi chú"
-                    value={reCheck.ghiChu}
-                    fullWidth
-                    onChange={handleChange}
+                  <TextField disabled multiline name="ghiChu" label="Ghi chú" value={reCheck.ghiChu} fullWidth />
+                </Grid>
+                <Grid item xs={12}>
+                  <Autocomplete
+                    disablePortal
+                    id="lecturers"
+                    options={lecturers}
+                    renderInput={(params) => <TextField {...params} label="Phân công giảng viên" />}
                   />
                 </Grid>
               </Grid>
@@ -141,17 +157,12 @@ const DetailReCheck = ({ reCheckId, onClose, open, hidden, updateReCheckRefresh 
             <Button variant="contained" color="error" onClick={onClose}>
               Đóng
             </Button>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <Button variant="contained" color="warning" type="submit" hidden={hidden}>
-                Từ chối
-              </Button>
-              <Button variant="contained" color="success" type="submit" hidden={hidden}>
-                Chấp nhận
-              </Button>
-            </div>
+            <Button variant="contained" color="primary" type="submit" hidden={hidden}>
+              Lưu
+            </Button>
           </DialogActions>
         </DialogContent>
-      </FormControl>
+      </form>
     </Dialog>
   );
 };

@@ -79,10 +79,10 @@ const CreatePostpone = ({ createPostpone, onClose, open }) => {
   }, []);
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle>GỬI HOÃN THI</DialogTitle>
       <form onSubmit={handleSubmit}>
-        <DialogContent>
+        <DialogContent m>
           <Card>
             <CardContent>
               <Grid container spacing={2}>
