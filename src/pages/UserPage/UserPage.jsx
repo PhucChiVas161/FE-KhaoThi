@@ -296,7 +296,7 @@ const UserPage = () => {
           onSuccess={updateUser}
         />
       )}
-      <div style={{ height: 650, width: '100%' }}>
+      <div style={{ height: 670, width: '100%' }}>
         <DataGridPremium
           emptyRowsWhenPaging
           slots={{
@@ -306,7 +306,6 @@ const UserPage = () => {
           loading={loading}
           rows={transformedUsers}
           columns={columns}
-          pagination
         />
       </div>
       <Popover

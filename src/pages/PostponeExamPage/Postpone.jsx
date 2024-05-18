@@ -141,6 +141,7 @@ const Postpone = () => {
       )}
       <div style={{ height: 650, width: '100%' }}>
         <DataGridPremium
+          emptyRowsWhenPaging
           slots={{
             toolbar: CustomToolbar,
             loadingOverlay: LinearProgress,
@@ -149,7 +150,6 @@ const Postpone = () => {
           rows={transformedPostponeExam}
           columns={columns}
           getRowHeight={() => 'auto'}
-          pagination
         />
       </div>
     </>

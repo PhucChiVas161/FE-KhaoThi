@@ -138,11 +138,12 @@ const ReCheckManagement = () => {
   return (
     <>
       <Helmet>
-        <title>Quản lý PHÚC KHẢO | KHẢO THÍ - VLU</title>
+        <title>QUẢN LÝ PHÚC KHẢO | KHẢO THÍ - VLU</title>
       </Helmet>
-      <Header title="Quản lý PHÚC KHẢO" />
+      <Header title="QUẢN LÝ PHÚC KHẢO" />
       <div style={{ height: 650, width: '100%' }}>
         <DataGridPremium
+          emptyRowsWhenPaging
           slots={{
             loadingOverlay: LinearProgress,
             toolbar: GridToolbar,
@@ -153,7 +154,6 @@ const ReCheckManagement = () => {
           getRowHeight={() => 'auto'}
           initialState={initialState}
           apiRef={apiRef}
-          pagination
         />
       </div>
       {showDetail && (

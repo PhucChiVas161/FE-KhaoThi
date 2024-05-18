@@ -27,6 +27,7 @@ const DetailReCheck = ({ reCheckId, onClose, open, hidden, updateReCheckRefresh 
     reCheckId: reCheckId,
     status: '',
     phanHoi: '',
+    lecturerId: null, // Add lecturerId to formData
   });
   const { enqueueSnackbar } = useSnackbar();
   const handleErrors = useHandleErrors();
@@ -39,13 +40,14 @@ const DetailReCheck = ({ reCheckId, onClose, open, hidden, updateReCheckRefresh 
           reCheckId: reCheckId,
           status: response.data.status || '',
           phanHoi: response.data.phanHoi || '',
+          lecturerId: response.data.lecturerId || null, // Initialize lecturerId
         });
       })
       .catch((error) => {
         console.log(error);
       });
   }, [reCheckId]);
-  // Get Lecturer
+
   useEffect(() => {
     getUsersLecturer()
       .then((response) => {
@@ -54,10 +56,14 @@ const DetailReCheck = ({ reCheckId, onClose, open, hidden, updateReCheckRefresh 
       .catch((error) => {
         console.log(error);
       });
-  });
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleLecturerChange = (event, value) => {
+    setFormData({ ...formData, lecturerId: value ? value.employeeId : '' });
   };
 
   const handleSubmit = (e) => {
@@ -101,10 +107,10 @@ const DetailReCheck = ({ reCheckId, onClose, open, hidden, updateReCheckRefresh 
                 <Grid item xs={6}>
                   <TextField disabled name="Tên học phần" label="Tên học phần" value={reCheck.tenHP} fullWidth />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={2}>
                   <TextField disabled name="Lần thi" label="Lần thi" value={reCheck.lanThi} fullWidth />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                   <TextField disabled name="reCheckId" label="Mã đơn" value={reCheck.reCheckId} fullWidth />
                 </Grid>
                 <Grid item xs={12}>
@@ -124,6 +130,7 @@ const DetailReCheck = ({ reCheckId, onClose, open, hidden, updateReCheckRefresh 
                       <MenuItem value="Chờ duyệt">Chờ duyệt</MenuItem>
                       <MenuItem value="Đã tiếp nhận">Đã tiếp nhận</MenuItem>
                       <MenuItem value="Đang xử lý">Đang xử lý</MenuItem>
+                      <MenuItem value="Đã xử lý">Đã xử lý</MenuItem>
                       <MenuItem value="Hoàn tất">Hoàn tất</MenuItem>
                     </Select>
                   </FormControl>
@@ -147,20 +154,27 @@ const DetailReCheck = ({ reCheckId, onClose, open, hidden, updateReCheckRefresh 
                     disablePortal
                     id="lecturers"
                     options={lecturers}
+                    getOptionLabel={(option) => option.employeeName}
+                    onChange={handleLecturerChange}
+                    renderOption={(props, option) => (
+                      <li {...props} key={option.employeeId}>
+                        {option.employeeName}
+                      </li>
+                    )}
                     renderInput={(params) => <TextField {...params} label="Phân công giảng viên" />}
                   />
                 </Grid>
               </Grid>
             </CardContent>
+            <DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Button variant="contained" color="error" onClick={onClose}>
+                Đóng
+              </Button>
+              <Button variant="contained" color="primary" type="submit" hidden={hidden}>
+                Lưu
+              </Button>
+            </DialogActions>
           </Card>
-          <DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button variant="contained" color="error" onClick={onClose}>
-              Đóng
-            </Button>
-            <Button variant="contained" color="primary" type="submit" hidden={hidden}>
-              Lưu
-            </Button>
-          </DialogActions>
         </DialogContent>
       </form>
     </Dialog>

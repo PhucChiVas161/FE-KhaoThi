@@ -143,6 +143,7 @@ const PostponeManagement = () => {
       <Header title="Quản lý HOÃN THI" />
       <div style={{ height: 650, width: '100%' }}>
         <DataGridPremium
+          emptyRowsWhenPaging
           slots={{
             loadingOverlay: LinearProgress,
             toolbar: GridToolbar,
@@ -153,7 +154,6 @@ const PostponeManagement = () => {
           getRowHeight={() => 'auto'}
           initialState={initialState}
           apiRef={apiRef}
-          pagination
         />
       </div>
       {showDetail && (

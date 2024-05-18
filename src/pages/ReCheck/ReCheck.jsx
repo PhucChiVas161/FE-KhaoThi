@@ -141,6 +141,7 @@ const ReCheck = () => {
       )}
       <div style={{ height: 650, width: '100%' }}>
         <DataGridPremium
+          emptyRowsWhenPaging
           slots={{
             toolbar: CustomToolbar,
             loadingOverlay: LinearProgress,
@@ -149,7 +150,6 @@ const ReCheck = () => {
           rows={transformedReCheck}
           columns={columns}
           getRowHeight={() => 'auto'}
-          pagination
         />
       </div>
     </>
