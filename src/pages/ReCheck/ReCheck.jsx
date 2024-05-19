@@ -3,9 +3,7 @@ import { DataGridPremium, GridToolbarContainer, GridActionsCellItem } from '@mui
 import { getReCheckByEmployeeId } from './ReCheckAPI';
 import { Helmet } from 'react-helmet';
 import { LinearProgress, Button } from '@mui/material';
-import Cookies from 'js-cookie';
 import moment from 'moment';
-import { jwtDecode } from 'jwt-decode';
 import Header from '../../components/Header';
 import { Icon } from '@iconify/react';
 import DetailReCheck from '../../components/ReCheck/DetailReCheck';
@@ -18,13 +16,24 @@ const ReCheck = () => {
   const [open, setOpen] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [shouldRefresh, setShouldRefresh] = useState(false);
 
+  // Lấy dữ liệu phúc khảo
   useEffect(() => {
-    const token = Cookies.get('token');
-    const decode = jwtDecode(token);
-    const employeeId = decode.EmployeeId;
+    fetchReCheckData();
+  }, []);
+
+  // Refresh dữ liệu phúc khảo khi cần
+  useEffect(() => {
+    if (shouldRefresh) {
+      fetchReCheckData();
+      setShouldRefresh(false);
+    }
+  }, [shouldRefresh]);
+
+  const fetchReCheckData = () => {
     setLoading(true);
-    getReCheckByEmployeeId(employeeId)
+    getReCheckByEmployeeId()
       .then((response) => {
         setRecheck(response.data);
         setLoading(false);
@@ -33,7 +42,8 @@ const ReCheck = () => {
         console.log(error);
         setLoading(false);
       });
-  }, []);
+  };
+
   const transformedReCheck = reCheck.map((reCheck, index) => ({
     ...reCheck,
     id: index + 1,
@@ -44,6 +54,10 @@ const ReCheck = () => {
     setOpen(!open);
     setShowDetail(!showDetail);
     setHidden(!hidden);
+  };
+
+  const handleRefresh = () => {
+    setShouldRefresh(true);
   };
 
   const columns = [
@@ -118,10 +132,6 @@ const ReCheck = () => {
   const handleCloseCreateReCheck = () => {
     setOpenCreateReCheck(false);
   };
-  //Add data in table when success
-  const createReCheck = (createReCheck) => {
-    setRecheck((prevReCheck) => [...prevReCheck, createReCheck]);
-  };
   return (
     <>
       <Helmet>
@@ -129,7 +139,7 @@ const ReCheck = () => {
       </Helmet>
       <Header title="PHÚC KHẢO" />
       {openCreateReCheck && (
-        <CreateReCheck createRecheck={createReCheck} onClose={handleCloseCreateReCheck} open={openCreateReCheck} />
+        <CreateReCheck onSuccess={handleRefresh} onClose={handleCloseCreateReCheck} open={openCreateReCheck} />
       )}
       {showDetail && (
         <DetailReCheck

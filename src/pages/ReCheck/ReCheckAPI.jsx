@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
 
 //Get ReCheckAll
 export const getReCheckExamAll = () => {
@@ -11,8 +12,10 @@ export const getReCheckExamAll = () => {
   });
 };
 // Get ReCheckByEmployeeId
-export const getReCheckByEmployeeId = (employeeId) => {
+export const getReCheckByEmployeeId = () => {
   const token = Cookies.get('token');
+  const decode = jwtDecode(token);
+  const employeeId = decode.EmployeeId;
   return axios.get(`${import.meta.env.VITE_API_ENDPOINT}api/ReCheck/student/${employeeId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -20,9 +23,11 @@ export const getReCheckByEmployeeId = (employeeId) => {
   });
 };
 // Get ReCheckByLecturerId
-export const getReCheckByLecturerId = (lecturerId) => {
+export const getReCheckByLecturerId = () => {
   const token = Cookies.get('token');
-  return axios.get(`${import.meta.env.VITE_API_ENDPOINT}api/ReCheck/lecturer/${lecturerId}`, {
+  const decode = jwtDecode(token);
+  const employeeId = decode.EmployeeId;
+  return axios.get(`${import.meta.env.VITE_API_ENDPOINT}api/ReCheck/lecturer/${employeeId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

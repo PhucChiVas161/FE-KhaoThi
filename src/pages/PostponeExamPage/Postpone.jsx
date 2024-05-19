@@ -3,9 +3,7 @@ import { DataGridPremium, GridToolbarContainer, GridActionsCellItem } from '@mui
 import { getPostponeExam } from './PostponeExamAPI';
 import { Helmet } from 'react-helmet';
 import { LinearProgress, Button } from '@mui/material';
-import Cookies from 'js-cookie';
 import moment from 'moment';
-import { jwtDecode } from 'jwt-decode';
 import Header from '../../components/Header';
 import { Icon } from '@iconify/react';
 import CreatePostpone from '../../components/Postpone/CreatePostpone';
@@ -18,13 +16,22 @@ const Postpone = () => {
   const [open, setOpen] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [shouldRefresh, setShouldRefresh] = useState(false);
 
   useEffect(() => {
-    const token = Cookies.get('token');
-    const decode = jwtDecode(token);
-    const employeeId = decode.EmployeeId;
+    fetchPostponeData();
+  }, []);
+
+  useEffect(() => {
+    if (shouldRefresh) {
+      fetchPostponeData();
+      setShouldRefresh(false);
+    }
+  }, [shouldRefresh]);
+
+  const fetchPostponeData = () => {
     setLoading(true);
-    getPostponeExam(employeeId)
+    getPostponeExam()
       .then((response) => {
         setPostponeExam(response.data);
         setLoading(false);
@@ -33,7 +40,12 @@ const Postpone = () => {
         console.log(error);
         setLoading(false);
       });
-  }, []);
+  };
+
+  const handleRefresh = () => {
+    setShouldRefresh(true);
+  };
+
   const transformedPostponeExam = postponeExam.map((postponeExam, index) => ({
     ...postponeExam,
     id: index + 1,
@@ -44,6 +56,24 @@ const Postpone = () => {
     setOpen(!open);
     setShowDetail(!showDetail);
     setHidden(!hidden);
+  };
+
+  //Add nút gửi hoãn thi
+  const CustomToolbar = () => (
+    <GridToolbarContainer>
+      <Button
+        startIcon={<Icon icon="line-md:clipboard-plus-twotone" />}
+        onClick={() => {
+          setOpenCreatePostpone(!openCreatePostpone);
+        }}
+      >
+        Gửi hoãn thi
+      </Button>
+    </GridToolbarContainer>
+  );
+  //Đóng form
+  const handleCloseCreatePostpone = () => {
+    setOpenCreatePostpone(false);
   };
 
   const columns = [
@@ -101,27 +131,7 @@ const Postpone = () => {
       disableExport: true,
     },
   ];
-  //Add nút gửi hoãn thi
-  const CustomToolbar = () => (
-    <GridToolbarContainer>
-      <Button
-        startIcon={<Icon icon="line-md:clipboard-plus-twotone" />}
-        onClick={() => {
-          setOpenCreatePostpone(!openCreatePostpone);
-        }}
-      >
-        Gửi hoãn thi
-      </Button>
-    </GridToolbarContainer>
-  );
-  //Đóng form
-  const handleCloseCreatePostpone = () => {
-    setOpenCreatePostpone(false);
-  };
-  //Add data in table when success
-  const createPostpone = (createPostpone) => {
-    setPostponeExam((prevPostpone) => [...prevPostpone, createPostpone]);
-  };
+
   return (
     <>
       <Helmet>
@@ -129,12 +139,13 @@ const Postpone = () => {
       </Helmet>
       <Header title="HOÃN THI" />
       {openCreatePostpone && (
-        <CreatePostpone createPostpone={createPostpone} onClose={handleCloseCreatePostpone} open={openCreatePostpone} />
+        <CreatePostpone onSucess={handleRefresh} onClose={handleCloseCreatePostpone} open={openCreatePostpone} />
       )}
       {showDetail && (
         <DetailPostpone
           postponeExamId={selected.length > 0 ? selected[0] : null}
           onClose={handleOpenDetail}
+          onSucess={handleRefresh}
           open={showDetail}
           hidden={hidden}
         />

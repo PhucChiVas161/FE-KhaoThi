@@ -19,7 +19,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 
-const CreateUser = ({ addUser, onClose, open }) => {
+const CreateUser = ({ onSuccess, onClose, open }) => {
   const [formData, setFormData] = useState({
     accountEmail: '',
     employeeName: '',
@@ -47,8 +47,8 @@ const CreateUser = ({ addUser, onClose, open }) => {
       .then((response) => {
         if (response.status === 200) {
           enqueueSnackbar('Tạo người dùng thành công!', { variant: 'success' });
-          addUser(formData);
           onClose();
+          onSuccess();
         }
       })
       .catch((error) => {

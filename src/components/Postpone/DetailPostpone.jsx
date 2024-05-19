@@ -18,7 +18,7 @@ import {
 import { useSnackbar } from 'notistack';
 import { useHandleErrors } from '../../hooks/useHandleErrors';
 
-const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeRefresh }) => {
+const DetailPostpone = ({ postponeExamId, onClose, open, hidden, onSucess }) => {
   const [postponeExam, setPostponeExam] = useState({});
   const [formData, setFormData] = useState({
     postponeExamId: postponeExamId,
@@ -39,8 +39,8 @@ const DetailPostpone = ({ postponeExamId, onClose, open, hidden, updatePostponeR
       .then((response) => {
         if (response.status === 200) {
           enqueueSnackbar('Cập nhật hoãn thi thành công', { variant: 'success' });
-          updatePostponeRefresh(formData);
           onClose();
+          onSucess();
         }
       })
       .catch((error) => {

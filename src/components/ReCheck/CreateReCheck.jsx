@@ -21,7 +21,7 @@ import {
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-const CreateReCheck = ({ createRecheck, onClose, open }) => {
+const CreateReCheck = ({ onSuccess, onClose, open }) => {
   const [formData, setFormData] = useState({
     lopHP: '',
     maPhongThi: '',
@@ -43,8 +43,8 @@ const CreateReCheck = ({ createRecheck, onClose, open }) => {
       .then((response) => {
         if (response.status === 200) {
           enqueueSnackbar('Gửi phúc khảo thành công', { variant: 'success' });
-          createRecheck(formData);
           onClose();
+          onSuccess();
         }
       })
       .catch((error) => {

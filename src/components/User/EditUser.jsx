@@ -67,8 +67,8 @@ const EditUser = ({ employeeId, onClose, onSuccess }) => {
       .then((response) => {
         if (response.status === 200) {
           enqueueSnackbar('Tạo người dùng thành công!', { variant: 'success' });
-          onSuccess(formData);
           onClose();
+          onSuccess();
         }
       })
       .catch((error) => {

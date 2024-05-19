@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
 
 //Get PostponeExamAll
 export const getPostponeExamAll = () => {
@@ -10,9 +11,11 @@ export const getPostponeExamAll = () => {
     },
   });
 };
-// Get PostponeExam Only
-export const getPostponeExam = (employeeId) => {
+// Get PostponeExam Only EmployeeId
+export const getPostponeExam = () => {
   const token = Cookies.get('token');
+  const decode = jwtDecode(token);
+  const employeeId = decode.EmployeeId;
   return axios.get(`${import.meta.env.VITE_API_ENDPOINT}api/postpone/${employeeId}`, {
     headers: {
       Authorization: `Bearer ${token}`,

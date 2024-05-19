@@ -291,7 +291,7 @@ export default function QuanLyPhucKhao() {
   return (
     <>
       <Helmet>
-        <title>Quản lý PHÚC KHẢO | KHẢO THÍ - VLU</title>
+        <title>QUẢN LÝ PHÚC KHẢO | KHẢO THÍ - VLU</title>
       </Helmet>
       <Snackbar
         open={!!successMessage}

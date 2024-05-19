@@ -146,13 +146,13 @@ export default function UserPage() {
   return (
     <>
       <Helmet>
-        <title> Quản lý TIN TỨC | KHẢO THÍ - VLU </title>
+        <title> QUẢN LÝ TIN TỨC | KHẢO THÍ - VLU </title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            Quản lý TIN TỨC
+            QUẢN LÝ TIN TỨC
           </Typography>
           <Link to="/PostForm">
             <Button variant="contained" startIcon={<Iconify icon="line-md:document-add" />}>

@@ -20,8 +20,20 @@ const PostponeManagement = () => {
   const [open, setOpen] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [hidden, setHidden] = useState(true);
+  const [shouldRefresh, setShouldRefresh] = useState(false);
 
   useEffect(() => {
+    fetchPostponeData();
+  }, []);
+
+  useEffect(() => {
+    if (shouldRefresh) {
+      fetchPostponeData();
+      setShouldRefresh(false);
+    }
+  }, [shouldRefresh]);
+
+  const fetchPostponeData = () => {
     setLoading(true);
     getPostponeExamAll()
       .then((response) => {
@@ -32,7 +44,11 @@ const PostponeManagement = () => {
         console.log(error);
         setLoading(false);
       });
-  }, []);
+  };
+
+  const handleRefresh = () => {
+    setShouldRefresh(true);
+  };
 
   const transformedPostponeExam = postponeExam.map((postponeExam, index) => ({
     ...postponeExam,
@@ -44,19 +60,6 @@ const PostponeManagement = () => {
     setOpen(!open);
     setHidden(!hidden);
     setShowDetail(!showDetail);
-  };
-
-  const updatePostponeRefresh = (updatePostponeRefresh) => {
-    setPostponeExam((prevPostpone) => {
-      // Tìm kiếm và cập nhật bản ghi trong prevPostpone
-      const updatedRows = prevPostpone.map((row) => {
-        if (row.postponeExamId === updatePostponeRefresh.postponeExamId) {
-          return updatePostponeRefresh;
-        }
-        return row;
-      });
-      return updatedRows;
-    });
   };
 
   const columns = [
@@ -138,9 +141,9 @@ const PostponeManagement = () => {
   return (
     <>
       <Helmet>
-        <title>Quản lý HOÃN THI | KHẢO THÍ - VLU</title>
+        <title>QUẢN LÝ HOÃN THI | KHẢO THÍ - VLU</title>
       </Helmet>
-      <Header title="Quản lý HOÃN THI" />
+      <Header title="QUẢN LÝ HOÃN THI" />
       <div style={{ height: 650, width: '100%' }}>
         <DataGridPremium
           emptyRowsWhenPaging
@@ -160,7 +163,7 @@ const PostponeManagement = () => {
         <DetailPostpone
           postponeExamId={selected.length > 0 ? selected[0] : null}
           onClose={handleOpenDetail}
-          updatePostponeRefresh={updatePostponeRefresh}
+          onSuccess={handleRefresh}
           open={showDetail}
           hidden={hidden}
         />

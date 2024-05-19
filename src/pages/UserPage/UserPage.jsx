@@ -33,17 +33,27 @@ const UserPage = () => {
   const [users, setUsers] = useState([]);
   const [open, setOpen] = useState(null);
   const [openCreateUserForm, setOpenCreateUserForm] = useState(false);
-  const [showUserList, setShowUserList] = useState(true);
   const [deleteConfirmation, setDeleteConfirmation] = useState(null);
   const [selected, setSelected] = useState('');
   const [showEditForm, setShowEditForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showErrorDetails, setShowErrorDetails] = useState(false);
   const [errorDetails, setErrorDetails] = useState([]);
+  const [shouldRefresh, setShouldRefresh] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
 
-  //  API GET User
   useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    if (shouldRefresh) {
+      fetchUsers();
+      setShouldRefresh(false);
+    }
+  }, [shouldRefresh]);
+
+  const fetchUsers = () => {
     setLoading(true);
     getUsers()
       .then((response) => {
@@ -54,16 +64,16 @@ const UserPage = () => {
         console.log(error);
         setLoading(false);
       });
-  }, []);
+  };
+
+  const handleRefresh = () => {
+    setShouldRefresh(true);
+  };
 
   const transformedUsers = users.map((user, index) => ({
     ...user,
     id: index + 1,
   }));
-
-  const getGenderLabel = (employeeGender) => {
-    return employeeGender === '0' ? 'Nữ' : employeeGender === '1' ? 'Nam' : '';
-  };
 
   //  Xử lý mở menu
   const handleOpenMenu = (event, employeeId) => {
@@ -75,76 +85,10 @@ const UserPage = () => {
     setOpen(null);
   };
 
-  //  Hiển thị cột
-  const columns = [
-    { field: 'id', headerName: 'STT', flex: 0.2 },
-    {
-      field: 'employeeName',
-      headerName: 'Họ và tên',
-      flex: 0.8,
-      cellClassName: 'name-column--cell',
-    },
-    {
-      field: 'accountEmail',
-      headerName: 'Email',
-      flex: 0.8,
-    },
-    {
-      field: 'employeeMSSV',
-      headerName: 'MSSV',
-      flex: 0.5,
-    },
-    {
-      field: 'employeeGender',
-      headerName: 'Giới tính',
-      flex: 0.3,
-      valueGetter: (params) => getGenderLabel(params.value),
-    },
-
-    {
-      field: 'accountRole',
-      headerName: 'Vai trò',
-      flex: 0.3,
-      renderCell: (params) => (
-        <Label
-          color={(params.value === 'Manager' && 'error') || (params.value === 'Lecturer' && 'warning') || 'success'}
-        >
-          {params.value}
-        </Label>
-      ),
-    },
-    {
-      field: 'actions',
-      headerName: 'Hành động',
-      flex: 0.2,
-      renderCell: (params) => (
-        <IconButton color="inherit" onClick={(event) => handleOpenMenu(event, params.row.employeeId)}>
-          <Icon icon={'mdi:dots-vertical'} />
-        </IconButton>
-      ),
-      disableExport: true,
-    },
-  ];
-
-  const currentTime = new Date()
-    .toLocaleString('vn-VN', {
-      timeZone: 'Asia/Ho_Chi_Minh',
-    })
-    .replace(/,|:|\//g, '-');
-  const nameFile = `${document.title}_${currentTime}`;
-
   //  Thêm nút cạnh GridToolBar
   const CustomToolbar = () => (
     <GridToolbarContainer>
-      <GridToolbarExport
-        csvOptions={{
-          fileName: nameFile,
-          utf8WithBom: true,
-        }}
-        printOptions={{
-          disableToolbarButton: true,
-        }}
-      />
+      <GridToolbarExport />
       <GridToolbarFilterButton />
       <GridToolbarColumnsButton />
       <Button
@@ -209,19 +153,9 @@ const UserPage = () => {
     setDeleteConfirmation(null);
   };
 
-  //  Thêm ng dùng vào danh sách nếu thêm thành công bên client
-  const addUser = (newUser) => {
-    setUsers((prevUsers) => [...prevUsers, newUser]);
-  };
-
-  const updateUser = (updatedUser) => {
-    setUsers((prevUsers) => prevUsers.map((user) => (user.employeeId === updatedUser.employeeId ? updatedUser : user)));
-  };
-
   //  Đóng form thêm ng dùng
   const handleCloseAddUser = () => {
     setOpenCreateUserForm(false);
-    setShowUserList(true);
   };
 
   //  Mở form Edit ng dùng
@@ -282,18 +216,64 @@ const UserPage = () => {
     setShowErrorDetails(false);
   };
 
+  //  Hiển thị cột
+  const columns = [
+    { field: 'id', headerName: 'STT', flex: 0.2 },
+    {
+      field: 'employeeName',
+      headerName: 'Họ và tên',
+      flex: 0.8,
+      cellClassName: 'name-column--cell',
+    },
+    {
+      field: 'accountEmail',
+      headerName: 'Email',
+      flex: 0.8,
+    },
+    {
+      field: 'employeeMSSV',
+      headerName: 'MSSV',
+      flex: 0.5,
+    },
+    {
+      field: 'accountRole',
+      headerName: 'Vai trò',
+      flex: 0.3,
+      renderCell: (params) => (
+        <Label
+          color={(params.value === 'Manager' && 'error') || (params.value === 'Lecturer' && 'warning') || 'success'}
+        >
+          {params.value}
+        </Label>
+      ),
+    },
+    {
+      field: 'actions',
+      headerName: 'Hành động',
+      flex: 0.2,
+      renderCell: (params) => (
+        <IconButton color="inherit" onClick={(event) => handleOpenMenu(event, params.row.employeeId)}>
+          <Icon icon={'mdi:dots-vertical'} />
+        </IconButton>
+      ),
+      disableExport: true,
+    },
+  ];
+
   return (
     <>
       <Helmet>
-        <title>Quản lý NGƯỜI DÙNG | KHẢO THÍ - VLU</title>
+        <title>QUẢN LÝ NGƯỜI DÙNG | KHẢO THÍ - VLU</title>
       </Helmet>
-      <Header title="Quản lý NGƯỜI DÙNG" />
-      {openCreateUserForm && <CreateUser addUser={addUser} onClose={handleCloseAddUser} open={openCreateUserForm} />}
+      <Header title="QUẢN LÝ NGƯỜI DÙNG" />
+      {openCreateUserForm && (
+        <CreateUser onSuccess={handleRefresh} onClose={handleCloseAddUser} open={openCreateUserForm} />
+      )}
       {showEditForm && (
         <EditUser
           employeeId={selected.length > 0 ? selected[0] : null}
           onClose={handleCloseEdit}
-          onSuccess={updateUser}
+          onSuccess={handleRefresh}
         />
       )}
       <div style={{ height: 670, width: '100%' }}>

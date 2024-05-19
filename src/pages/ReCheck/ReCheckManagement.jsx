@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
 import {
   DataGridPremium,
   useKeepGroupedColumnsHidden,
@@ -6,7 +8,8 @@ import {
   GridActionsCellItem,
   GridToolbar,
 } from '@mui/x-data-grid-premium';
-import { getReCheckExamAll } from './ReCheckAPI';
+import { getReCheckExamAll, getReCheckByLecturerId } from './ReCheckAPI';
+import { getOneUsers } from '../UserPage/UserPageAPI';
 import { Helmet } from 'react-helmet';
 import { LinearProgress } from '@mui/material';
 import Header from '../../components/Header';
@@ -20,19 +23,50 @@ const ReCheckManagement = () => {
   const [open, setOpen] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const [hidden, setHidden] = useState(true);
+  const [shouldRefresh, setShouldRefresh] = useState(false);
+  const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+      const decode = jwtDecode(token);
+      getOneUsers(decode.EmployeeId)
+        .then((response) => {
+          setUserRole(response.data.accountRole);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userRole) {
+      fetchReCheckData();
+    }
+  }, [userRole]);
+
+  useEffect(() => {
+    if (shouldRefresh) {
+      fetchReCheckData();
+      setShouldRefresh(false);
+    }
+  }, [shouldRefresh]);
+
+  const fetchReCheckData = () => {
     setLoading(true);
-    getReCheckExamAll()
+    const fetchFunction = userRole === 'Lecturer' ? getReCheckByLecturerId : getReCheckExamAll;
+
+    fetchFunction()
       .then((response) => {
         setReCheck(response.data);
         setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         setLoading(false);
       });
-  }, []);
+  };
 
   const transformedReCheck = reCheck.map((reCheck, index) => ({
     ...reCheck,
@@ -41,22 +75,13 @@ const ReCheckManagement = () => {
 
   const handleOpenDetail = (event, reCheckId) => {
     setSelected([reCheckId]);
-    setOpen(!open);
-    setHidden(!hidden);
-    setShowDetail(!showDetail);
+    setOpen((prevOpen) => !prevOpen);
+    setHidden((prevHidden) => !prevHidden);
+    setShowDetail((prevShowDetail) => !prevShowDetail);
   };
 
-  const updateReCheckRefresh = (updateReCheckRefresh) => {
-    setReCheck((prevReCheck) => {
-      // Tìm kiếm và cập nhật bản ghi trong prevReCheck
-      const updatedRows = prevReCheck.map((row) => {
-        if (row.reCheckId === updateReCheckRefresh.reCheckId) {
-          return updateReCheckRefresh;
-        }
-        return row;
-      });
-      return updatedRows;
-    });
+  const handleRefresh = () => {
+    setShouldRefresh(true);
   };
 
   const columns = [
@@ -99,6 +124,11 @@ const ReCheckManagement = () => {
     {
       field: 'phanHoi',
       headerName: 'Phản hồi',
+      flex: 1,
+    },
+    {
+      field: 'lecturerName',
+      headerName: 'Phân công',
       flex: 1,
     },
     {
@@ -160,9 +190,9 @@ const ReCheckManagement = () => {
         <DetailReCheck
           reCheckId={selected.length > 0 ? selected[0] : null}
           onClose={handleOpenDetail}
-          updateReCheckRefresh={updateReCheckRefresh}
           open={showDetail}
           hidden={hidden}
+          onSuccess={handleRefresh} // Truyền callback function onSuccess
         />
       )}
     </>

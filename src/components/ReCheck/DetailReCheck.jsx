@@ -20,7 +20,7 @@ import {
 import { useSnackbar } from 'notistack';
 import { useHandleErrors } from '../../hooks/useHandleErrors';
 
-const DetailReCheck = ({ reCheckId, onClose, open, hidden, updateReCheckRefresh }) => {
+const DetailReCheck = ({ reCheckId, onClose, onSuccess, open, hidden }) => {
   const [reCheck, setReCheck] = useState({});
   const [lecturers, setLecturers] = useState([]);
   const [formData, setFormData] = useState({
@@ -72,8 +72,8 @@ const DetailReCheck = ({ reCheckId, onClose, open, hidden, updateReCheckRefresh 
       .then((response) => {
         if (response.status === 200) {
           enqueueSnackbar('Cập nhật phúc khảo thành công', { variant: 'success' });
-          updateReCheckRefresh(formData);
           onClose();
+          onSuccess(); // Gọi callback function onSuccess
         }
       })
       .catch((error) => {
@@ -149,11 +149,12 @@ const DetailReCheck = ({ reCheckId, onClose, open, hidden, updateReCheckRefresh 
                 <Grid item xs={4}>
                   <TextField disabled multiline name="ghiChu" label="Ghi chú" value={reCheck.ghiChu} fullWidth />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} hidden={hidden}>
                   <Autocomplete
                     disablePortal
                     id="lecturers"
                     options={lecturers}
+                    value={reCheck.lecturerName}
                     getOptionLabel={(option) => option.employeeName}
                     onChange={handleLecturerChange}
                     renderOption={(props, option) => (

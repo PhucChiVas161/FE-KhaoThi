@@ -21,7 +21,7 @@ import {
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-const CreatePostpone = ({ createPostpone, onClose, open }) => {
+const CreatePostpone = ({ onSucess, onClose, open }) => {
   const [formData, setFormData] = useState({
     lopHP: '',
     maPhongThi: '',
@@ -43,8 +43,8 @@ const CreatePostpone = ({ createPostpone, onClose, open }) => {
       .then((response) => {
         if (response.status === 200) {
           enqueueSnackbar('Gửi hoãn thi thành công', { variant: 'success' });
-          createPostpone(formData);
           onClose();
+          onSucess();
         }
       })
       .catch((error) => {

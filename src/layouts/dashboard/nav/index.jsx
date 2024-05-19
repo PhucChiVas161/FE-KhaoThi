@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { getOneUsers } from '../../../pages/UserPage/UserPageAPI';
 import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
 // @mui
@@ -11,7 +11,6 @@ import { Icon } from '@iconify/react';
 // hooks
 import useResponsive from '../../../hooks/useResponsive';
 // components
-import Logo from '../../../components/logo';
 import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
 //
@@ -46,12 +45,7 @@ export default function Nav({ openNav, onCloseNav }) {
   useEffect(() => {
     const token = Cookies.get('token');
     const decode = jwtDecode(token);
-    axios
-      .get(`${import.meta.env.VITE_API_ENDPOINT}api/Employees/${decode.EmployeeId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+    getOneUsers(decode.EmployeeId)
       .then((response) => {
         setUsers(response.data);
         setUserRole(response.data.accountRole);
@@ -74,9 +68,7 @@ export default function Nav({ openNav, onCloseNav }) {
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
       }}
     >
-      <Box sx={{ px: 2.5, py: 2, display: 'inline-flex' }}>{/* <Logo /> */}</Box>
-
-      <Box sx={{ mb: 5, mx: 2.5 }}>
+      <Box sx={{ my: 5, mx: 2.5 }}>
         <Link underline="none">
           <StyledAccount>
             <Avatar>
@@ -99,17 +91,35 @@ export default function Nav({ openNav, onCloseNav }) {
           </StyledAccount>
         </Link>
       </Box>
-
-      <NavSection data={navConfig.find((section) => section.title === 'Sinh viên').items} />
-
+      {/* Sinh viên */}
       <Box sx={{ ml: 4 }}>
-        <Typography variant="subtitle2" sx={{ color: 'text.primary' }} hidden={userRole !== 'Manager'}>
-          Quản lý
+        <Typography variant="subtitle2" sx={{ color: 'text.primary' }} hidden={userRole !== 'Student'}>
+          SINH VIÊN
         </Typography>
       </Box>
       <NavSection
-        data={navConfig.find((section) => section.title === 'Quản lý').items}
+        data={navConfig.find((section) => section.title === 'Student').items}
+        hidden={userRole !== 'Student'}
+      />
+      {/* Quản lý */}
+      <Box sx={{ ml: 4 }}>
+        <Typography variant="subtitle2" sx={{ color: 'text.primary' }} hidden={userRole !== 'Manager'}>
+          QUẢN LÝ
+        </Typography>
+      </Box>
+      <NavSection
+        data={navConfig.find((section) => section.title === 'Manager').items}
         hidden={userRole !== 'Manager'}
+      />
+      {/* Giảng viên */}
+      <Box sx={{ ml: 4 }}>
+        <Typography variant="subtitle2" sx={{ color: 'text.primary' }} hidden={userRole !== 'Lecturer'}>
+          Giảng viên
+        </Typography>
+      </Box>
+      <NavSection
+        data={navConfig.find((section) => section.title === 'Lecturer').items}
+        hidden={userRole !== 'Lecturer'}
       />
 
       <Box sx={{ flexGrow: 1 }} />

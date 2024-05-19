@@ -7,7 +7,7 @@ const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ 
 
 const navConfig = [
   {
-    title: 'Sinh viên',
+    title: 'Student',
     items: [
       {
         title: 'Phúc khảo',
@@ -22,27 +22,37 @@ const navConfig = [
     ],
   },
   {
-    title: 'Quản lý',
+    title: 'Manager',
     items: [
       {
-        title: 'Quản lý NGƯỜI DÙNG',
+        title: 'QUẢN LÝ NGƯỜI DÙNG',
         path: '/Dashboard/UsersManagement',
         icon: icon('ic_account'),
       },
       {
-        title: 'Quản lý PHÚC KHẢO',
+        title: 'QUẢN LÝ PHÚC KHẢO',
         path: '/Dashboard/RecheckManagement',
         icon: icon('ic_document'),
       },
       {
-        title: 'Quản lý HOÃN THI',
+        title: 'QUẢN LÝ HOÃN THI',
         path: '/Dashboard/PostponeManagement',
         icon: icon('ic_postpone'),
       },
       {
-        title: 'Quản lý THÔNG BÁO',
+        title: 'QUẢN LÝ THÔNG BÁO',
         path: '/Dashboard/NotificationManagement',
         icon: icon('ic_bell'),
+      },
+    ],
+  },
+  {
+    title: 'Lecturer',
+    items: [
+      {
+        title: 'QUẢN LÝ PHÚC KHẢO',
+        path: '/Dashboard/RecheckManagement',
+        icon: icon('ic_document'),
       },
     ],
   },
