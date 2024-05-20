@@ -18,7 +18,7 @@ import navConfig from './config';
 
 // ----------------------------------------------------------------------
 
-const NAV_WIDTH = 245;
+const NAV_WIDTH = 255;
 
 const StyledAccount = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -93,33 +93,45 @@ export default function Nav({ openNav, onCloseNav }) {
       </Box>
       {/* Sinh viên */}
       <Box sx={{ ml: 4 }}>
-        <Typography variant="subtitle2" sx={{ color: 'text.primary' }} hidden={userRole !== 'Student'}>
+        <Typography
+          variant="subtitle2"
+          sx={{ color: 'text.primary' }}
+          hidden={userRole !== 'Student' && userRole !== 'Dev'}
+        >
           SINH VIÊN
         </Typography>
       </Box>
       <NavSection
         data={navConfig.find((section) => section.title === 'Student').items}
-        hidden={userRole !== 'Student'}
+        hidden={userRole !== 'Student' && userRole !== 'Dev'}
       />
       {/* Quản lý */}
       <Box sx={{ ml: 4 }}>
-        <Typography variant="subtitle2" sx={{ color: 'text.primary' }} hidden={userRole !== 'Manager'}>
+        <Typography
+          variant="subtitle2"
+          sx={{ color: 'text.primary' }}
+          hidden={userRole !== 'Manager' && userRole !== 'Dev'}
+        >
           QUẢN LÝ
         </Typography>
       </Box>
       <NavSection
         data={navConfig.find((section) => section.title === 'Manager').items}
-        hidden={userRole !== 'Manager'}
+        hidden={userRole !== 'Manager' && userRole !== 'Dev'}
       />
       {/* Giảng viên */}
       <Box sx={{ ml: 4 }}>
-        <Typography variant="subtitle2" sx={{ color: 'text.primary' }} hidden={userRole !== 'Lecturer'}>
+        <Typography
+          variant="subtitle2"
+          sx={{ color: 'text.primary' }}
+          hidden={userRole !== 'Lecturer' && userRole !== 'Dev'}
+        >
           Giảng viên
         </Typography>
       </Box>
       <NavSection
         data={navConfig.find((section) => section.title === 'Lecturer').items}
-        hidden={userRole !== 'Lecturer'}
+        hidden={userRole !== 'Lecturer' && userRole !== 'Dev'}
       />
 
       <Box sx={{ flexGrow: 1 }} />

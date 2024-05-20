@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import { Navigate, useRoutes } from 'react-router-dom';
 import Cookies from 'js-cookie';
-
 // layouts
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
 //
-
 import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import DashboardAppPage from './pages/DashboardAppPage';
@@ -18,6 +16,7 @@ import PostponeManagement from './pages/PostponeExamPage/PostponeManagement';
 import Postpone from './pages/PostponeExamPage/Postpone';
 import ReCheck from './pages/ReCheck/ReCheck';
 import ReCheckManagement from './pages/ReCheck/ReCheckManagement';
+import CourseManagement from './pages/Course/CourseManagement';
 export default function Router() {
   const [isLoggedIn, setIsLoggedIn] = useState(Cookies.get('token'));
 
@@ -48,6 +47,7 @@ export default function Router() {
         { path: 'RecheckManagement', element: <ReCheckManagement /> },
         { path: 'PostponeManagement', element: <PostponeManagement /> },
         { path: 'NotificationManagement', element: <Notification /> },
+        { path: 'CourseManagement', element: <CourseManagement /> },
       ],
     },
     {

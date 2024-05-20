@@ -44,6 +44,11 @@ const navConfig = [
         path: '/Dashboard/NotificationManagement',
         icon: icon('ic_bell'),
       },
+      {
+        title: 'QUẢN LÝ HỌC PHẦN',
+        path: '/Dashboard/CourseManagement',
+        icon: icon('ic_document'),
+      },
     ],
   },
   {
