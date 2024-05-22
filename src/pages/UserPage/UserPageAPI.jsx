@@ -31,10 +31,10 @@ export const getUsersLecturer = () => {
 };
 
 //Delete User
-export const deleteUsers = (row) => {
+export const deleteUsers = (employeeId) => {
   const token = Cookies.get('token');
   const csrf = Cookies.get('csrf');
-  return axios.delete(`${import.meta.env.VITE_API_ENDPOINT}api/Employees/${row}`, {
+  return axios.delete(`${import.meta.env.VITE_API_ENDPOINT}api/Employees/${employeeId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
       'X-CSRF-TOKEN': csrf,

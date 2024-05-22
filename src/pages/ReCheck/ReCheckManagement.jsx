@@ -74,7 +74,7 @@ const ReCheckManagement = () => {
   }));
 
   const handleOpenDetail = (event, reCheckId) => {
-    setSelected([reCheckId]);
+    setSelected(reCheckId);
     setOpen((prevOpen) => !prevOpen);
     setHidden((prevHidden) => !prevHidden);
     setShowDetail((prevShowDetail) => !prevShowDetail);
@@ -188,7 +188,7 @@ const ReCheckManagement = () => {
       </div>
       {showDetail && (
         <DetailReCheck
-          reCheckId={selected.length > 0 ? selected[0] : null}
+          reCheckId={selected}
           onClose={handleOpenDetail}
           open={showDetail}
           hidden={hidden}

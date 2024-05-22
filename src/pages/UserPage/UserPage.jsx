@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Icon } from '@iconify/react';
 import {
-  IconButton,
-  Popover,
-  MenuItem,
   Button,
   LinearProgress,
   Dialog,
@@ -20,6 +17,7 @@ import {
   GridToolbarContainer,
   GridToolbarExport,
   GridToolbarFilterButton,
+  GridActionsCellItem,
 } from '@mui/x-data-grid-premium';
 import { Helmet } from 'react-helmet';
 import { useSnackbar } from 'notistack';
@@ -31,10 +29,9 @@ import { getUsers, deleteUsers, importUsers } from './UserPageAPI';
 
 const UserPage = () => {
   const [users, setUsers] = useState([]);
-  const [open, setOpen] = useState(null);
   const [openCreateUserForm, setOpenCreateUserForm] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(null);
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState(null);
   const [showEditForm, setShowEditForm] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showErrorDetails, setShowErrorDetails] = useState(false);
@@ -75,16 +72,6 @@ const UserPage = () => {
     id: index + 1,
   }));
 
-  //  Xử lý mở menu
-  const handleOpenMenu = (event, employeeId) => {
-    setSelected([employeeId]);
-    setOpen(event.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setOpen(null);
-  };
-
   //  Thêm nút cạnh GridToolBar
   const CustomToolbar = () => (
     <GridToolbarContainer>
@@ -119,14 +106,13 @@ const UserPage = () => {
   );
 
   //  Delete User
-  const deleteUser = (row) => {
-    deleteUsers(row)
+  const deleteUser = (employeeId) => {
+    deleteUsers(employeeId)
       .then(() => {
         enqueueSnackbar('Xoá người dùng thành công!', {
           variant: 'success',
         });
-        setUsers((prevUsers) => prevUsers.filter((user) => user.employeeId !== row));
-        setSelected((prevSelected) => prevSelected.filter((id) => id !== row));
+        handleRefresh();
       })
       .catch((error) => {
         console.log(error);
@@ -136,12 +122,8 @@ const UserPage = () => {
       });
   };
 
-  const handleDeleteUser = () => {
-    handleShowConfirmation(selected[0]);
-    handleCloseMenu();
-  };
-  const handleShowConfirmation = (row) => {
-    setDeleteConfirmation(row);
+  const handleDeleteUser = (event, employeeId) => {
+    setDeleteConfirmation(employeeId);
   };
 
   const handleConfirmDelete = () => {
@@ -159,9 +141,9 @@ const UserPage = () => {
   };
 
   //  Mở form Edit ng dùng
-  const handleOpenEdit = () => {
+  const handleOpenEdit = (event, employeeId) => {
+    setSelected(employeeId);
     setShowEditForm(true);
-    handleCloseMenu();
   };
 
   //  Đóng from Edit ng dùng
@@ -180,6 +162,7 @@ const UserPage = () => {
           enqueueSnackbar(`Thêm thành công ${response.data.success} người dùng`, {
             variant: 'success',
           });
+          handleRefresh();
           if (response.data.all === false) {
             enqueueSnackbar(`Thêm thất bại ${response.data.fail} người dùng`, {
               variant: 'error',
@@ -189,6 +172,7 @@ const UserPage = () => {
                 </Button>
               ),
             });
+            handleRefresh();
           }
         } else if (response.data.isValid === false) {
           enqueueSnackbar('Thêm người dùng hàng loạt thất bại!', {
@@ -249,14 +233,26 @@ const UserPage = () => {
     },
     {
       field: 'actions',
-      headerName: 'Hành động',
-      flex: 0.2,
-      renderCell: (params) => (
-        <IconButton color="inherit" onClick={(event) => handleOpenMenu(event, params.row.employeeId)}>
-          <Icon icon={'mdi:dots-vertical'} />
-        </IconButton>
-      ),
-      disableExport: true,
+      type: 'actions',
+      flex: 0.1,
+      getActions: (params) => [
+        <GridActionsCellItem
+          icon={<Icon icon="line-md:edit-twotone" />}
+          label="Chỉnh sửa"
+          onClick={(event) => {
+            handleOpenEdit(event, params.row.employeeId);
+          }}
+          open={open}
+          showInMenu
+        />,
+        <GridActionsCellItem
+          icon={<Icon icon="line-md:account-delete" />}
+          label="Xoá người dùng"
+          onClick={(event) => handleDeleteUser(event, params.row.employeeId)}
+          open={open}
+          showInMenu
+        />,
+      ],
     },
   ];
 
@@ -269,13 +265,7 @@ const UserPage = () => {
       {openCreateUserForm && (
         <CreateUser onSuccess={handleRefresh} onClose={handleCloseAddUser} open={openCreateUserForm} />
       )}
-      {showEditForm && (
-        <EditUser
-          employeeId={selected.length > 0 ? selected[0] : null}
-          onClose={handleCloseEdit}
-          onSuccess={handleRefresh}
-        />
-      )}
+      {showEditForm && <EditUser employeeId={selected} onClose={handleCloseEdit} onSuccess={handleRefresh} />}
       <div style={{ height: 670, width: '100%' }}>
         <DataGridPremium
           emptyRowsWhenPaging
@@ -288,43 +278,18 @@ const UserPage = () => {
           columns={columns}
         />
       </div>
-      <Popover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-        <MenuItem onClick={handleOpenEdit}>
-          <Icon icon="line-md:edit-twotone" width="20" height="20" sx={{ mr: 2 }} />
-          Chỉnh sửa
-        </MenuItem>
-
-        <MenuItem sx={{ color: 'error.main' }} onClick={handleDeleteUser}>
-          <Icon icon="line-md:account-delete" width="20" height="20" sx={{ mr: 2 }} />
-          Xoá
-        </MenuItem>
-      </Popover>
-      {deleteConfirmation && (
-        <Dialog open={Boolean(deleteConfirmation)} onClose={handleCancelDelete}>
-          <DialogTitle>Confirm Delete</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Bạn có chắc xoá người dùng này không ?</DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCancelDelete}>No</Button>
-            <Button onClick={handleConfirmDelete} autoFocus>
-              Yes
-            </Button>
-          </DialogActions>
-        </Dialog>
-      )}
+      <Dialog open={deleteConfirmation} onClose={handleCancelDelete}>
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Bạn có chắc xoá người dùng này không ?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancelDelete}>No</Button>
+          <Button onClick={handleConfirmDelete} autoFocus>
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Dialog open={showErrorDetails} onClose={handleCloseErrorDetails}>
         <DialogTitle>Chi tiết lỗi</DialogTitle>
         <DialogContent>

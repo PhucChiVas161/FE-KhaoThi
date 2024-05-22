@@ -80,7 +80,12 @@ const CourseManagement = () => {
       </Button>
       <Typography>
         Mẫu File (
-        <Link href="https://localhost:3000" underline="none" target="_blank" rel="noopener">
+        <Link
+          href="https://vanlangunivn-my.sharepoint.com/:x:/g/personal/phuc_207ct40540_vanlanguni_vn/EfAxzrAK9QhLl9GcfipxT60BSfiAiz-iFn8lHFTHGG3oTA"
+          underline="none"
+          target="_blank"
+          rel="noopener"
+        >
           tại đây
         </Link>
         )
