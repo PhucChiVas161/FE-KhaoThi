@@ -1,0 +1,181 @@
+import moment from 'moment';
+import { Icon } from '@iconify/react';
+import { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
+
+import { Button, LinearProgress } from '@mui/material';
+import {
+  DataGridPremium,
+  GridActionsCellItem,
+  GridToolbarContainer,
+} from '@mui/x-data-grid-premium';
+
+import Header from '../../components/Header';
+import { getReCheckByEmployeeId } from './ReCheckAPI';
+import DetailReCheck from '../../components/ReCheck/DetailReCheck';
+import CreateReCheck from '../../components/ReCheck/CreateReCheck';
+
+const ReCheck = () => {
+  const [reCheck, setRecheck] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [openCreateReCheck, setOpenCreateReCheck] = useState(false);
+  const [selected, setSelected] = useState('');
+  const [open, setOpen] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [shouldRefresh, setShouldRefresh] = useState(false);
+
+  // Lấy dữ liệu phúc khảo
+  useEffect(() => {
+    fetchReCheckData();
+  }, []);
+
+  // Refresh dữ liệu phúc khảo khi cần
+  useEffect(() => {
+    if (shouldRefresh) {
+      fetchReCheckData();
+      setShouldRefresh(false);
+    }
+  }, [shouldRefresh]);
+
+  const fetchReCheckData = () => {
+    setLoading(true);
+    getReCheckByEmployeeId()
+      .then((response) => {
+        setRecheck(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  };
+
+  const transformedReCheck = reCheck.map((index) => ({
+    ...reCheck,
+    id: index + 1,
+  }));
+
+  const handleOpenDetail = (event, reCheckId) => {
+    setSelected([reCheckId]);
+    setOpen(!open);
+    setShowDetail(!showDetail);
+    setHidden(!hidden);
+  };
+
+  const handleRefresh = () => {
+    setShouldRefresh(true);
+  };
+
+  const columns = [
+    { field: 'id', headerName: 'STT', flex: 0.5 },
+    {
+      field: 'tenHP',
+      headerName: 'Tên học phần',
+      flex: 1,
+    },
+    {
+      field: 'reCheckId',
+      headerName: 'Mã đơn',
+      flex: 1,
+    },
+    {
+      field: 'phanHoi',
+      headerName: 'Phản hồi',
+      flex: 1,
+    },
+    {
+      field: 'status',
+      headerName: 'Kết quả',
+      flex: 1,
+    },
+    {
+      field: 'updateAt',
+      headerName: 'Cập nhật vào',
+      flex: 1,
+      renderCell: (params) => {
+        const date = params.value;
+        if (date === '0001-01-01T00:00:00') {
+          return 'Chưa có';
+        }
+        return moment(date).format('DD-MM-YYYY HH:mm:ss');
+      },
+    },
+    {
+      field: 'ghiChu',
+      headerName: 'Ghi chú',
+      flex: 1,
+    },
+    {
+      field: 'actions',
+      type: 'actions',
+      width: 80,
+      getActions: (params) => [
+        <GridActionsCellItem
+          icon={<Icon icon="line-md:alert-circle-twotone-loop" width="24" height="24" />}
+          label="Chi tiết"
+          onClick={(event) => handleOpenDetail(event, params.row.reCheckId)}
+          open={open}
+          showInMenu
+        />,
+      ],
+      disableExport: true,
+    },
+  ];
+  // Add nút gửi hoãn thi
+  // eslint-disable-next-line react/no-unstable-nested-components
+  const CustomToolbar = () => (
+    <GridToolbarContainer>
+      <Button
+        startIcon={<Icon icon="line-md:clipboard-plus-twotone" />}
+        onClick={() => {
+          setOpenCreateReCheck(!openCreateReCheck);
+        }}
+      >
+        Gửi phúc khảo
+      </Button>
+    </GridToolbarContainer>
+  );
+  // Đóng form
+  const handleCloseCreateReCheck = () => {
+    setOpenCreateReCheck(false);
+  };
+  return (
+    <>
+      <Helmet>
+        <title>PHÚC KHẢO | KHẢO THÍ - VLU</title>
+      </Helmet>
+      <Header title="PHÚC KHẢO" />
+      {openCreateReCheck && (
+        <CreateReCheck
+          onSuccess={handleRefresh}
+          onClose={handleCloseCreateReCheck}
+          open={openCreateReCheck}
+        />
+      )}
+      {showDetail && (
+        <DetailReCheck
+          reCheckId={selected.length > 0 ? selected[0] : null}
+          onClose={handleOpenDetail}
+          open={showDetail}
+          hidden={hidden}
+        />
+      )}
+      <div style={{ height: 650, width: '100%' }}>
+        <DataGridPremium
+          emptyRowsWhenPaging
+          slots={{
+            toolbar: CustomToolbar,
+            loadingOverlay: LinearProgress,
+          }}
+          loading={loading}
+          rows={transformedReCheck}
+          columns={columns}
+          getRowHeight={() => 'auto'}
+        />
+      </div>
+    </>
+  );
+};
+
+export default ReCheck;

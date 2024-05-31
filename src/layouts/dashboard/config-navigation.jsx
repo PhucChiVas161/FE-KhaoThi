@@ -8,34 +8,59 @@ const icon = (name) => (
 
 const navConfig = [
   {
-    title: 'dashboard',
-    path: '/',
-    icon: icon('ic_analytics'),
+    role: 'Student',
+    items: [
+      {
+        title: 'Phúc khảo',
+        path: '/Dashboard/Recheck',
+        icon: icon('ic_document'),
+      },
+      {
+        title: 'Hoãn Thi',
+        path: '/Dashboard/Postpone',
+        icon: icon('ic_postpone'),
+      },
+    ],
   },
   {
-    title: 'user',
-    path: '/user',
-    icon: icon('ic_user'),
+    role: 'Manager',
+    items: [
+      {
+        title: 'QUẢN LÝ NGƯỜI DÙNG',
+        path: '/Dashboard/UsersManagement',
+        icon: icon('ic_account'),
+      },
+      {
+        title: 'QUẢN LÝ PHÚC KHẢO',
+        path: '/Dashboard/RecheckManagement',
+        icon: icon('ic_document'),
+      },
+      {
+        title: 'QUẢN LÝ HOÃN THI',
+        path: '/Dashboard/PostponeManagement',
+        icon: icon('ic_postpone'),
+      },
+      {
+        title: 'QUẢN LÝ THÔNG BÁO',
+        path: '/Dashboard/NotificationManagement',
+        icon: icon('ic_bell'),
+      },
+      {
+        title: 'QUẢN LÝ HỌC PHẦN',
+        path: '/Dashboard/CourseManagement',
+        icon: icon('ic_document'),
+      },
+    ],
   },
   {
-    title: 'product',
-    path: '/products',
-    icon: icon('ic_cart'),
-  },
-  {
-    title: 'blog',
-    path: '/blog',
-    icon: icon('ic_blog'),
-  },
-  {
-    title: 'login',
-    path: '/login',
-    icon: icon('ic_lock'),
-  },
-  {
-    title: 'Not found',
-    path: '/404',
-    icon: icon('ic_disabled'),
+    role: 'Lecturer',
+    items: [
+      {
+        title: 'QUẢN LÝ PHÚC KHẢO',
+        path: '/Dashboard/RecheckManagement',
+        icon: icon('ic_document'),
+      },
+    ],
   },
 ];
 
