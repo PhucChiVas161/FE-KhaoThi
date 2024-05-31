@@ -1,22 +1,17 @@
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import React, { useState } from 'react';
+
 import {
-  TextField,
-  Button,
   Card,
-  CardContent,
   Grid,
-  IconButton,
-  Typography,
-  MenuItem,
-  InputLabel,
-  Select,
-  FormControl,
+  Button,
   Snackbar,
+  TextField,
+  CardContent,
   SnackbarContent,
   CircularProgress,
 } from '@mui/material';
-import Cookies from 'js-cookie';
-import axios from 'axios';
 
 const AddNotification = ({ addUser }) => {
   const [formData, setFormData] = useState({});

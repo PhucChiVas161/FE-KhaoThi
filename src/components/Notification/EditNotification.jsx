@@ -1,23 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Cookies from 'js-cookie';
+import React, { useState, useEffect } from 'react';
+
 import {
-  TextField,
-  Button,
   Card,
-  CardContent,
   Grid,
-  IconButton,
-  Typography,
-  MenuItem,
-  InputLabel,
-  Select,
-  FormControl,
+  Button,
   Snackbar,
+  TextField,
+  CardContent,
   SnackbarContent,
 } from '@mui/material';
-import { AddAPhoto } from '@mui/icons-material';
-import axios from 'axios';
-import { id } from 'date-fns/locale';
 
 const EditNotification = ({ notiId, onClose }) => {
   const [formData, setFormData] = useState({});
@@ -57,7 +50,7 @@ const EditNotification = ({ notiId, onClose }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  });
   console.log(formData);
 
   const handleSubmit = (e) => {

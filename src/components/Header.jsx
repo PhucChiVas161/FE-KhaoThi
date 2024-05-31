@@ -1,5 +1,6 @@
-import { Typography, Box, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
+
+import { Box, useTheme, Typography } from '@mui/material';
 
 const Header = ({ title, subtitle }) => {
   const theme = useTheme();

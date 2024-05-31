@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { TextField, Button, Typography, Stack, Card, CardContent, CardActions, Paper } from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useSnackbar } from 'notistack';
+import { useState, useEffect } from 'react';
+
+import { Card, Stack, Paper, Button, TextField, Typography, CardContent, CardActions } from '@mui/material';
+
 import { useHandleErrors } from '../../hooks/useHandleErrors';
 
 export default function ForgotChangePassword() {

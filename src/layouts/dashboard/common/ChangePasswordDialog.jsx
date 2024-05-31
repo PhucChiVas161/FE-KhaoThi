@@ -1,18 +1,20 @@
-import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  Button,
-  Typography,
-  Stack,
-} from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useSnackbar } from 'notistack';
+import { useRef, useState, useEffect } from 'react';
+
+import {
+  Stack,
+  Dialog,
+  Button,
+  TextField,
+  Typography,
+  DialogTitle,
+  DialogActions,
+  DialogContent,
+} from '@mui/material';
+
 import { useHandleErrors } from '../../../hooks/useHandleErrors';
 
 export default function ChangePasswordDialog({ open, onClose }) {

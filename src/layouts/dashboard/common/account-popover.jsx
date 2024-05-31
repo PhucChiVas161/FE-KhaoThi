@@ -1,4 +1,8 @@
-import { useState } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { Icon } from '@iconify/react';
+import { jwtDecode } from 'jwt-decode';
+import { useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -9,17 +13,18 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
-import { account } from 'src/_mock/account';
+import ProfileDialog from './ProfileDialog';
+import ChangePasswordDialog from './ChangePasswordDialog';
 
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
-    icon: 'eva:home-fill',
+    label: 'Đổi mật khẩu',
+    icon: 'solar:lock-password-bold',
   },
   {
-    label: 'Profile',
+    label: 'Xem thông tin',
     icon: 'eva:person-fill',
   },
   {
@@ -32,6 +37,9 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
+  const [users, setUsers] = useState('');
+  const [changePassDialog, setChangePassDialog] = useState(false);
+  const [profileDialog, setProfileDialog] = useState(false);
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -39,6 +47,42 @@ export default function AccountPopover() {
 
   const handleClose = () => {
     setOpen(null);
+  };
+
+  const handleChangePasswordClick = () => {
+    setChangePassDialog(true);
+  };
+
+  const handleProfileDialogClick = () => {
+    setProfileDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setChangePassDialog(false);
+    setProfileDialog(false);
+  };
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+    const decode = jwtDecode(token);
+    axios
+      .get(`${import.meta.env.VITE_API_ENDPOINT}api/Employees/${decode.EmployeeId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const handleLogout = () => {
+    Cookies.remove('token');
+    sessionStorage.clear();
+    window.location.href = '/';
   };
 
   return (
@@ -55,16 +99,8 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar
-          src={account.photoURL}
-          alt={account.displayName}
-          sx={{
-            width: 36,
-            height: 36,
-            border: (theme) => `solid 2px ${theme.palette.background.default}`,
-          }}
-        >
-          {account.displayName.charAt(0).toUpperCase()}
+        <Avatar>
+          <Icon icon="line-md:github-loop" width="30" height="30" />
         </Avatar>
       </IconButton>
 
@@ -85,17 +121,28 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {users.employeeName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {users.employeeMSSV}
           </Typography>
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         {MENU_OPTIONS.map((option) => (
-          <MenuItem key={option.label} onClick={handleClose}>
+          <MenuItem
+            key={option.label}
+            onClick={() => {
+              if (option.label === 'Đổi mật khẩu') {
+                handleChangePasswordClick();
+              } else if (option.label === 'Xem thông tin') {
+                handleProfileDialogClick();
+              } else {
+                handleClose();
+              }
+            }}
+          >
             {option.label}
           </MenuItem>
         ))}
@@ -105,12 +152,14 @@ export default function AccountPopover() {
         <MenuItem
           disableRipple
           disableTouchRipple
-          onClick={handleClose}
+          onClick={handleLogout}
           sx={{ typography: 'body2', color: 'error.main', py: 1.5 }}
         >
           Logout
         </MenuItem>
       </Popover>
+      <ChangePasswordDialog open={changePassDialog} onClose={handleDialogClose} />
+      <ProfileDialog open={profileDialog} onClose={handleDialogClose} />
     </>
   );
 }

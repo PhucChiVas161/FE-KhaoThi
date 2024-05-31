@@ -7,7 +7,7 @@ import DashboardLayout from 'src/layouts/dashboard';
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const IndexPage = lazy(() => import('src/pages/app'));
-export const LandingPage = lazy(() => import('src/pages/LandingPage'));
+// export const LandingPage = lazy(() => import('src/pages/LandingPage'));
 // export const Notification = lazy(() => import('src/pages/Notification'));
 export const UserPage = lazy(() => import('src/pages/UserPage/UserPage'));
 export const ForgotChangePassword = lazy(() => import('src/components/User/ForgotChangePassword'));

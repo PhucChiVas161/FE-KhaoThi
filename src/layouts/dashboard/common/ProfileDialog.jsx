@@ -1,18 +1,19 @@
-import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
+import { useState, useEffect } from 'react';
+
 import {
-  TextField,
-  Button,
   Card,
-  CardContent,
   Grid,
+  Button,
   Dialog,
+  TextField,
+  CardContent,
   DialogTitle,
   DialogContent,
   DialogActions,
 } from '@mui/material';
-import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
 
 const ProfileDialog = ({ open, onClose }) => {
   const [formData, setFormData] = useState({

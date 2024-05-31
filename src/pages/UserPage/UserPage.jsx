@@ -1,6 +1,6 @@
 import { Icon } from '@iconify/react';
-import { Helmet } from 'react-helmet-async';
 import { useSnackbar } from 'notistack';
+import { Helmet } from 'react-helmet-async';
 import { useState, useEffect } from 'react';
 
 import {
