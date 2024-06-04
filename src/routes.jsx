@@ -17,6 +17,7 @@ import Postpone from './pages/PostponeExamPage/Postpone';
 import ReCheck from './pages/ReCheck/ReCheck';
 import ReCheckManagement from './pages/ReCheck/ReCheckManagement';
 import CourseManagement from './pages/Course/CourseManagement';
+import Statistic from './pages/Statistic/Statistic';
 export default function Router() {
   const [isLoggedIn, setIsLoggedIn] = useState(Cookies.get('token'));
 
@@ -48,6 +49,7 @@ export default function Router() {
         { path: 'PostponeManagement', element: <PostponeManagement /> },
         { path: 'NotificationManagement', element: <Notification /> },
         { path: 'CourseManagement', element: <CourseManagement /> },
+        { path: 'Statistic', element: <Statistic /> },
       ],
     },
     {

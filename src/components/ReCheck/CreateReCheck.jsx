@@ -145,7 +145,7 @@ const CreateReCheck = ({ onSuccess, onClose, open }) => {
                       onChange={handleChange}
                       label="Lý do"
                     >
-                      <MenuItem value="BSai sót trong chấm điểm">Sai sót trong chấm điểm</MenuItem>
+                      <MenuItem value="Sai sót trong chấm điểm">Sai sót trong chấm điểm</MenuItem>
                       <MenuItem value="Điểm số không phản ánh đúng kiến thức">
                         Điểm số không phản ánh đúng kiến thức
                       </MenuItem>

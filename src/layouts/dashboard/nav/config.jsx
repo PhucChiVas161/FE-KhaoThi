@@ -49,6 +49,11 @@ const navConfig = [
         path: '/Dashboard/CourseManagement',
         icon: icon('ic_document'),
       },
+      {
+        title: 'THỐNG KÊ',
+        path: '/Dashboard/Statistic',
+        icon: icon('ic_statictis'),
+      },
     ],
   },
   {

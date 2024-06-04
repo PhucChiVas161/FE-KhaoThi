@@ -42,9 +42,9 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 export default function LoginPage({ onLogin }) {
   const mdUp = useResponsive('up', 'md');
-  const LOGIN_URL_GOOGLE = 'https://localhost:7070/api/accounts/signin-google';
-  const LOGIN_URL_FACEBOOK = 'https://localhost:7070/api/accounts/signin-facebook';
-  const LOGIN_URL_MICROSOFT = 'https://localhost:7070/api/accounts/signin-microsoft';
+  const LOGIN_URL_GOOGLE = `${import.meta.env.VITE_API_ENDPOINT}api/accounts/signin-google`;
+  const LOGIN_URL_FACEBOOK = `${import.meta.env.VITE_API_ENDPOINT}api/accounts/signin-facebook`;
+  const LOGIN_URL_MICROSOFT = `${import.meta.env.VITE_API_ENDPOINT}api/accounts/signin-microsoft`;
   const handleSubmitGoogle = () => {
     window.location.href = LOGIN_URL_GOOGLE;
   };

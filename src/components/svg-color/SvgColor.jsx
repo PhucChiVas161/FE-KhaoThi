@@ -5,6 +5,7 @@ import { Box } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
+// eslint-disable-next-line react/display-name
 const SvgColor = forwardRef(({ src, sx, ...other }, ref) => (
   <Box
     component="span"

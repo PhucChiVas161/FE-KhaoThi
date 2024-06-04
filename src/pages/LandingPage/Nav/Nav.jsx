@@ -1,6 +1,8 @@
 import { FaHome } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 function Nav() {
+  const navigate = useNavigate();
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
@@ -41,7 +43,7 @@ function Nav() {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/Login">
+                <a className="nav-link" onClick={() => navigate('/Login')}>
                   ĐĂNG NHẬP
                 </a>
               </li>

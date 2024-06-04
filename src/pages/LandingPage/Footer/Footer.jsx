@@ -1,5 +1,5 @@
 function Footer() {
-  var currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear();
   return (
     <div id="lienhe">
       <section className="contact-section" style={{ background: '#D51F35' }}>
@@ -45,17 +45,6 @@ function Footer() {
               </div>
             </div>
           </div>
-          {/* <div className="social d-flex justify-content-center">
-            <a className="mx-2" href="#!">
-              <i className="fab fa-twitter" />
-            </a>
-            <a className="mx-2" href="#!">
-              <i className="fab fa-facebook-f" />
-            </a>
-            <a className="mx-2" href="#!">
-              <i className="fab fa-github" />
-            </a>
-          </div> */}
         </div>
       </section>
       <footer className="footer bg-dark small text-center text-white-50">
