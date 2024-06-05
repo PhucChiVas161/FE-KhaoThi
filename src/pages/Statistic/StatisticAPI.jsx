@@ -46,3 +46,12 @@ export const getStatusRecheck = () => {
     },
   });
 };
+//Get StatusPostpone
+export const getStatusPostpone = () => {
+  const token = Cookies.get('token');
+  return axios.get(`${import.meta.env.VITE_API_ENDPOINT}api/Statistic/sum-postpone`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

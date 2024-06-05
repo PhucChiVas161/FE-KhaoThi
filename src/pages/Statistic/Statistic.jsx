@@ -6,6 +6,7 @@ import {
   getSubjectRecheck,
   getSubjectPostpone,
   getStatusRecheck,
+  getStatusPostpone,
 } from './StatisticAPI';
 // @mui
 import { useTheme } from '@mui/material/styles';
@@ -24,6 +25,7 @@ export default function Statistic() {
   const [subjectRecheck, setSubjectRecheck] = useState([]);
   const [subjectPostpone, setSubjectPostpone] = useState([]);
   const [statusRecheck, setStatusRecheck] = useState([]);
+  const [statusPostpone, setStatusPostpone] = useState([]);
 
   //Thống kê lý do phúc khảo
   useEffect(() => {
@@ -79,46 +81,32 @@ export default function Statistic() {
         console.log(error);
       });
   }, []);
+  //Thống kê số lượng trạng thái hoãn thi
+  useEffect(() => {
+    getStatusPostpone()
+      .then((response) => {
+        setStatusPostpone(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   console.log(statusRecheck);
 
   return (
     <>
       <Helmet>
-        <title> Dashboard | Minimal UI </title>
+        <title> Thống kê | VLU Khảo Thí </title>
       </Helmet>
 
       <Container maxWidth="xl">
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={6}>
-            <AppTrafficBySite title="Traffic by Site" list={statusRecheck} />
+            <AppTrafficBySite title="Tình trạng PHÚC KHẢO" list={statusRecheck} />
           </Grid>
           <Grid item xs={12} md={6} lg={6}>
-            <AppTrafficBySite
-              title="Traffic by Site"
-              list={[
-                {
-                  name: 'FaceBook',
-                  value: 323234,
-                  icon: <Iconify icon={'eva:facebook-fill'} color="#1877F2" width={32} />,
-                },
-                {
-                  name: 'Google',
-                  value: 341212,
-                  icon: <Iconify icon={'eva:google-fill'} color="#DF3E30" width={32} />,
-                },
-                {
-                  name: 'Linkedin',
-                  value: 411213,
-                  icon: <Iconify icon={'eva:linkedin-fill'} color="#006097" width={32} />,
-                },
-                {
-                  name: 'Twitter',
-                  value: 443232,
-                  icon: <Iconify icon={'eva:twitter-fill'} color="#1C9CEA" width={32} />,
-                },
-              ]}
-            />
+            <AppTrafficBySite title="Tình trạng HOÃN THI" list={statusPostpone} />
           </Grid>
           <Grid item xs={12} md={6} lg={6}>
             <AppCurrentVisits
