@@ -10,6 +10,7 @@ import ThemeProvider from './theme';
 import { StyledChart } from './components/chart';
 import ScrollToTop from './components/scroll-to-top';
 import TokenChecker from './sections/auth/login/TokenChecker';
+import './index.css';
 
 // ----------------------------------------------------------------------
 LicenseInfo.setLicenseKey(`${import.meta.env.VITE_LICENSE_KEY}`);

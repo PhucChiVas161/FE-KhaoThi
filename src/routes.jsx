@@ -7,7 +7,7 @@ import SimpleLayout from './layouts/simple';
 //
 import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
-import DashboardAppPage from './pages/DashboardAppPage';
+import WelcomePage from './pages/WelcomePage';
 import LandingPage from './pages/LandingPage/index';
 import Notification from './pages/Notification';
 import UserPage from './pages/UserPage/UserPage';
@@ -41,7 +41,7 @@ export default function Router() {
           element: <Navigate to={'/Dashboard/Welcome' || '/Index'} />,
           index: true,
         },
-        { path: 'Welcome', element: <DashboardAppPage /> },
+        { path: 'Welcome', element: <WelcomePage /> },
         { path: 'Recheck', element: <ReCheck /> },
         { path: 'Postpone', element: <Postpone /> },
         { path: 'UsersManagement', element: <UserPage /> },

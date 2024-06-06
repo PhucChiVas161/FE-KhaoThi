@@ -4,29 +4,11 @@ import Cookies from 'js-cookie';
 
 import { jwtDecode } from 'jwt-decode';
 import { Helmet } from 'react-helmet-async';
-import { faker } from '@faker-js/faker';
-// @mui
-import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
-// components
-import Iconify from '../components/iconify';
-// sections
-import {
-  AppTasks,
-  AppNewsUpdate,
-  AppOrderTimeline,
-  AppCurrentVisits,
-  AppWebsiteVisits,
-  AppTrafficBySite,
-  AppWidgetSummary,
-  AppCurrentSubject,
-  AppConversionRates,
-} from '../sections/@dashboard/app';
+import { Container, Typography } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
-export default function DashboardAppPage() {
-  const theme = useTheme();
+export default function WelcomePage() {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     const token = Cookies.get('token');
@@ -51,7 +33,7 @@ export default function DashboardAppPage() {
         <title> Dashboard | Minimal UI </title>
       </Helmet>
 
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" className="w-full h-full bg-gradient-to-r from-cyan-500 to-blue-500">
         <Typography variant="h4" sx={{ mb: 5 }}>
           Xin chào, {users.employeeName} 👋👋👋
         </Typography>
