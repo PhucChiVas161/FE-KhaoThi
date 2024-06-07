@@ -74,5 +74,5 @@
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-mkcert": "^1.17.5"
   },
-  "packageManager": "yarn@4.2.3"
+  "packageManager": "yarn@4.2.2"
 }
