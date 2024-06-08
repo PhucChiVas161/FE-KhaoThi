@@ -14,7 +14,11 @@ import { Grid, Container } from '@mui/material';
 // components
 import Iconify from '../../components/iconify';
 // sections
-import { AppCurrentVisits, AppTrafficBySite, AppConversionRates } from '../../sections/@dashboard/app';
+import {
+  AppCurrentVisits,
+  AppTrafficBySite,
+  AppConversionRates,
+} from '../../sections/@dashboard/app';
 
 // ----------------------------------------------------------------------
 
@@ -103,10 +107,17 @@ export default function Statistic() {
       <Container maxWidth="xl">
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={6}>
-            <AppTrafficBySite title="Tình trạng PHÚC KHẢO" list={statusRecheck} />
+            <AppConversionRates
+              title="Thống kê môn học sinh viên PHÚC KHẢO"
+              chartData={subjectRecheck}
+            />
           </Grid>
+
           <Grid item xs={12} md={6} lg={6}>
-            <AppTrafficBySite title="Tình trạng HOÃN THI" list={statusPostpone} />
+            <AppConversionRates
+              title="Thống kê môn học sinh viên HOÃN THI"
+              chartData={subjectPostpone}
+            />
           </Grid>
           <Grid item xs={12} md={6} lg={6}>
             <AppCurrentVisits
@@ -133,13 +144,17 @@ export default function Statistic() {
               ]}
             />
           </Grid>
-
           <Grid item xs={12} md={6} lg={6}>
-            <AppConversionRates title="Thống kê môn học sinh viên PHÚC KHẢO" chartData={subjectRecheck} />
+            <AppTrafficBySite
+              title="Tình trạng PHÚC KHẢO"
+              list={statusRecheck}
+            />
           </Grid>
-
           <Grid item xs={12} md={6} lg={6}>
-            <AppConversionRates title="Thống kê môn học sinh viên HOÃN THI" chartData={subjectPostpone} />
+            <AppTrafficBySite
+              title="Tình trạng HOÃN THI"
+              list={statusPostpone}
+            />
           </Grid>
         </Grid>
       </Container>

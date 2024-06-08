@@ -15,7 +15,12 @@ AppConversionRates.propTypes = {
   chartData: PropTypes.array.isRequired,
 };
 
-export default function AppConversionRates({ title, subheader, chartData, ...other }) {
+export default function AppConversionRates({
+  title,
+  subheader,
+  chartData,
+  ...other
+}) {
   const chartLabels = chartData.map((i) => i.courseName);
 
   const chartSeries = chartData.map((i) => i.count);
@@ -31,7 +36,11 @@ export default function AppConversionRates({ title, subheader, chartData, ...oth
       },
     },
     plotOptions: {
-      bar: { horizontal: true, barHeight: '28%', borderRadius: 2 },
+      bar: {
+        horizontal: true,
+        barHeight: '28%',
+        borderRadius: 2,
+      },
     },
     xaxis: {
       categories: chartLabels,
@@ -43,7 +52,12 @@ export default function AppConversionRates({ title, subheader, chartData, ...oth
       <CardHeader title={title} subheader={subheader} />
 
       <Box sx={{ mx: 3 }} dir="ltr">
-        <ReactApexChart type="bar" series={[{ data: chartSeries }]} options={chartOptions} height={364} />
+        <ReactApexChart
+          type="bar"
+          series={[{ data: chartSeries }]}
+          options={chartOptions}
+          height={364}
+        />
       </Box>
     </Card>
   );

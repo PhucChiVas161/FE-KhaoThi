@@ -5,12 +5,17 @@ function Nav() {
   const navigate = useNavigate();
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <nav
+        className="navbar navbar-expand-lg navbar-light fixed-top"
+        id="mainNav"
+      >
         <div className="container px-4 px-lg-5">
           <div className="d-flex align-items-center">
             <FaHome className="logohome" />
             <a className="navbar-brand">
-              <span className="d-none d-lg-inline">TRƯỜNG ĐẠI HỌC VĂN LANG</span>
+              <span className="d-none d-lg-inline">
+                TRƯỜNG ĐẠI HỌC VĂN LANG
+              </span>
               <span className="d-inline d-lg-none">VLU</span>
             </a>
           </div>
