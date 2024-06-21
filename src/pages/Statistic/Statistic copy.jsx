@@ -32,11 +32,14 @@ export default function Statistic() {
     const token = Cookies.get('token');
     const decode = jwtDecode(token);
     axios
-      .get(`${import.meta.env.VITE_API_ENDPOINT}api/Employees/${decode.EmployeeId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(
+        `${import.meta.env.VITE_API_ENDPOINT}Employees/${decode.EmployeeId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         setUsers(response.data);
       })
@@ -58,19 +61,38 @@ export default function Statistic() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} />
+            <AppWidgetSummary
+              title="Weekly Sales"
+              total={714000}
+              icon={'ant-design:android-filled'}
+            />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+            <AppWidgetSummary
+              title="New Users"
+              total={1352831}
+              color="info"
+              icon={'ant-design:apple-filled'}
+            />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+            <AppWidgetSummary
+              title="Item Orders"
+              total={1723315}
+              color="warning"
+              icon={'ant-design:windows-filled'}
+            />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+            <AppWidgetSummary
+              title="Bug Reports"
+              total={234}
+              color="error"
+              icon={'ant-design:bug-filled'}
+            />
           </Grid>
 
           <Grid item xs={12} md={6} lg={8}>
@@ -181,13 +203,22 @@ export default function Statistic() {
           <Grid item xs={12} md={6} lg={4}>
             <AppCurrentSubject
               title="Current Subject"
-              chartLabels={['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math']}
+              chartLabels={[
+                'English',
+                'History',
+                'Physics',
+                'Geography',
+                'Chinese',
+                'Math',
+              ]}
               chartData={[
                 { name: 'Series 1', data: [80, 50, 30, 40, 100, 20] },
                 { name: 'Series 2', data: [20, 30, 40, 80, 20, 80] },
                 { name: 'Series 3', data: [44, 76, 78, 13, 43, 10] },
               ]}
-              chartColors={[...Array(6)].map(() => theme.palette.text.secondary)}
+              chartColors={[...Array(6)].map(
+                () => theme.palette.text.secondary
+              )}
             />
           </Grid>
 
@@ -229,22 +260,46 @@ export default function Statistic() {
                 {
                   name: 'FaceBook',
                   value: 323234,
-                  icon: <Iconify icon={'eva:facebook-fill'} color="#1877F2" width={32} />,
+                  icon: (
+                    <Iconify
+                      icon={'eva:facebook-fill'}
+                      color="#1877F2"
+                      width={32}
+                    />
+                  ),
                 },
                 {
                   name: 'Google',
                   value: 341212,
-                  icon: <Iconify icon={'eva:google-fill'} color="#DF3E30" width={32} />,
+                  icon: (
+                    <Iconify
+                      icon={'eva:google-fill'}
+                      color="#DF3E30"
+                      width={32}
+                    />
+                  ),
                 },
                 {
                   name: 'Linkedin',
                   value: 411213,
-                  icon: <Iconify icon={'eva:linkedin-fill'} color="#006097" width={32} />,
+                  icon: (
+                    <Iconify
+                      icon={'eva:linkedin-fill'}
+                      color="#006097"
+                      width={32}
+                    />
+                  ),
                 },
                 {
                   name: 'Twitter',
                   value: 443232,
-                  icon: <Iconify icon={'eva:twitter-fill'} color="#1C9CEA" width={32} />,
+                  icon: (
+                    <Iconify
+                      icon={'eva:twitter-fill'}
+                      color="#1C9CEA"
+                      width={32}
+                    />
+                  ),
                 },
               ]}
             />

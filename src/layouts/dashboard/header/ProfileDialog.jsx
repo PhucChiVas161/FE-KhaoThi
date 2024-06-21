@@ -31,11 +31,14 @@ const ProfileDialog = ({ open, onClose }) => {
     const token = Cookies.get('token');
     const decode = jwtDecode(token);
     axios
-      .get(`${import.meta.env.VITE_API_ENDPOINT}api/Employees/${decode.EmployeeId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(
+        `${import.meta.env.VITE_API_ENDPOINT}Employees/${decode.EmployeeId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         setFormData(response.data);
       })

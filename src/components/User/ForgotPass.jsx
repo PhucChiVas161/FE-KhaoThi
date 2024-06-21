@@ -8,7 +8,9 @@ import { LoadingButton } from '@mui/lab';
 // components
 
 // ----------------------------------------------------------------------
-const FORGOT_URL = `${import.meta.env.VITE_API_ENDPOINT}api/Accounts/forgot/password`;
+const FORGOT_URL = `${
+  import.meta.env.VITE_API_ENDPOINT
+}Accounts/forgot/password`;
 export default function ForgotPass({ onClose }) {
   const [accountEmail, setAccountEmail] = useState('');
   const [loading, setLoading] = useState(false);

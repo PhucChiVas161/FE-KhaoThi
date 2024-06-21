@@ -10,9 +10,7 @@ import {
 } from './StatisticAPI';
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container } from '@mui/material';
-// components
-import Iconify from '../../components/iconify';
+import { Grid, Container, Typography } from '@mui/material';
 // sections
 import {
   AppCurrentVisits,
@@ -30,6 +28,7 @@ export default function Statistic() {
   const [subjectPostpone, setSubjectPostpone] = useState([]);
   const [statusRecheck, setStatusRecheck] = useState([]);
   const [statusPostpone, setStatusPostpone] = useState([]);
+  const [lopHPPrefix, setLopHPPrefix] = useState('222');
 
   //Thống kê lý do phúc khảo
   useEffect(() => {
@@ -96,14 +95,33 @@ export default function Statistic() {
       });
   }, []);
 
-  console.log(statusRecheck);
-
   return (
     <>
       <Helmet>
         <title> Thống kê | VLU Khảo Thí </title>
       </Helmet>
-
+      <Typography mb="30px" variant="h5" sx={{ textAlign: 'center' }}>
+        Trạng thái đơn phúc khảo và hoãn thi
+      </Typography>
+      <Container maxWidth="xl">
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6} lg={6}>
+            <AppTrafficBySite
+              title="Tình trạng PHÚC KHẢO"
+              list={statusRecheck}
+            />
+          </Grid>
+          <Grid item xs={12} md={6} lg={6}>
+            <AppTrafficBySite
+              title="Tình trạng HOÃN THI"
+              list={statusPostpone}
+            />
+          </Grid>
+        </Grid>
+      </Container>
+      <Typography my="30px" variant="h5" sx={{ textAlign: 'center' }}>
+        Thống kê phúc khảo và hoãn thi
+      </Typography>
       <Container maxWidth="xl">
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={6}>
@@ -112,7 +130,6 @@ export default function Statistic() {
               chartData={subjectRecheck}
             />
           </Grid>
-
           <Grid item xs={12} md={6} lg={6}>
             <AppConversionRates
               title="Thống kê môn học sinh viên HOÃN THI"
@@ -142,18 +159,6 @@ export default function Statistic() {
                 theme.palette.warning.main,
                 theme.palette.error.main,
               ]}
-            />
-          </Grid>
-          <Grid item xs={12} md={6} lg={6}>
-            <AppTrafficBySite
-              title="Tình trạng PHÚC KHẢO"
-              list={statusRecheck}
-            />
-          </Grid>
-          <Grid item xs={12} md={6} lg={6}>
-            <AppTrafficBySite
-              title="Tình trạng HOÃN THI"
-              list={statusPostpone}
             />
           </Grid>
         </Grid>

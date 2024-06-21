@@ -9,7 +9,7 @@ import LoginPage from './pages/LoginPage';
 import Page404 from './pages/Page404';
 import WelcomePage from './pages/WelcomePage';
 import LandingPage from './pages/LandingPage/index';
-import Notification from './pages/Notification';
+import Notification from './pages/Notification/Notification';
 import UserPage from './pages/UserPage/UserPage';
 import ForgotChangePassword from './components/User/ForgotChangePassword';
 import PostponeManagement from './pages/PostponeExamPage/PostponeManagement';

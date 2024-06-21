@@ -39,7 +39,7 @@ const CreateUser = ({ onSuccess, onClose, open }) => {
     e.preventDefault();
     const token = Cookies.get('token');
     axios
-      .post(`${import.meta.env.VITE_API_ENDPOINT}api/Accounts/create`, formData, {
+      .post(`${import.meta.env.VITE_API_ENDPOINT}Accounts/create`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -144,7 +144,9 @@ const CreateUser = ({ onSuccess, onClose, open }) => {
               </Grid>
             </CardContent>
           </Card>
-          <DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <DialogActions
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
             <Button variant="contained" color="error" onClick={onClose}>
               Đóng
             </Button>

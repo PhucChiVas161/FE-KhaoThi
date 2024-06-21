@@ -58,7 +58,7 @@ const CreateReCheck = ({ onSuccess, onClose, open }) => {
   useEffect(() => {
     const token = Cookies.get('token');
     axios
-      .get(`${import.meta.env.VITE_API_ENDPOINT}api/Course`, {
+      .get(`${import.meta.env.VITE_API_ENDPOINT}Course`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -90,10 +90,16 @@ const CreateReCheck = ({ onSuccess, onClose, open }) => {
                   <Autocomplete
                     inputValue={formData.lopHP}
                     onInputChange={(event, newValue) => {
-                      setFormData({ ...formData, lopHP: newValue, maPhongThi: '' });
+                      setFormData({
+                        ...formData,
+                        lopHP: newValue,
+                        maPhongThi: '',
+                      });
                     }}
                     options={uniqueLopHPs.map((option) => option.lopHP)}
-                    renderInput={(params) => <TextField {...params} label="Lớp học phần" />}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Lớp học phần" />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -105,7 +111,9 @@ const CreateReCheck = ({ onSuccess, onClose, open }) => {
                     options={course
                       .filter((option) => option.lopHP === formData.lopHP)
                       .map((option) => option.maPhongThi)}
-                    renderInput={(params) => <TextField {...params} label="Mã phòng thi" />}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Mã phòng thi" />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -114,8 +122,12 @@ const CreateReCheck = ({ onSuccess, onClose, open }) => {
                     onInputChange={(event, newValue) => {
                       setFormData({ ...formData, tenHP: newValue });
                     }}
-                    options={course.filter((option) => option.lopHP === formData.lopHP).map((option) => option.tenHP)}
-                    renderInput={(params) => <TextField {...params} label="Tên Học Phần" />}
+                    options={course
+                      .filter((option) => option.lopHP === formData.lopHP)
+                      .map((option) => option.tenHP)}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Tên Học Phần" />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -145,19 +157,27 @@ const CreateReCheck = ({ onSuccess, onClose, open }) => {
                       onChange={handleChange}
                       label="Lý do"
                     >
-                      <MenuItem value="Sai sót trong chấm điểm">Sai sót trong chấm điểm</MenuItem>
+                      <MenuItem value="Sai sót trong chấm điểm">
+                        Sai sót trong chấm điểm
+                      </MenuItem>
                       <MenuItem value="Điểm số không phản ánh đúng kiến thức">
                         Điểm số không phản ánh đúng kiến thức
                       </MenuItem>
                       <MenuItem value="Hoàn cảnh đặc biệt ảnh hưởng đến kết quả">
                         Hoàn cảnh đặc biệt ảnh hưởng đến kết quả
                       </MenuItem>
-                      <MenuItem value="Tiêu chí chấm điểm không rõ ràng">Tiêu chí chấm điểm không rõ ràng</MenuItem>
+                      <MenuItem value="Tiêu chí chấm điểm không rõ ràng">
+                        Tiêu chí chấm điểm không rõ ràng
+                      </MenuItem>
                       <MenuItem value="Thiếu sót trong quá trình kiểm tra/thi">
                         Thiếu sót trong quá trình kiểm tra/thi
                       </MenuItem>
-                      <MenuItem value="Điều kiện thi không công bằng">Điều kiện thi không công bằng</MenuItem>
-                      <MenuItem value="Vấn đề về sức khỏe hoặc tâm lý">Vấn đề về sức khỏe hoặc tâm lý</MenuItem>
+                      <MenuItem value="Điều kiện thi không công bằng">
+                        Điều kiện thi không công bằng
+                      </MenuItem>
+                      <MenuItem value="Vấn đề về sức khỏe hoặc tâm lý">
+                        Vấn đề về sức khỏe hoặc tâm lý
+                      </MenuItem>
                       <MenuItem value="Lỗi hành chính">Lỗi hành chính</MenuItem>
                     </Select>
                   </FormControl>
@@ -165,7 +185,9 @@ const CreateReCheck = ({ onSuccess, onClose, open }) => {
               </Grid>
             </CardContent>
           </Card>
-          <DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <DialogActions
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
             <Button variant="contained" color="error" onClick={onClose}>
               Đóng
             </Button>

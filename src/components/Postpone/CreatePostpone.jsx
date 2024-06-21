@@ -58,7 +58,7 @@ const CreatePostpone = ({ onSucess, onClose, open }) => {
   useEffect(() => {
     const token = Cookies.get('token');
     axios
-      .get(`${import.meta.env.VITE_API_ENDPOINT}api/Course`, {
+      .get(`${import.meta.env.VITE_API_ENDPOINT}Course`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -90,10 +90,16 @@ const CreatePostpone = ({ onSucess, onClose, open }) => {
                   <Autocomplete
                     inputValue={formData.lopHP}
                     onInputChange={(event, newValue) => {
-                      setFormData({ ...formData, lopHP: newValue, maPhongThi: '' });
+                      setFormData({
+                        ...formData,
+                        lopHP: newValue,
+                        maPhongThi: '',
+                      });
                     }}
                     options={uniqueLopHPs.map((option) => option.lopHP)}
-                    renderInput={(params) => <TextField {...params} label="Lớp học phần" />}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Lớp học phần" />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -105,7 +111,9 @@ const CreatePostpone = ({ onSucess, onClose, open }) => {
                     options={course
                       .filter((option) => option.lopHP === formData.lopHP)
                       .map((option) => option.maPhongThi)}
-                    renderInput={(params) => <TextField {...params} label="Mã phòng thi" />}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Mã phòng thi" />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -114,8 +122,12 @@ const CreatePostpone = ({ onSucess, onClose, open }) => {
                     onInputChange={(event, newValue) => {
                       setFormData({ ...formData, tenHP: newValue });
                     }}
-                    options={course.filter((option) => option.lopHP === formData.lopHP).map((option) => option.tenHP)}
-                    renderInput={(params) => <TextField {...params} label="Tên Học Phần" />}
+                    options={course
+                      .filter((option) => option.lopHP === formData.lopHP)
+                      .map((option) => option.tenHP)}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Tên Học Phần" />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -152,7 +164,8 @@ const CreatePostpone = ({ onSucess, onClose, open }) => {
                         Tai nạn hoặc tình huống khẩn cấp gia đình
                       </MenuItem>
                       <MenuItem value="Các vấn đề kỹ thuật hoặc hạ tầng như mất điện, internet, máy tính, v.v.">
-                        Các vấn đề kỹ thuật hoặc hạ tầng như mất điện, internet, máy tính, v.v.
+                        Các vấn đề kỹ thuật hoặc hạ tầng như mất điện, internet,
+                        máy tính, v.v.
                       </MenuItem>
                       <MenuItem value="Các sự kiện chính đáng như tang lễ, cưới xin, v.v.">
                         Các sự kiện chính đáng như tang lễ, cưới xin, v.v.
@@ -163,7 +176,9 @@ const CreatePostpone = ({ onSucess, onClose, open }) => {
               </Grid>
             </CardContent>
           </Card>
-          <DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <DialogActions
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
             <Button variant="contained" color="error" onClick={onClose}>
               Đóng
             </Button>

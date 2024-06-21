@@ -42,9 +42,15 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 export default function LoginPage({ onLogin }) {
   const mdUp = useResponsive('up', 'md');
-  const LOGIN_URL_GOOGLE = `${import.meta.env.VITE_API_ENDPOINT}api/accounts/signin-google`;
-  const LOGIN_URL_FACEBOOK = `${import.meta.env.VITE_API_ENDPOINT}api/accounts/signin-facebook`;
-  const LOGIN_URL_MICROSOFT = `${import.meta.env.VITE_API_ENDPOINT}api/accounts/signin-microsoft`;
+  const LOGIN_URL_GOOGLE = `${
+    import.meta.env.VITE_API_ENDPOINT
+  }accounts/signin-google`;
+  const LOGIN_URL_FACEBOOK = `${
+    import.meta.env.VITE_API_ENDPOINT
+  }accounts/signin-facebook`;
+  const LOGIN_URL_MICROSOFT = `${
+    import.meta.env.VITE_API_ENDPOINT
+  }accounts/signin-microsoft`;
   const handleSubmitGoogle = () => {
     window.location.href = LOGIN_URL_GOOGLE;
   };
@@ -74,7 +80,10 @@ export default function LoginPage({ onLogin }) {
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
               Hãy đăng nhập để tiếp tục!
             </Typography>
-            <img src="/assets/illustrations/illustration_login.png" alt="login" />
+            <img
+              src="/assets/illustrations/illustration_login.png"
+              alt="login"
+            />
           </StyledSection>
         )}
 
@@ -91,16 +100,49 @@ export default function LoginPage({ onLogin }) {
 
             {/* Đăng nhập bằng các bên thứ 3 */}
             <Stack direction="row" spacing={2}>
-              <Button fullWidth size="large" color="inherit" variant="outlined" onClick={handleSubmitGoogle}>
-                <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
+              <Button
+                fullWidth
+                size="large"
+                color="inherit"
+                variant="outlined"
+                onClick={handleSubmitGoogle}
+              >
+                <Iconify
+                  icon="eva:google-fill"
+                  color="#DF3E30"
+                  width={22}
+                  height={22}
+                />
               </Button>
 
-              <Button fullWidth size="large" color="inherit" variant="outlined" onClick={handleSubmitFacebook}>
-                <Iconify icon="line-md:facebook" color="#1877F2" width={22} height={22} />
+              <Button
+                fullWidth
+                size="large"
+                color="inherit"
+                variant="outlined"
+                onClick={handleSubmitFacebook}
+              >
+                <Iconify
+                  icon="line-md:facebook"
+                  color="#1877F2"
+                  width={22}
+                  height={22}
+                />
               </Button>
 
-              <Button fullWidth size="large" color="inherit" variant="outlined" onClick={handleSubmitMicrosoft}>
-                <Iconify icon="logos:microsoft-icon" color="#1C9CEA" width={22} height={22} />
+              <Button
+                fullWidth
+                size="large"
+                color="inherit"
+                variant="outlined"
+                onClick={handleSubmitMicrosoft}
+              >
+                <Iconify
+                  icon="logos:microsoft-icon"
+                  color="#1C9CEA"
+                  width={22}
+                  height={22}
+                />
               </Button>
             </Stack>
 

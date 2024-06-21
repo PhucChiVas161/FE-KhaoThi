@@ -1,6 +1,15 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { TextField, Button, Typography, Stack, Card, CardContent, CardActions, Paper } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Typography,
+  Stack,
+  Card,
+  CardContent,
+  CardActions,
+  Paper,
+} from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useSnackbar } from 'notistack';
 import { useHandleErrors } from '../../hooks/useHandleErrors';
@@ -30,15 +39,20 @@ export default function ForgotChangePassword() {
 
   const handlePasswordChange = () => {
     const token = window.location.pathname.split('/')[3];
-    if (!(isLengthValid && isUpperCaseValid && isDigitValid && isSpecialCharValid)) {
+    if (
+      !(isLengthValid && isUpperCaseValid && isDigitValid && isSpecialCharValid)
+    ) {
       enqueueSnackbar('Mật khẩu không hợp lệ. Vui lòng kiểm tra lại.', 'error');
       return;
     }
     axios
-      .post(`${import.meta.env.VITE_API_ENDPOINT}api/Accounts/change/forgot/password`, {
-        accountNewPassword: newPass,
-        jwtToken: token,
-      })
+      .post(
+        `${import.meta.env.VITE_API_ENDPOINT}Accounts/change/forgot/password`,
+        {
+          accountNewPassword: newPass,
+          jwtToken: token,
+        }
+      )
       .then((response) => {
         console.log(response);
         if (response.data.isValid === true) {
@@ -66,7 +80,11 @@ export default function ForgotChangePassword() {
         height: '100%',
       }}
     >
-      <Paper elevation={5} className="MuiPaper-root MuiPaper-rounded" style={{ maxWidth: 500, borderRadius: '30%' }}>
+      <Paper
+        elevation={5}
+        className="MuiPaper-root MuiPaper-rounded"
+        style={{ maxWidth: 500, borderRadius: '30%' }}
+      >
         <Card>
           <h1
             style={{
@@ -87,21 +105,55 @@ export default function ForgotChangePassword() {
               onChange={(e) => setNewPass(e.target.value)}
             />
             <Stack spacing={1}>
-              <Typography display="flex" alignItems="center" color={isLengthValid ? 'success' : 'error'}>
-                {isLengthValid && <Icon icon="line-md:clipboard-check" color={isLengthValid ? 'green' : 'red'} />} Có ít
-                nhất 8 ký tự
+              <Typography
+                display="flex"
+                alignItems="center"
+                color={isLengthValid ? 'success' : 'error'}
+              >
+                {isLengthValid && (
+                  <Icon
+                    icon="line-md:clipboard-check"
+                    color={isLengthValid ? 'green' : 'red'}
+                  />
+                )}{' '}
+                Có ít nhất 8 ký tự
               </Typography>
-              <Typography display="flex" alignItems="center" color={isUpperCaseValid ? 'success' : 'error'}>
-                {isUpperCaseValid && <Icon icon="line-md:clipboard-check" color={isUpperCaseValid ? 'green' : 'red'} />}{' '}
+              <Typography
+                display="flex"
+                alignItems="center"
+                color={isUpperCaseValid ? 'success' : 'error'}
+              >
+                {isUpperCaseValid && (
+                  <Icon
+                    icon="line-md:clipboard-check"
+                    color={isUpperCaseValid ? 'green' : 'red'}
+                  />
+                )}{' '}
                 Có ít nhất mộtký tự viết hoa
               </Typography>
-              <Typography display="flex" alignItems="center" color={isDigitValid ? 'success' : 'error'}>
-                {isDigitValid && <Icon icon="line-md:clipboard-check" color={isDigitValid ? 'green' : 'red'} />} Có ít
-                nhất một chữ số
+              <Typography
+                display="flex"
+                alignItems="center"
+                color={isDigitValid ? 'success' : 'error'}
+              >
+                {isDigitValid && (
+                  <Icon
+                    icon="line-md:clipboard-check"
+                    color={isDigitValid ? 'green' : 'red'}
+                  />
+                )}{' '}
+                Có ít nhất một chữ số
               </Typography>
-              <Typography display="flex" alignItems="center" color={isSpecialCharValid ? 'success' : 'error'}>
+              <Typography
+                display="flex"
+                alignItems="center"
+                color={isSpecialCharValid ? 'success' : 'error'}
+              >
                 {isSpecialCharValid && (
-                  <Icon icon="line-md:clipboard-check" color={isSpecialCharValid ? 'green' : 'red'} />
+                  <Icon
+                    icon="line-md:clipboard-check"
+                    color={isSpecialCharValid ? 'green' : 'red'}
+                  />
                 )}{' '}
                 Có ít nhất một ký tự đặc biệt (!@#$%^&*)
               </Typography>
@@ -115,9 +167,18 @@ export default function ForgotChangePassword() {
               onChange={(e) => setNewPassConfirm(e.target.value)}
             />
             <Stack>
-              <Typography display="flex" alignItems="center" color={isMatch ? 'success' : 'error'}>
-                {isMatch && <Icon icon="line-md:clipboard-check" color={isMatch ? 'green' : 'red'} />} Mật khẩu xác nhận
-                trùng với mật khẩu mới
+              <Typography
+                display="flex"
+                alignItems="center"
+                color={isMatch ? 'success' : 'error'}
+              >
+                {isMatch && (
+                  <Icon
+                    icon="line-md:clipboard-check"
+                    color={isMatch ? 'green' : 'red'}
+                  />
+                )}{' '}
+                Mật khẩu xác nhận trùng với mật khẩu mới
               </Typography>
             </Stack>
           </CardContent>
@@ -128,7 +189,13 @@ export default function ForgotChangePassword() {
                 color="primary"
                 size="large"
                 onClick={handlePasswordChange}
-                disabled={!isLengthValid || !isUpperCaseValid || !isDigitValid || !isSpecialCharValid || !isMatch}
+                disabled={
+                  !isLengthValid ||
+                  !isUpperCaseValid ||
+                  !isDigitValid ||
+                  !isSpecialCharValid ||
+                  !isMatch
+                }
               >
                 Đổi mật khẩu
               </Button>

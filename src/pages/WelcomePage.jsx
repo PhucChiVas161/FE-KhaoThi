@@ -14,11 +14,14 @@ export default function WelcomePage() {
     const token = Cookies.get('token');
     const decode = jwtDecode(token);
     axios
-      .get(`${import.meta.env.VITE_API_ENDPOINT}api/Employees/${decode.EmployeeId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(
+        `${import.meta.env.VITE_API_ENDPOINT}Employees/${decode.EmployeeId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         setUsers(response.data);
       })
@@ -33,7 +36,10 @@ export default function WelcomePage() {
         <title> Dashboard | Minimal UI </title>
       </Helmet>
 
-      <Container maxWidth="xl" className="w-full h-full bg-gradient-to-r from-cyan-500 to-blue-500">
+      <Container
+        maxWidth="xl"
+        className="w-full h-full bg-gradient-to-r from-cyan-500 to-blue-500"
+      >
         <Typography variant="h4" sx={{ mb: 5 }}>
           Xin chào, {users.employeeName} 👋👋👋
         </Typography>

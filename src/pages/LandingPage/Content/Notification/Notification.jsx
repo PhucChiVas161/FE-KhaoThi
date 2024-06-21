@@ -6,7 +6,7 @@ function Notification() {
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_ENDPOINT}api/Notis`)
+    fetch(`${import.meta.env.VITE_API_ENDPOINT}Notis`)
       .then((response) => response.json())
       .then((data) => {
         setPosts(data);
@@ -22,7 +22,13 @@ function Notification() {
     }
   };
   return (
-    <section id="faq" className="faq " data-aos="zoom-in" data-aos-delay="100" data-aos-duration="1200">
+    <section
+      id="faq"
+      className="faq "
+      data-aos="zoom-in"
+      data-aos-delay="100"
+      data-aos-duration="1200"
+    >
       <div className="container">
         <div className="section-title wow animated fadeInUp animated">
           <p className="tilenofica">THÔNG BÁO</p>
@@ -38,7 +44,9 @@ function Notification() {
                       key={post.notiId}
                       action
                       onClick={() => handlePostClick(post)}
-                      active={selectedPost && selectedPost.notiId === post.notiId}
+                      active={
+                        selectedPost && selectedPost.notiId === post.notiId
+                      }
                       style={{
                         display: 'block',
                         marginBottom: '1rem',
@@ -51,10 +59,19 @@ function Notification() {
                       {selectedPost && selectedPost.notiId === post.notiId && (
                         <Card>
                           <Card.Body>
-                            <Card.Title style={{ color: '#000', textAlign: 'left' }}>{selectedPost.title}</Card.Title>
-                            <Card.Text style={{ color: '#000', textAlign: 'left' }}>
+                            <Card.Title
+                              style={{ color: '#000', textAlign: 'left' }}
+                            >
+                              {selectedPost.title}
+                            </Card.Title>
+                            <Card.Text
+                              style={{ color: '#000', textAlign: 'left' }}
+                            >
                               {selectedPost.content}{' '}
-                              <a href={selectedPost.link} style={{ display: 'inline' }}>
+                              <a
+                                href={selectedPost.link}
+                                style={{ display: 'inline' }}
+                              >
                                 Tại đây
                               </a>
                             </Card.Text>

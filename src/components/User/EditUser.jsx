@@ -39,7 +39,7 @@ const EditUser = ({ employeeId, onClose, onSuccess }) => {
     setOpen(true);
     const token = Cookies.get('token');
     axios
-      .get(`${import.meta.env.VITE_API_ENDPOINT}api/employees/${employeeId}`, {
+      .get(`${import.meta.env.VITE_API_ENDPOINT}employees/${employeeId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -57,7 +57,7 @@ const EditUser = ({ employeeId, onClose, onSuccess }) => {
     const token = Cookies.get('token');
     const csrf = Cookies.get('csrf');
     axios
-      .post(`${import.meta.env.VITE_API_ENDPOINT}api/employees/update`, formData, {
+      .post(`${import.meta.env.VITE_API_ENDPOINT}employees/update`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'X-CSRF-TOKEN': csrf,
@@ -158,7 +158,9 @@ const EditUser = ({ employeeId, onClose, onSuccess }) => {
               </Grid>
             </CardContent>
           </Card>
-          <DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <DialogActions
+            style={{ display: 'flex', justifyContent: 'space-between' }}
+          >
             <Button variant="contained" color="error" onClick={handleClose}>
               Đóng
             </Button>

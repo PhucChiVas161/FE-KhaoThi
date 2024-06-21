@@ -4,14 +4,21 @@ import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 // @mui
-import { Link, Stack, IconButton, InputAdornment, TextField, Alert } from '@mui/material';
+import {
+  Link,
+  Stack,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Alert,
+} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/iconify';
 import ForgotPass from '../../../components/User/ForgotPass';
 
 // ----------------------------------------------------------------------
-const LOGIN_URL = `${import.meta.env.VITE_API_ENDPOINT}api/Accounts/login`;
+const LOGIN_URL = `${import.meta.env.VITE_API_ENDPOINT}Accounts/login`;
 const SESSION_TOKEN_KEY = 'token';
 export default function LoginForm({ onLogin }) {
   const navigate = useNavigate();
@@ -105,8 +112,17 @@ export default function LoginForm({ onLogin }) {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                      <Iconify icon={showPassword ? 'line-md:lightbulb' : 'line-md:lightbulb-off-twotone-loop'} />
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      <Iconify
+                        icon={
+                          showPassword
+                            ? 'line-md:lightbulb'
+                            : 'line-md:lightbulb-off-twotone-loop'
+                        }
+                      />
                     </IconButton>
                   </InputAdornment>
                 ),
@@ -117,8 +133,18 @@ export default function LoginForm({ onLogin }) {
 
           {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
 
-          <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-            <Link variant="subtitle2" underline="hover" sx={{ cursor: 'pointer' }} onClick={handleForgotPassword}>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
+            sx={{ my: 2 }}
+          >
+            <Link
+              variant="subtitle2"
+              underline="hover"
+              sx={{ cursor: 'pointer' }}
+              onClick={handleForgotPassword}
+            >
               Quên mật khẩu?
             </Link>
           </Stack>

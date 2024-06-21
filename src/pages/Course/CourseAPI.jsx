@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 //Get PostponeExamAll
 export const getCourse = () => {
   const token = Cookies.get('token');
-  return axios.get(`${import.meta.env.VITE_API_ENDPOINT}api/course/`, {
+  return axios.get(`${import.meta.env.VITE_API_ENDPOINT}course/`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -12,9 +12,13 @@ export const getCourse = () => {
 };
 export const importCourse = (formData) => {
   const token = Cookies.get('token');
-  return axios.post(`${import.meta.env.VITE_API_ENDPOINT}api/Course/import`, formData, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return axios.post(
+    `${import.meta.env.VITE_API_ENDPOINT}Course/import`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 };

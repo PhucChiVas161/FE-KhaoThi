@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 //Get User
 export const getUsers = () => {
   const token = Cookies.get('token');
-  return axios.get(`${import.meta.env.VITE_API_ENDPOINT}api/Employees`, {
+  return axios.get(`${import.meta.env.VITE_API_ENDPOINT}Employees`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -14,16 +14,19 @@ export const getUsers = () => {
 //GetOneUser
 export const getOneUsers = (employeeId) => {
   const token = Cookies.get('token');
-  return axios.get(`${import.meta.env.VITE_API_ENDPOINT}api/Employees/${employeeId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  return axios.get(
+    `${import.meta.env.VITE_API_ENDPOINT}Employees/${employeeId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 };
 //GetUserByLecturer
 export const getUsersLecturer = () => {
   const token = Cookies.get('token');
-  return axios.get(`${import.meta.env.VITE_API_ENDPOINT}api/employees/lecturer`, {
+  return axios.get(`${import.meta.env.VITE_API_ENDPOINT}employees/lecturer`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -34,24 +37,31 @@ export const getUsersLecturer = () => {
 export const deleteUsers = (employeeId) => {
   const token = Cookies.get('token');
   const csrf = Cookies.get('csrf');
-  return axios.delete(`${import.meta.env.VITE_API_ENDPOINT}api/Employees/${employeeId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'X-CSRF-TOKEN': csrf,
-    },
-    withCredentials: true,
-  });
+  return axios.delete(
+    `${import.meta.env.VITE_API_ENDPOINT}Employees/${employeeId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'X-CSRF-TOKEN': csrf,
+      },
+      withCredentials: true,
+    }
+  );
 };
 
 // Import User
 export const importUsers = (formData) => {
   const token = Cookies.get('token');
   const csrf = Cookies.get('csrf');
-  return axios.post(`${import.meta.env.VITE_API_ENDPOINT}api/Accounts/import/create`, formData, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'X-CSRF-TOKEN': csrf,
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  return axios.post(
+    `${import.meta.env.VITE_API_ENDPOINT}Accounts/import/create`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'X-CSRF-TOKEN': csrf,
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
 };

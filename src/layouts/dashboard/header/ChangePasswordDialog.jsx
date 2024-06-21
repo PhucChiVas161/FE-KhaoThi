@@ -1,7 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button, Typography, Stack } from '@mui/material';
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Button,
+  Typography,
+  Stack,
+} from '@mui/material';
 import { Icon } from '@iconify/react';
 import { useSnackbar } from 'notistack';
 import { useHandleErrors } from '../../../hooks/useHandleErrors';
@@ -37,13 +46,15 @@ export default function ChangePasswordDialog({ open, onClose }) {
   const handlePasswordChange = () => {
     const token = Cookies.get('token');
     const csrf = Cookies.get('csrf');
-    if (!(isLengthValid && isUpperCaseValid && isDigitValid && isSpecialCharValid)) {
+    if (
+      !(isLengthValid && isUpperCaseValid && isDigitValid && isSpecialCharValid)
+    ) {
       enqueueSnackbar('Mật khẩu không hợp lệ. Vui lòng kiểm tra lại.', 'error');
       return;
     }
     axios
       .post(
-        `${import.meta.env.VITE_API_ENDPOINT}api/Accounts/change/password`,
+        `${import.meta.env.VITE_API_ENDPOINT}Accounts/change/password`,
         {
           accountOldPassword: oldPass,
           accountPassword: newPass,
@@ -59,17 +70,27 @@ export default function ChangePasswordDialog({ open, onClose }) {
       .then((response) => {
         if (response.data.isValid === true) {
           onClose();
-          enqueueSnackbar('Đổi mật khẩu thành công. Sẽ đăng xuất trong vòng ' + countDown + 's', {
-            variant: 'success',
-            autoHideDuration: 3000,
-          });
+          enqueueSnackbar(
+            'Đổi mật khẩu thành công. Sẽ đăng xuất trong vòng ' +
+              countDown +
+              's',
+            {
+              variant: 'success',
+              autoHideDuration: 3000,
+            }
+          );
           countRef.current = setInterval(() => {
             setCountDown((count) => {
               if (count - 1 >= 0) {
-                enqueueSnackbar('Đổi mật khẩu thành công. Sẽ đăng xuất trong vòng ' + (count - 1) + 's', {
-                  variant: 'success',
-                  autoHideDuration: 3000,
-                });
+                enqueueSnackbar(
+                  'Đổi mật khẩu thành công. Sẽ đăng xuất trong vòng ' +
+                    (count - 1) +
+                    's',
+                  {
+                    variant: 'success',
+                    autoHideDuration: 3000,
+                  }
+                );
                 return count - 1;
               } else {
                 clearInterval(countRef.current);
@@ -126,24 +147,69 @@ export default function ChangePasswordDialog({ open, onClose }) {
           onChange={(e) => setNewPass(e.target.value)}
         />
         <Stack spacing={1}>
-          <Typography display="flex" alignItems="center" color={isLengthValid ? 'success' : 'error'}>
-            {isLengthValid && <Icon icon="line-md:clipboard-check" color={isLengthValid ? 'green' : 'red'} />} Có ít
-            nhất 8 ký tự
+          <Typography
+            display="flex"
+            alignItems="center"
+            color={isLengthValid ? 'success' : 'error'}
+          >
+            {isLengthValid && (
+              <Icon
+                icon="line-md:clipboard-check"
+                color={isLengthValid ? 'green' : 'red'}
+              />
+            )}{' '}
+            Có ít nhất 8 ký tự
           </Typography>
-          <Typography display="flex" alignItems="center" color={isUpperCaseValid ? 'success' : 'error'}>
-            {isUpperCaseValid && <Icon icon="line-md:clipboard-check" color={isUpperCaseValid ? 'green' : 'red'} />} Có
-            ít nhất một ký tự viết hoa
+          <Typography
+            display="flex"
+            alignItems="center"
+            color={isUpperCaseValid ? 'success' : 'error'}
+          >
+            {isUpperCaseValid && (
+              <Icon
+                icon="line-md:clipboard-check"
+                color={isUpperCaseValid ? 'green' : 'red'}
+              />
+            )}{' '}
+            Có ít nhất một ký tự viết hoa
           </Typography>
-          <Typography display="flex" alignItems="center" color={isLowerCaseValid ? 'success' : 'error'}>
-            {isLowerCaseValid && <Icon icon="line-md:clipboard-check" color={isLowerCaseValid ? 'green' : 'red'} />} Có
-            ít nhất một ký tự viết thường
+          <Typography
+            display="flex"
+            alignItems="center"
+            color={isLowerCaseValid ? 'success' : 'error'}
+          >
+            {isLowerCaseValid && (
+              <Icon
+                icon="line-md:clipboard-check"
+                color={isLowerCaseValid ? 'green' : 'red'}
+              />
+            )}{' '}
+            Có ít nhất một ký tự viết thường
           </Typography>
-          <Typography display="flex" alignItems="center" color={isDigitValid ? 'success' : 'error'}>
-            {isDigitValid && <Icon icon="line-md:clipboard-check" color={isDigitValid ? 'green' : 'red'} />} Có ít nhất
-            một ký tự số
+          <Typography
+            display="flex"
+            alignItems="center"
+            color={isDigitValid ? 'success' : 'error'}
+          >
+            {isDigitValid && (
+              <Icon
+                icon="line-md:clipboard-check"
+                color={isDigitValid ? 'green' : 'red'}
+              />
+            )}{' '}
+            Có ít nhất một ký tự số
           </Typography>
-          <Typography display="flex" alignItems="center" color={isSpecialCharValid ? 'success' : 'error'}>
-            {isSpecialCharValid && <Icon icon="line-md:clipboard-check" color={isSpecialCharValid ? 'green' : 'red'} />}{' '}
+          <Typography
+            display="flex"
+            alignItems="center"
+            color={isSpecialCharValid ? 'success' : 'error'}
+          >
+            {isSpecialCharValid && (
+              <Icon
+                icon="line-md:clipboard-check"
+                color={isSpecialCharValid ? 'green' : 'red'}
+              />
+            )}{' '}
             Có ít nhất một ký tự đặc biệt (!@#$%^&*)
           </Typography>
         </Stack>
@@ -156,9 +222,18 @@ export default function ChangePasswordDialog({ open, onClose }) {
           onChange={(e) => setNewPassConfirm(e.target.value)}
         />
         <Stack>
-          <Typography display="flex" alignItems="center" color={isMatch ? 'success' : 'error'}>
-            {isMatch && <Icon icon="line-md:clipboard-check" color={isMatch ? 'green' : 'red'} />} Mật khẩu xác nhận
-            trùng với mật khẩu mới
+          <Typography
+            display="flex"
+            alignItems="center"
+            color={isMatch ? 'success' : 'error'}
+          >
+            {isMatch && (
+              <Icon
+                icon="line-md:clipboard-check"
+                color={isMatch ? 'green' : 'red'}
+              />
+            )}{' '}
+            Mật khẩu xác nhận trùng với mật khẩu mới
           </Typography>
         </Stack>
       </DialogContent>
@@ -169,7 +244,13 @@ export default function ChangePasswordDialog({ open, onClose }) {
         <Button
           variant="contained"
           onClick={handlePasswordChange}
-          disabled={!isLengthValid || !isUpperCaseValid || !isDigitValid || !isSpecialCharValid || !isMatch}
+          disabled={
+            !isLengthValid ||
+            !isUpperCaseValid ||
+            !isDigitValid ||
+            !isSpecialCharValid ||
+            !isMatch
+          }
         >
           Xác nhận
         </Button>
