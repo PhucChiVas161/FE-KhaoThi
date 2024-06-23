@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
   getReasonRecheck,
@@ -38,12 +38,14 @@ export default function Statistic() {
   const [statusPostpone, setStatusPostpone] = useState([]);
   const [lopHPPrefix, setLopHPPrefix] = useState('222');
 
-  //Thống kê lý do phúc khảo
-  useEffect(() => {
-    const payload = {
+  const payload = useMemo(() => {
+    return {
       lopHPPrefix: lopHPPrefix,
     };
+  }, [lopHPPrefix]);
 
+  //Thống kê lý do phúc khảo
+  useEffect(() => {
     getReasonRecheck(payload)
       .then((response) => {
         setReasonReCheck(response.data);
@@ -51,40 +53,40 @@ export default function Statistic() {
       .catch((error) => {
         console.log(error);
       });
-  }, [lopHPPrefix]);
+  }, [lopHPPrefix, payload]);
 
   //Thống kê lý do hoãn thi
   useEffect(() => {
-    getReasonPostpone()
+    getReasonPostpone(payload)
       .then((response) => {
         setReasonPostpone(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [lopHPPrefix, payload]);
 
   //Thống kê số lượng môn học Phúc khảo
   useEffect(() => {
-    getSubjectRecheck()
+    getSubjectRecheck(payload)
       .then((response) => {
         setSubjectRecheck(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [lopHPPrefix, payload]);
 
   //Thống kê số lượng môn học hoãn thi
   useEffect(() => {
-    getSubjectPostpone()
+    getSubjectPostpone(payload)
       .then((response) => {
         setSubjectPostpone(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [lopHPPrefix, payload]);
 
   //Thống kê số lượng trạng thái Phúc khảo
   useEffect(() => {
@@ -148,14 +150,14 @@ export default function Statistic() {
             label="Age"
             onChange={handleChange}
           >
-            <MenuItem value="222">222</MenuItem>
-            <MenuItem value="223">223</MenuItem>
-            <MenuItem value="231">231</MenuItem>
-            <MenuItem value="232">232</MenuItem>
-            <MenuItem value="233">233</MenuItem>
-            <MenuItem value="241">241</MenuItem>
-            <MenuItem value="242">242</MenuItem>
-            <MenuItem value="243">243</MenuItem>
+            <MenuItem value="222">Học kì 222 (Học kì 2 năm 2022-2023)</MenuItem>
+            <MenuItem value="223">Học kì 223 (Học kì 3 năm 2022-2023)</MenuItem>
+            <MenuItem value="231">Học kì 231 (Học kì 1 năm 2023-2024)</MenuItem>
+            <MenuItem value="232">Học kì 232 (Học kì 2 năm 2023-2024)</MenuItem>
+            <MenuItem value="233">Học kì 233 (Học kì 3 năm 2023-2024)</MenuItem>
+            <MenuItem value="241">Học kì 241 (Học kì 1 năm 2024-2025)</MenuItem>
+            <MenuItem value="242">Học kì 242 (Học kì 2 năm 2024-2025)</MenuItem>
+            <MenuItem value="243">Học kì 243 (Học kì 3 năm 2024-2025)</MenuItem>
           </Select>
         </FormControl>
         <Grid container spacing={3} mt="10px">
