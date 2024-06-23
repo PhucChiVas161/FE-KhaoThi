@@ -27,6 +27,7 @@ const DetailReCheck = ({ reCheckId, onClose, onSuccess, open, hidden }) => {
     reCheckId: reCheckId,
     status: '',
     phanHoi: '',
+    phanHoiLecturer: '', // Add phanHoiLecturer to formData
     lecturerId: null, // Add lecturerId to formData
   });
   const { enqueueSnackbar } = useSnackbar();
@@ -71,7 +72,9 @@ const DetailReCheck = ({ reCheckId, onClose, onSuccess, open, hidden }) => {
     updateReCheck(formData)
       .then((response) => {
         if (response.status === 200) {
-          enqueueSnackbar('Cập nhật phúc khảo thành công', { variant: 'success' });
+          enqueueSnackbar('Cập nhật phúc khảo thành công', {
+            variant: 'success',
+          });
           onClose();
           onSuccess(); // Gọi callback function onSuccess
         }
@@ -93,30 +96,78 @@ const DetailReCheck = ({ reCheckId, onClose, onSuccess, open, hidden }) => {
             <CardContent>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <TextField disabled name="Họ và tên" label="Họ và tên" value={reCheck.employeeName} fullWidth />
+                  <TextField
+                    disabled
+                    name="Họ và tên"
+                    label="Họ và tên"
+                    value={reCheck.employeeName}
+                    fullWidth
+                  />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField disabled name="Email" label="Email" value={reCheck.accountEmail} fullWidth />
+                  <TextField
+                    disabled
+                    name="Email"
+                    label="Email"
+                    value={reCheck.accountEmail}
+                    fullWidth
+                  />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField disabled name="Lớp học phần" label="Lớp học phần" value={reCheck.lopHP} fullWidth />
+                  <TextField
+                    disabled
+                    name="Lớp học phần"
+                    label="Lớp học phần"
+                    value={reCheck.lopHP}
+                    fullWidth
+                  />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField disabled name="Mã phòng thi" label="Mã phòng thi" value={reCheck.maPhongThi} fullWidth />
+                  <TextField
+                    disabled
+                    name="Mã phòng thi"
+                    label="Mã phòng thi"
+                    value={reCheck.maPhongThi}
+                    fullWidth
+                  />
                 </Grid>
                 <Grid item xs={6}>
-                  <TextField disabled name="Tên học phần" label="Tên học phần" value={reCheck.tenHP} fullWidth />
+                  <TextField
+                    disabled
+                    name="Tên học phần"
+                    label="Tên học phần"
+                    value={reCheck.tenHP}
+                    fullWidth
+                  />
                 </Grid>
                 <Grid item xs={2}>
-                  <TextField disabled name="Lần thi" label="Lần thi" value={reCheck.lanThi} fullWidth />
+                  <TextField
+                    disabled
+                    name="Lần thi"
+                    label="Lần thi"
+                    value={reCheck.lanThi}
+                    fullWidth
+                  />
                 </Grid>
                 <Grid item xs={4}>
-                  <TextField disabled name="reCheckId" label="Mã đơn" value={reCheck.reCheckId} fullWidth />
+                  <TextField
+                    disabled
+                    name="reCheckId"
+                    label="Mã đơn"
+                    value={reCheck.reCheckId}
+                    fullWidth
+                  />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField disabled name="lyDo" label="Lý do" value={reCheck.lyDo} fullWidth />
+                  <TextField
+                    disabled
+                    name="lyDo"
+                    label="Lý do"
+                    value={reCheck.lyDo}
+                    fullWidth
+                  />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={6}>
                   <FormControl disabled={hidden} fullWidth>
                     <InputLabel id="status-label">Trạng thái</InputLabel>
                     <Select
@@ -135,19 +186,38 @@ const DetailReCheck = ({ reCheckId, onClose, onSuccess, open, hidden }) => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={4}>
+
+                <Grid item xs={6}>
+                  <TextField
+                    disabled
+                    multiline
+                    name="ghiChu"
+                    label="Ghi chú"
+                    value={reCheck.ghiChu}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={6}>
                   <TextField
                     disabled={hidden}
                     multiline
                     name="phanHoi"
-                    label="Phản hồi"
+                    label="Phản hồi từ phòng khảo thí"
                     value={formData.phanHoi}
                     fullWidth
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={4}>
-                  <TextField disabled multiline name="ghiChu" label="Ghi chú" value={reCheck.ghiChu} fullWidth />
+                <Grid item xs={6}>
+                  <TextField
+                    disabled={hidden}
+                    multiline
+                    name="phanHoiLecturer"
+                    label="Phản hồi từ giảng viên"
+                    value={formData.phanHoiLecturer}
+                    fullWidth
+                    onChange={handleChange}
+                  />
                 </Grid>
                 <Grid item xs={12} hidden={hidden}>
                   <Autocomplete
@@ -162,16 +232,25 @@ const DetailReCheck = ({ reCheckId, onClose, onSuccess, open, hidden }) => {
                         {option.employeeName}
                       </li>
                     )}
-                    renderInput={(params) => <TextField {...params} label="Phân công giảng viên" />}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Phân công giảng viên" />
+                    )}
                   />
                 </Grid>
               </Grid>
             </CardContent>
-            <DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <DialogActions
+              style={{ display: 'flex', justifyContent: 'space-between' }}
+            >
               <Button variant="contained" color="error" onClick={onClose}>
                 Đóng
               </Button>
-              <Button variant="contained" color="primary" type="submit" hidden={hidden}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                hidden={hidden}
+              >
                 Lưu
               </Button>
             </DialogActions>
