@@ -92,12 +92,17 @@ const UserPage = () => {
         onChange={handleFileChange}
         disabled={loading}
       >
-        Import User from Excel
+        Thêm danh sách người dùng
         <input id="fileInput" type="file" hidden accept=".xlsx" />
       </Button>
       <Typography>
         Mẫu File (
-        <Link href="https://localhost:3000" underline="none" target="_blank" rel="noopener">
+        <Link
+          href="https://localhost:3000"
+          underline="none"
+          target="_blank"
+          rel="noopener"
+        >
           tại đây
         </Link>
         )
@@ -159,15 +164,22 @@ const UserPage = () => {
     importUsers(formData)
       .then((response) => {
         if (response.data.isValid === true) {
-          enqueueSnackbar(`Thêm thành công ${response.data.success} người dùng`, {
-            variant: 'success',
-          });
+          enqueueSnackbar(
+            `Thêm thành công ${response.data.success} người dùng`,
+            {
+              variant: 'success',
+            }
+          );
           handleRefresh();
           if (response.data.all === false) {
             enqueueSnackbar(`Thêm thất bại ${response.data.fail} người dùng`, {
               variant: 'error',
               action: (
-                <Button color="inherit" size="small" onClick={() => handleShowErrorDetails(response.data.data)}>
+                <Button
+                  color="inherit"
+                  size="small"
+                  onClick={() => handleShowErrorDetails(response.data.data)}
+                >
                   Xem chi tiết
                 </Button>
               ),
@@ -225,7 +237,11 @@ const UserPage = () => {
       flex: 0.3,
       renderCell: (params) => (
         <Label
-          color={(params.value === 'Manager' && 'error') || (params.value === 'Lecturer' && 'warning') || 'success'}
+          color={
+            (params.value === 'Manager' && 'error') ||
+            (params.value === 'Lecturer' && 'warning') ||
+            'success'
+          }
         >
           {params.value}
         </Label>
@@ -263,9 +279,19 @@ const UserPage = () => {
       </Helmet>
       <Header title="QUẢN LÝ NGƯỜI DÙNG" />
       {openCreateUserForm && (
-        <CreateUser onSuccess={handleRefresh} onClose={handleCloseAddUser} open={openCreateUserForm} />
+        <CreateUser
+          onSuccess={handleRefresh}
+          onClose={handleCloseAddUser}
+          open={openCreateUserForm}
+        />
       )}
-      {showEditForm && <EditUser employeeId={selected} onClose={handleCloseEdit} onSuccess={handleRefresh} />}
+      {showEditForm && (
+        <EditUser
+          employeeId={selected}
+          onClose={handleCloseEdit}
+          onSuccess={handleRefresh}
+        />
+      )}
       <div style={{ height: 670, width: '100%' }}>
         <DataGridPremium
           emptyRowsWhenPaging
@@ -281,7 +307,9 @@ const UserPage = () => {
       <Dialog open={deleteConfirmation} onClose={handleCancelDelete}>
         <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
-          <DialogContentText>Bạn có chắc xoá người dùng này không ?</DialogContentText>
+          <DialogContentText>
+            Bạn có chắc xoá người dùng này không ?
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancelDelete}>No</Button>
@@ -295,7 +323,8 @@ const UserPage = () => {
         <DialogContent>
           {errorDetails.map((error, index) => (
             <DialogContentText key={index}>
-              Lỗi tại vị trí {error.location}: {error.errors.map((e) => e.name).join(', ')}
+              Lỗi tại vị trí {error.location}:{' '}
+              {error.errors.map((e) => e.name).join(', ')}
             </DialogContentText>
           ))}
         </DialogContent>

@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
-import { DataGridPremium, GridToolbarContainer, GridToolbarFilterButton } from '@mui/x-data-grid-premium';
+import {
+  DataGridPremium,
+  GridToolbarContainer,
+  GridToolbarFilterButton,
+} from '@mui/x-data-grid-premium';
 import { getCourse, importCourse } from './CourseAPI';
 import { Helmet } from 'react-helmet';
 import { LinearProgress, Button, Typography, Link } from '@mui/material';
@@ -58,7 +62,9 @@ const CourseManagement = () => {
         })
         .catch((error) => {
           console.log(error);
-          enqueueSnackbar('Thêm Data thất bại, vui lòng thử lại sau', { variant: 'error' });
+          enqueueSnackbar('Thêm Data thất bại, vui lòng thử lại sau', {
+            variant: 'error',
+          });
         })
         .finally(() => {
           setLoading(false); // Thời gian đóng thông báo (3 giây)
@@ -75,7 +81,7 @@ const CourseManagement = () => {
         onChange={handleFileChange}
         disabled={loading}
       >
-        Import User from Excel
+        Thêm danh sách KTHP
         <input id="fileInput" type="file" hidden accept=".xlsx" />
       </Button>
       <Typography>
