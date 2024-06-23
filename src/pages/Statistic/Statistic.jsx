@@ -142,12 +142,12 @@ export default function Statistic() {
       </Typography>
       <Container maxWidth="xl">
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Age</InputLabel>
+          <InputLabel id="lopHPPrefix">Chọn học kì</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            labelId="lopHPPrefix"
+            id="lopHPPrefix"
             value={lopHPPrefix}
-            label="Age"
+            label="Chọn học kì"
             onChange={handleChange}
           >
             <MenuItem value="222">Học kì 222 (Học kì 2 năm 2022-2023)</MenuItem>

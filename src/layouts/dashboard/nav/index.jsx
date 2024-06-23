@@ -65,7 +65,12 @@ export default function Nav({ openNav, onCloseNav }) {
     <Scrollbar
       sx={{
         height: 1,
-        '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
+        '& .simplebar-content': {
+          height: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: '#FAFBFC',
+        },
       }}
     >
       <Box sx={{ my: 5, mx: 2.5 }}>

@@ -121,9 +121,9 @@ const CourseManagement = () => {
   return (
     <>
       <Helmet>
-        <title>HOÃN THI | KHẢO THÍ - VLU</title>
+        <title>QUẢN LÝ HỌC PHẦN | KHẢO THÍ - VLU</title>
       </Helmet>
-      <Header title="HOÃN THI" />
+      <Header title="QUẢN LÝ HỌC PHẦN" />
       <div style={{ height: 650, width: '100%' }}>
         <DataGridPremium
           emptyRowsWhenPaging

@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 
 import { jwtDecode } from 'jwt-decode';
 import { Helmet } from 'react-helmet-async';
-import { Container, Typography } from '@mui/material';
+import { Container, Typography, Box } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -43,6 +43,19 @@ export default function WelcomePage() {
         <Typography variant="h4" sx={{ mb: 5 }}>
           Xin chào, {users.employeeName} 👋👋👋
         </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <img
+            src="/assets/illustrations/img_welcome.svg"
+            alt="Welcome"
+            style={{ width: '50%', height: '50%' }}
+          />
+        </Box>
       </Container>
     </>
   );
